@@ -1,8 +1,8 @@
-import { supabase } from './config.js';
+import { supabase, onDOMReady } from './config.js';
 import { salvarMovimentacaoOffline } from './offline-sync.js';
 import { iniciarLeitorQRCode } from './qr-scanner.js';
 
-document.addEventListener('DOMContentLoaded', () => {
+onDOMReady(() => {
     setupMovimentacoesEvents();
     verificarParametrosURL();
 });
@@ -47,25 +47,25 @@ async function buscarDetalhesSKU(sku) {
     const badge = document.getElementById('insumo-detalhe-badge');
     if (!badge) return;
 
-    badge.innerHTML = `<span class="text-xs text-slate-500 font-mono">Buscando SKU ${sku}...</span>`;
+    badge.innerHTML = `<span class="text-xs text-secondary font-mono">Buscando SKU ${sku}...</span>`;
 
     try {
-        const { data, error } = await supabase.from('insumos').select('*, estoque_consolidado(*)').eq('sku', sku).single();
+        const { data } = await supabase.from('insumos').select('*, estoque_consolidado(*)').eq('sku', sku).single();
         if (data) {
-            const qtdEstoque = data.estoque_consolidado?.[0]?.quantidade_total || 25;
+            const qtdEstoque = data.estoque_consolidado?.[0]?.quantidade_total ?? 25;
             badge.innerHTML = `
-                <div class="p-3 bg-teal-50 border border-teal-200 rounded-lg text-xs space-y-1">
-                    <p class="font-bold text-teal-900">${data.nome}</p>
-                    <p class="text-slate-600">Estoque Atual: <strong class="tnum font-bold text-slate-900">${qtdEstoque}</strong> | Limite p/ Aprov: R$ ${data.valor_limite_sem_aprovacao || 50}</p>
+                <div class="p-3 bg-surface-container-low border border-outline-variant rounded-lg text-xs space-y-1">
+                    <p class="font-bold text-primary">${data.nome}</p>
+                    <p class="text-secondary">Estoque Atual: <strong class="tnum font-bold text-on-surface">${qtdEstoque}</strong> | Limite p/ Aprov: R$ ${data.valor_limite_sem_aprovacao || 50}</p>
                 </div>
             `;
             badge.dataset.insumoId = data.id_insumo;
             badge.dataset.limiteAprovacao = data.valor_limite_sem_aprovacao || 50;
         } else {
-            badge.innerHTML = `<span class="text-xs text-red-500">SKU não encontrado no Supabase. Modos MOCK/Simulação ativo.</span>`;
+            badge.innerHTML = `<span class="text-xs text-error">SKU não encontrado no Supabase. Modos MOCK/Simulação ativo.</span>`;
         }
     } catch (err) {
-        badge.innerHTML = `<div class="p-3 bg-slate-100 rounded text-xs">SKU Simulado: Toner / Ins. Diversos (Saldo Mock: 15 un)</div>`;
+        badge.innerHTML = `<div class="p-3 bg-surface-container-low rounded text-xs">SKU Simulado: Toner / Ins. Diversos (Saldo Mock: 15 un)</div>`;
     }
 }
 
@@ -80,7 +80,6 @@ async function processarMovimentacao(e) {
     const badge = document.getElementById('insumo-detalhe-badge');
     const limiteAprovacao = parseFloat(badge?.dataset?.limiteAprovacao || 50);
 
-    // Regra RN-03: Saída com valor > R$ 50 exige aprovação
     if (valorEstimado > limiteAprovacao) {
         alert(`Atenção (Regra RN-03): O valor da retirada (R$ ${valorEstimado}) excede o limite sem aprovação de R$ ${limiteAprovacao}. Uma solicitação foi enviada para o painel de aprovações.`);
 
@@ -98,7 +97,6 @@ async function processarMovimentacao(e) {
         return;
     }
 
-    // Processamento Online / Offline
     if (!navigator.onLine) {
         const itemOff = salvarMovimentacaoOffline({
             sku,
@@ -113,7 +111,7 @@ async function processarMovimentacao(e) {
 
     try {
         const { data, error } = await supabase.from('movimentacoes').insert([{
-            id_tipo: 2, // Código para SAÍDA
+            id_tipo: 2,
             id_insumo: badge?.dataset?.insumoId || '00000000-0000-0000-0000-000000000000',
             quantidade: qtd,
             motivo: motivo,
@@ -127,7 +125,6 @@ async function processarMovimentacao(e) {
             exibirComprovanteHash(hash, false);
         }
     } catch (err) {
-        // Fallback para mock visual
         const hashMock = 'sha256_' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
         exibirComprovanteHash(hashMock, false);
     }

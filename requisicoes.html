@@ -1,56 +1,113 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html class="light" lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel de Aprovações - Nexus StorageControl</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="css/styles.css">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nexus StorageControl - Aprovações de Gestor</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "primary": "#006972",
+          "primary-container": "#48b8c5",
+          "surface-variant": "#d3e4fe",
+          "on-surface": "#0b1c30",
+          "secondary": "#565e74",
+          "surface-container-high": "#dce9ff",
+          "outline-variant": "#bcc9ca",
+          "tertiary": "#006c49",
+          "surface-container-lowest": "#ffffff",
+          "surface-container-low": "#eff4ff",
+          "error": "#ba1a1a",
+          "background": "#f8f9ff",
+          "surface": "#f8f9ff"
+        }
+      }
+    }
+  }
+</script>
+<link rel="stylesheet" href="css/styles.css">
 </head>
-<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col">
+<body class="bg-background text-on-surface antialiased min-h-screen flex flex-col">
 
-    <!-- Header Navigation -->
-    <header class="bg-slate-900 text-white border-b border-slate-800 sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
-            <div class="flex items-center space-x-3">
-                <div class="w-8 h-8 rounded-lg bg-teal-500 flex items-center justify-center font-bold text-white text-lg">N</div>
-                <span class="font-bold text-lg tracking-tight font-heading">Nexus <span class="text-teal-400 font-normal">StorageControl</span></span>
-            </div>
+<!-- Fixed SideNavBar -->
+<aside class="fixed left-0 top-0 h-full w-64 flex flex-col justify-between p-4 bg-surface-container-lowest border-r border-outline-variant z-30 shadow-sm">
+  <div class="flex flex-col gap-4">
+    <div class="flex items-center gap-2 px-1 py-1 border-b border-outline-variant/40 pb-3">
+      <div class="h-8 w-8 rounded-lg bg-primary flex items-center justify-center text-white font-bold text-lg shadow-sm">
+        SC
+      </div>
+      <div class="flex flex-col leading-tight">
+        <span class="font-bold text-primary tracking-tight font-heading">Nexus Storage</span>
+        <span class="text-xs text-secondary font-medium">NX-INS-2026-001</span>
+      </div>
+    </div>
+    <a href="movimentacoes.html" class="w-full flex items-center justify-center gap-1 h-[38px] bg-primary hover:bg-[#00454c] text-white font-semibold text-sm rounded-lg shadow-sm transition-all">
+      <span class="material-symbols-outlined">add</span>
+      Nova Movimentação
+    </a>
+    <nav class="flex flex-col gap-1 mt-1">
+      <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors" href="dashboard.html">
+        <span class="material-symbols-outlined">dashboard</span>
+        <span class="text-sm">Dashboard Operacional</span>
+      </a>
+      <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors" href="insumos.html">
+        <span class="material-symbols-outlined">inventory_2</span>
+        <span class="text-sm">Catálogo Mestre</span>
+      </a>
+      <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors" href="movimentacoes.html">
+        <span class="material-symbols-outlined">qr_code_scanner</span>
+        <span class="text-sm">Retirada & Scanner QR</span>
+      </a>
+      <a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-surface-container-high text-primary font-semibold transition-colors" href="requisicoes.html">
+        <span class="material-symbols-outlined text-primary" data-weight="fill">fact_check</span>
+        <span class="text-sm">Requisições & Aprovações</span>
+      </a>
+      <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors" href="relatorios.html">
+        <span class="material-symbols-outlined">analytics</span>
+        <span class="text-sm">Relatórios & Auditoria</span>
+      </a>
+    </nav>
+  </div>
+</aside>
 
-            <nav class="hidden md:flex space-x-1">
-                <a href="dashboard.html" class="px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:bg-slate-800 hover:text-white">Dashboard</a>
-                <a href="insumos.html" class="px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:bg-slate-800 hover:text-white">Catálogo & Insumos</a>
-                <a href="movimentacoes.html" class="px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:bg-slate-800 hover:text-white">Movimentações & QR</a>
-                <a href="requisicoes.html" class="px-3 py-2 rounded-md text-sm font-medium bg-teal-700 text-white">Aprovações</a>
-                <a href="relatorios.html" class="px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:bg-slate-800 hover:text-white">Relatórios & Auditoria</a>
-            </nav>
+<!-- TopNavBar -->
+<header class="pl-64 w-full sticky top-0 z-40 bg-surface-container-lowest border-b border-outline-variant shadow-sm">
+  <div class="flex justify-between items-center h-14 px-6 w-full">
+    <div class="flex items-center gap-4 flex-1 max-w-3xl">
+      <span class="text-xs text-secondary font-semibold uppercase">Painel de Controle de Aprovações</span>
+    </div>
+    <div class="flex items-center gap-3">
+      <span id="offline-badge" class="hidden px-2 py-1 bg-amber-500 text-slate-950 font-mono text-xs font-bold rounded">0 pendentes offline</span>
+    </div>
+  </div>
+</header>
 
-            <div class="flex items-center space-x-3">
-                <span id="offline-badge" class="hidden px-2 py-1 bg-amber-500 text-slate-950 font-mono text-xs font-bold rounded">0 pendentes offline</span>
-            </div>
-        </div>
-    </header>
+<!-- Main Content -->
+<div class="pl-64 flex-1 flex flex-col">
+  <main class="flex-1 px-6 py-6 max-w-5xl w-full mx-auto space-y-6">
+    <div class="border-b border-outline-variant/40 pb-3 flex items-center justify-between">
+      <div>
+        <h1 class="text-2xl font-bold text-on-surface font-heading tracking-tight">Painel de Aprovações do Gestor</h1>
+        <p class="text-xs text-secondary mt-0.5">Solicitações de retirada com valor &gt; R$ 50,00 ou de categorias controladas (RN-03)</p>
+      </div>
+      <span class="text-xs bg-amber-100 text-amber-800 font-bold px-3 py-1 rounded-full">SLA 48 Horas</span>
+    </div>
 
-    <!-- Main Content -->
-    <main class="flex-grow max-w-5xl w-full mx-auto px-4 py-8 space-y-6">
+    <!-- Lista de Requisições -->
+    <div id="lista-requisicoes-pendentes" class="space-y-4">
+      <!-- Injetado via requisicoes.js -->
+    </div>
+  </main>
+</div>
 
-        <!-- Title -->
-        <div class="border-b pb-4 flex items-center justify-between">
-            <div>
-                <h1 class="text-2xl font-bold text-slate-900 font-heading">Painel de Aprovações de Gestor</h1>
-                <p class="text-sm text-slate-500">Solicitações de retirada com valor &gt; R$ 50,00 ou categorias controladas</p>
-            </div>
-            <span class="text-xs bg-amber-100 text-amber-800 font-bold px-3 py-1 rounded-full">SLA SLA 48h</span>
-        </div>
-
-        <!-- Lista de Requisições -->
-        <div id="lista-requisicoes-pendentes" class="space-y-4">
-            <!-- Preenchido dinamicamente via requisicoes.js -->
-        </div>
-
-    </main>
-
-    <script type="module" src="js/requisicoes.js"></script>
-    <script type="module" src="js/offline-sync.js"></script>
+<script type="module" src="js/requisicoes.js"></script>
+<script type="module" src="js/offline-sync.js"></script>
 </body>
 </html>

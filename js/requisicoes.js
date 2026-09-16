@@ -1,7 +1,7 @@
-import { supabase } from './config.js';
+import { supabase, onDOMReady } from './config.js';
 import { formatarData } from './utils.js';
 
-document.addEventListener('DOMContentLoaded', () => {
+onDOMReady(() => {
     carregarRequisicoes();
 });
 
@@ -10,7 +10,7 @@ async function carregarRequisicoes() {
     if (!container) return;
 
     try {
-        const { data: reqs, error } = await supabase
+        const { data: reqs } = await supabase
             .from('requisicoes')
             .select('*, insumos(nome, sku), departamentos(nome)')
             .eq('id_status', 1);
@@ -28,24 +28,24 @@ function renderizarRequisicoes(lista) {
     if (!container) return;
 
     if (lista.length === 0) {
-        container.innerHTML = `<div class="p-8 text-center text-slate-500 bg-white rounded-lg border">Nenhuma solicitação pendente no momento.</div>`;
+        container.innerHTML = `<div class="p-8 text-center text-secondary bg-surface-container-lowest rounded-xl border border-outline-variant">Nenhuma solicitação pendente no momento.</div>`;
         return;
     }
 
     container.innerHTML = lista.map(r => `
-        <div class="bg-white p-5 rounded-lg border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div class="bg-surface-container-lowest p-5 rounded-xl border border-outline-variant shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div class="space-y-1">
                 <div class="flex items-center gap-2">
                     <span class="font-mono text-xs font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-800">${r.numero_requisicao || 'REQ-2026-001'}</span>
-                    <span class="text-xs text-slate-500">${r.departamentos?.nome || 'Tecnologia da Informação'}</span>
+                    <span class="text-xs text-secondary">${r.departamentos?.nome || 'Tecnologia da Informação'}</span>
                 </div>
-                <h4 class="font-bold text-base text-slate-900">${r.insumos?.nome || 'Toner HP LaserJet M404'} (SKU: ${r.insumos?.sku || 'NX-INS-TI-00012'})</h4>
-                <p class="text-xs text-slate-600">Quantidade Solicitada: <strong class="tnum text-slate-900">${r.quantidade_solicitada || 2}</strong> | Solicitante: Carlos Mendonça</p>
-                <p class="text-xs text-slate-500 italic">"Motivo: ${r.motivo || 'Impressão de relatórios gerenciais da diretoria'}"</p>
+                <h4 class="font-bold text-base text-on-surface font-heading">${r.insumos?.nome || 'Toner HP LaserJet M404'} (SKU: ${r.insumos?.sku || 'NX-INS-TI-00012'})</h4>
+                <p class="text-xs text-secondary">Quantidade Solicitada: <strong class="tnum text-on-surface">${r.quantidade_solicitada || 2}</strong> | Solicitante: Carlos Mendonça</p>
+                <p class="text-xs text-secondary italic">"Motivo: ${r.motivo || 'Impressão de relatórios gerenciais da diretoria'}"</p>
             </div>
 
             <div class="flex items-center space-x-2">
-                <button onclick="window.aprovarRequisicao('${r.id_requisicao}')" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-lg transition shadow-sm">
+                <button onclick="window.aprovarRequisicao('${r.id_requisicao}')" class="px-4 py-2 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs rounded-lg transition shadow-sm">
                     Aprovar Saída
                 </button>
                 <button onclick="window.rejeitarRequisicao('${r.id_requisicao}')" class="px-4 py-2 bg-red-100 hover:bg-red-200 text-red-700 font-bold text-xs rounded-lg transition">

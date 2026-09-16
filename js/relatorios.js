@@ -1,7 +1,7 @@
-import { supabase } from './config.js';
-import { formatarData, formatarMoeda, exportarParaExcel, exportarParaPDF } from './utils.js';
+import { supabase, onDOMReady } from './config.js';
+import { formatarData, exportarParaExcel, exportarParaPDF } from './utils.js';
 
-document.addEventListener('DOMContentLoaded', () => {
+onDOMReady(() => {
     carregarRelatorios();
     setupRelatorioEvents();
 });
@@ -16,7 +16,7 @@ async function carregarRelatorios() {
     if (!tbody) return;
 
     try {
-        const { data: logs, error } = await supabase
+        const { data: logs } = await supabase
             .from('log_auditoria')
             .select('*')
             .order('created_at', { ascending: false })
@@ -34,14 +34,14 @@ function renderizarLogs(lista) {
     if (!tbody) return;
 
     tbody.innerHTML = lista.map(l => `
-        <tr class="border-b hover:bg-slate-50 text-sm">
-            <td class="p-3 text-xs text-slate-500 font-mono">${formatarData(l.created_at)}</td>
-            <td class="p-3 font-semibold text-slate-900">${l.tabela_afetada}</td>
-            <td class="p-3">
+        <tr class="hover:bg-surface-container-low transition-colors text-xs font-mono">
+            <td class="py-2.5 px-4 text-secondary">${formatarData(l.created_at)}</td>
+            <td class="py-2.5 px-4 font-semibold text-on-surface">${l.tabela_afetada}</td>
+            <td class="py-2.5 px-4">
                 <span class="px-2 py-0.5 rounded text-[10px] font-bold ${l.operacao === 'INSERT' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">${l.operacao}</span>
             </td>
-            <td class="p-3 text-xs text-slate-600 font-mono max-w-xs truncate">${JSON.stringify(l.dados_novos || l.dados_anteriores || {})}</td>
-            <td class="p-3 font-mono text-xs text-slate-400 truncate max-w-[140px]">${l.hash_registro || 'a890f12c4b578e09'}</td>
+            <td class="py-2.5 px-4 text-secondary max-w-xs truncate">${JSON.stringify(l.dados_novos || l.dados_anteriores || {})}</td>
+            <td class="py-2.5 px-4 text-secondary truncate max-w-[140px]">${l.hash_registro || 'a890f12c4b578e09'}</td>
         </tr>
     `).join('');
 }

@@ -212,3 +212,27 @@ CREATE TABLE IF NOT EXISTS public.log_auditoria (
     hash_anterior   VARCHAR(64),
     created_at      TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
+
+-- =============================================================================
+-- POLÍTICAS RLS PERMISSIVAS PARA MODO PÚBLICO / ANON
+-- =============================================================================
+ALTER TABLE public.insumos ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.movimentacoes ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.requisicoes ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.lotes_insumo ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.estoque_consolidado ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Permitir Leitura e Escrita Insumos Public" ON public.insumos;
+CREATE POLICY "Permitir Leitura e Escrita Insumos Public" ON public.insumos FOR ALL USING (true) WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Permitir Leitura e Escrita Movimentacoes Public" ON public.movimentacoes;
+CREATE POLICY "Permitir Leitura e Escrita Movimentacoes Public" ON public.movimentacoes FOR ALL USING (true) WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Permitir Leitura e Escrita Requisicoes Public" ON public.requisicoes;
+CREATE POLICY "Permitir Leitura e Escrita Requisicoes Public" ON public.requisicoes FOR ALL USING (true) WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Permitir Leitura e Escrita Lotes Public" ON public.lotes_insumo;
+CREATE POLICY "Permitir Leitura e Escrita Lotes Public" ON public.lotes_insumo FOR ALL USING (true) WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Permitir Leitura e Escrita Estoque Public" ON public.estoque_consolidado;
+CREATE POLICY "Permitir Leitura e Escrita Estoque Public" ON public.estoque_consolidado FOR ALL USING (true) WITH CHECK (true);
