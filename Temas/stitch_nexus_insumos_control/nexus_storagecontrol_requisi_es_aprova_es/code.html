@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nexus StorageControl - Requisições &amp; Aprovações</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-tertiary-fixed": "#002113",
+            "inverse-surface": "#213145",
+            "primary": "#006972",
+            "surface-variant": "#d3e4fe",
+            "on-surface": "#0b1c30",
+            "secondary-fixed": "#dae2fd",
+            "secondary": "#565e74",
+            "on-surface-variant": "#3d494a",
+            "on-tertiary": "#ffffff",
+            "on-primary-container": "#00454c",
+            "on-secondary-container": "#5c647a",
+            "tertiary-fixed": "#6ffbbe",
+            "surface-dim": "#cbdbf5",
+            "surface-container-high": "#dce9ff",
+            "outline-variant": "#bcc9ca",
+            "tertiary": "#006c49",
+            "on-primary-fixed-variant": "#004f56",
+            "on-secondary-fixed": "#131b2e",
+            "on-secondary-fixed-variant": "#3f465c",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-low": "#eff4ff",
+            "on-tertiary-container": "#00482f",
+            "error-container": "#ffdad6",
+            "on-tertiary-fixed-variant": "#005236",
+            "inverse-on-surface": "#eaf1ff",
+            "on-error-container": "#93000a",
+            "primary-container": "#48b8c5",
+            "on-secondary": "#ffffff",
+            "tertiary-container": "#22c087",
+            "primary-fixed": "#8df2ff",
+            "surface-container": "#e5eeff",
+            "on-error": "#ffffff",
+            "outline": "#6d797b",
+            "inverse-primary": "#6ad6e3",
+            "surface": "#f8f9ff",
+            "secondary-container": "#dae2fd",
+            "on-primary": "#ffffff",
+            "background": "#f8f9ff",
+            "surface-tint": "#006972",
+            "surface-bright": "#f8f9ff",
+            "secondary-fixed-dim": "#bec6e0",
+            "error": "#ba1a1a",
+            "on-background": "#0b1c30",
+            "tertiary-fixed-dim": "#4edea3",
+            "on-primary-fixed": "#001f23",
+            "surface-container-highest": "#d3e4fe",
+            "primary-fixed-dim": "#6ad6e3"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          "spacing": {
+            "space-sm": "0.5rem",
+            "space-xl": "2rem",
+            "space-md": "0.875rem",
+            "margin": "1rem",
+            "gutter": "1rem",
+            "space-xs": "0.25rem",
+            "margin-tablet": "1.5rem",
+            "gutter-desktop": "1.5rem",
+            "space-lg": "1.25rem",
+            "margin-desktop": "2rem"
+          },
+          "fontFamily": {
+            "body-lg": ["Inter"],
+            "headline-lg": ["Plus Jakarta Sans"],
+            "data-tabular": ["Inter"],
+            "headline-md": ["Plus Jakarta Sans"],
+            "body-sm": ["Inter"],
+            "headline-xl-mobile": ["Plus Jakarta Sans"],
+            "headline-sm": ["Plus Jakarta Sans"],
+            "label-lg": ["Inter"],
+            "headline-xl": ["Plus Jakarta Sans"],
+            "label-md": ["Inter"],
+            "label-sm": ["Inter"],
+            "headline-lg-mobile": ["Plus Jakarta Sans"],
+            "body-md": ["Inter"]
+          },
+          "fontSize": {
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+            "data-tabular": ["13px", { "lineHeight": "18px", "fontWeight": "500" }],
+            "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+            "headline-xl-mobile": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "headline-sm": ["16px", { "lineHeight": "24px", "fontWeight": "600" }],
+            "label-lg": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+            "headline-xl": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "label-md": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+            "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "600" }],
+            "headline-lg-mobile": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+    }
+    .custom-scroll::-webkit-scrollbar {
+      width: 4px;
+      height: 4px;
+    }
+    .custom-scroll::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: #bcc9ca;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface antialiased min-h-screen flex flex-col font-body-md">
+<!-- TopNavBar (Shared Component, stripped of personal profile/user name) -->
+<header class="flex justify-between items-center h-14 px-gutter-desktop w-full border-b border-outline-variant bg-surface-container-lowest z-40 sticky top-0 shadow-sm">
+<div class="flex items-center gap-space-lg">
+<div class="flex items-center gap-space-xs">
+<span class="text-headline-md font-headline-md font-bold tracking-tight text-primary">SC</span>
+<span class="font-headline-md text-headline-md font-bold text-on-surface">StorageControl</span>
+</div>
+<!-- Search Bar -->
+<div class="relative hidden sm:flex items-center">
+<span class="material-symbols-outlined absolute left-2.5 text-secondary text-[18px]">search</span>
+<input class="h-[34px] w-64 md:w-80 pl-8 pr-3 bg-surface-container-low border border-outline-variant rounded-lg font-body-sm text-body-sm text-on-surface placeholder:text-secondary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all" placeholder="Buscar requisição, SKU, departamento..." type="text"/>
+</div>
+<!-- Department Shortcuts -->
+<nav class="hidden xl:flex items-center gap-space-sm pl-2 border-l border-outline-variant">
+<a class="font-label-md text-label-md text-secondary hover:text-on-surface hover:bg-surface-container-low px-2 py-1 rounded transition-colors" href="#">RH</a>
+<a class="font-label-md text-label-md text-secondary hover:text-on-surface hover:bg-surface-container-low px-2 py-1 rounded transition-colors" href="#">TI</a>
+<a class="font-label-md text-label-md text-secondary hover:text-on-surface hover:bg-surface-container-low px-2 py-1 rounded transition-colors" href="#">FIN</a>
+<a class="font-label-md text-label-md text-secondary hover:text-on-surface hover:bg-surface-container-low px-2 py-1 rounded transition-colors" href="#">COM</a>
+<a class="font-label-md text-label-md text-secondary hover:text-on-surface hover:bg-surface-container-low px-2 py-1 rounded transition-colors" href="#">LOG</a>
+<a class="font-label-md text-label-md text-secondary hover:text-on-surface hover:bg-surface-container-low px-2 py-1 rounded transition-colors" href="#">PROD</a>
+<a class="font-label-md text-label-md text-secondary hover:text-on-surface hover:bg-surface-container-low px-2 py-1 rounded transition-colors" href="#">JUR</a>
+<a class="font-label-md text-label-md text-secondary hover:text-on-surface hover:bg-surface-container-low px-2 py-1 rounded transition-colors" href="#">MKT</a>
+</nav>
+</div>
+<!-- Trailing Actions: Online Status, Notifications, Quick Actions (No user identity) -->
+<div class="flex items-center gap-space-md">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#ECFDF5] text-[#065F46] border border-[#A7F3D0]">
+<span class="w-2 h-2 rounded-full bg-[#10B981] animate-pulse"></span>
+<span class="font-label-sm text-label-sm font-semibold tracking-wide">Online (Sync)</span>
+</div>
+<button class="relative p-1.5 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors" title="Sincronização QR Scanner">
+<span class="material-symbols-outlined text-[20px]">qr_code_scanner</span>
+</button>
+<button class="relative p-1.5 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors" title="Notificações Operacionais">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 rounded-full bg-error"></span>
+</button>
+<div class="h-5 w-px bg-outline-variant mx-1"></div>
+<span class="font-label-sm text-label-sm text-secondary tracking-tight font-data-tabular">SYS-VER 2.4.0</span>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- SideNavBar (Shared Component) -->
+<aside class="w-64 flex-shrink-0 bg-surface-container-lowest border-r border-outline-variant flex flex-col justify-between p-space-md shadow-sm z-30 hidden lg:flex">
+<div class="space-y-space-md">
+<!-- Brand / Machine ID Header -->
+<div class="px-2 py-1">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[22px]">warehouse</span>
+<span class="font-headline-sm text-headline-sm font-bold text-primary">Nexus Storage</span>
+</div>
+<p class="font-data-tabular text-[11px] text-secondary mt-0.5 tracking-wider">NX-INS-2026-001</p>
+</div>
+<!-- CTA Action -->
+<button class="w-full flex items-center justify-center gap-2 bg-primary hover:bg-[#004f56] text-on-primary font-label-lg text-label-lg h-[38px] px-4 rounded shadow-sm active:scale-[0.98] transition-all">
+<span class="material-symbols-outlined text-[18px]">add_circle</span>
+          Nova Movimentação
+        </button>
+<!-- Main Navigation Menu -->
+<nav class="space-y-1 pt-2">
+<!-- Item 1: Dashboard Operacional -->
+<a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard Operacional</span>
+</a>
+<!-- Item 2: Catálogo Mestre -->
+<a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">inventory_2</span>
+<span class="font-label-md text-label-md">Catálogo Mestre</span>
+</a>
+<!-- Item 3: Retirada & Scanner QR -->
+<a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">qr_code_scanner</span>
+<span class="font-label-md text-label-md">Retirada &amp; Scanner QR</span>
+</a>
+<!-- Item 4: Requisições & Aprovações (ACTIVE TAB) -->
+<a class="flex items-center justify-between px-space-md py-space-sm rounded-lg bg-surface-container text-primary font-semibold transition-colors" href="#">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">fact_check</span>
+<span class="font-label-md text-label-md">Requisições &amp; Aprovações</span>
+</div>
+<span class="bg-error text-on-error text-[10px] font-bold px-1.5 py-0.5 rounded-full leading-none">4</span>
+</a>
+<!-- Item 5: Relatórios & Auditoria -->
+<a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">analytics</span>
+<span class="font-label-md text-label-md">Relatórios &amp; Auditoria</span>
+</a>
+</nav>
+</div>
+<!-- Footer Menu & Ledger Node Indicator -->
+<div class="pt-4 border-t border-outline-variant space-y-2">
+<a class="flex items-center gap-space-sm px-space-md py-1.5 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">help</span>
+<span class="font-label-md text-label-md">Suporte Técnico</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-md py-1.5 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">settings</span>
+<span class="font-label-md text-label-md">Configurações</span>
+</a>
+<div class="mt-2 p-2 bg-surface-container-low rounded border border-outline-variant">
+<div class="flex items-center justify-between text-[11px] text-secondary font-data-tabular">
+<span>AUDIT LEDGER</span>
+<span class="text-tertiary font-semibold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span> SUPABASE
+            </span>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 overflow-y-auto bg-background p-space-md lg:p-space-lg custom-scroll">
+<div class="max-w-[1400px] mx-auto space-y-space-md">
+<!-- 1. Header Compacto com Ações e Filtros de Status -->
+<div class="bg-surface-container-lowest p-space-md rounded border border-outline-variant shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<div class="space-y-1">
+<div class="flex items-center gap-3">
+<h1 class="font-headline-md text-headline-md font-bold text-on-surface">Requisições &amp; Aprovações</h1>
+<div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-surface-container text-primary border border-outline-variant">
+<span class="material-symbols-outlined text-[14px]">timer</span>
+<span class="font-label-sm text-label-sm font-semibold">SLA &lt; 48h</span>
+</div>
+<span class="font-label-sm text-label-sm text-secondary bg-surface-container-low px-2 py-0.5 rounded">RN-03 Auto Check</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">Fila de autorização de suprimentos e insumos departamentais com assinatura criptográfica instantânea.</p>
+</div>
+<!-- Quick Filters + Action Button -->
+<div class="flex flex-wrap items-center gap-space-sm">
+<div class="flex bg-surface-container-low p-0.5 rounded-lg border border-outline-variant text-label-md font-label-md">
+<button class="px-2.5 py-1 text-secondary hover:text-on-surface transition-colors">Todas (18)</button>
+<button class="px-2.5 py-1 bg-surface-container-lowest text-primary font-semibold rounded shadow-xs border border-outline-variant">Pendentes (4)</button>
+<button class="px-2.5 py-1 text-secondary hover:text-on-surface transition-colors">Aprovadas (12)</button>
+<button class="px-2.5 py-1 text-secondary hover:text-on-surface transition-colors">Rejeitadas (2)</button>
+</div>
+<button class="inline-flex items-center gap-1.5 bg-inverse-surface hover:bg-[#1E293B] text-on-secondary px-3 py-1.5 rounded font-label-md text-label-md h-[34px] shadow-sm active:scale-[0.98] transition-all">
+<span class="material-symbols-outlined text-[16px]">post_add</span>
+              Nova Requisição Manual
+            </button>
+</div>
+</div>
+<!-- 2. Banner de Alerta de SLA Urgente -->
+<div class="bg-[#FFEDD5] border-l-4 border-[#EA580C] p-3 rounded-r flex items-center justify-between text-[#9A3412] shadow-xs">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-[#EA580C] text-[22px]">warning</span>
+<div>
+<p class="font-label-lg text-label-lg font-bold text-[#9A3412]">Alerta Crítico de SLA de Suprimentos</p>
+<p class="font-body-sm text-body-sm text-[#C2410C]">2 requisições próximas do limite de 48h — ação requerida para não paralisar departamentos.</p>
+</div>
+</div>
+<div class="hidden sm:flex items-center gap-2">
+<span class="font-data-tabular text-[11px] uppercase tracking-wider bg-white/60 px-2 py-0.5 rounded font-bold text-[#EA580C]">Prioridade 1</span>
+</div>
+</div>
+<!-- 3. Cards / Tabela de Fila de Aprovações Rápidas (1-Click Action) -->
+<div class="bg-surface-container-lowest rounded border border-outline-variant shadow-sm overflow-hidden">
+<div class="px-space-md py-2.5 bg-surface-container-low border-b border-outline-variant flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[18px]">pending_actions</span>
+<span class="font-label-lg text-label-lg font-bold text-on-surface">Fila de Decisão Imediata</span>
+<span class="text-secondary font-data-tabular text-body-sm">(4 itens aguardando deliberação)</span>
+</div>
+<div class="flex items-center gap-3 text-secondary text-body-sm font-label-sm">
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-[#EA580C]"></span> Crítico &lt; 6h</span>
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-[#F59E0B]"></span> Moderado &lt; 24h</span>
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-[#10B981]"></span> Estável &gt; 24h</span>
+</div>
+</div>
+<div class="divide-y divide-outline-variant">
+<!-- ITEM 1: REQ-20260915-000042 (Crítico 3h) -->
+<div class="p-space-md hover:bg-[#F8FAFC] transition-colors flex flex-col xl:flex-row xl:items-center justify-between gap-4">
+<div class="flex items-start gap-3.5 flex-1">
+<!-- Icone / Imagem Representativa -->
+<div class="w-11 h-11 rounded bg-surface-container flex-shrink-0 flex items-center justify-center border border-outline-variant text-primary">
+<span class="material-symbols-outlined text-[24px]">lan</span>
+</div>
+<div class="space-y-1 flex-1">
+<div class="flex flex-wrap items-center gap-2">
+<span class="font-data-tabular font-bold text-[14px] text-on-surface">REQ-20260915-000042</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-primary font-label-sm text-label-sm font-semibold">TI / Redes</span>
+<span class="px-1.5 py-0.5 rounded bg-[#FEF3C7] text-[#92400E] border border-[#FDE68A] text-[10px] font-bold font-data-tabular">Alçada &gt; R$ 50,00</span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#FFEDD5] text-[#C2410C] font-label-sm text-label-sm font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-[#EA580C] animate-ping"></span>
+                      Restam 3h 15m (Crítico)
+                    </span>
+</div>
+<div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-on-surface">
+<span class="font-semibold text-body-md">5x Cabo UTP Cat6 305m</span>
+<span class="font-data-tabular text-secondary text-body-sm font-medium">SKU: NX-INS-TI-00072</span>
+<span class="font-data-tabular text-body-md font-bold text-primary">R$ 1.550,00</span>
+</div>
+<p class="text-body-sm text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px] text-outline">description</span>
+<span class="font-medium text-on-surface-variant">Motivo:</span> Expansão de infraestrutura do 3º andar para nova equipe de devops.
+                  </p>
+</div>
+</div>
+<!-- Quick Decision Buttons -->
+<div class="flex items-center gap-2.5 self-end xl:self-center flex-shrink-0 pt-2 xl:pt-0 border-t xl:border-t-0 border-outline-variant w-full xl:w-auto justify-end">
+<button class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded border border-outline-variant text-[#991B1B] hover:bg-[#FEE2E2] font-label-md text-label-md h-[36px] transition-colors active:scale-[0.98]">
+<span class="material-symbols-outlined text-[18px]">cancel</span>
+                  Rejeitar
+                </button>
+<button class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded bg-[#006c49] hover:bg-[#00482f] text-on-tertiary font-label-md text-label-md h-[36px] shadow-sm transition-all active:scale-[0.98]">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+                  Aprovar (Assinar Hash)
+                </button>
+</div>
+</div>
+<!-- ITEM 2: REQ-20260915-000041 (14h restantes) -->
+<div class="p-space-md hover:bg-[#F8FAFC] transition-colors flex flex-col xl:flex-row xl:items-center justify-between gap-4">
+<div class="flex items-start gap-3.5 flex-1">
+<div class="w-11 h-11 rounded bg-surface-container flex-shrink-0 flex items-center justify-center border border-outline-variant text-primary">
+<span class="material-symbols-outlined text-[24px]">menu_book</span>
+</div>
+<div class="space-y-1 flex-1">
+<div class="flex flex-wrap items-center gap-2">
+<span class="font-data-tabular font-bold text-[14px] text-on-surface">REQ-20260915-000041</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-primary font-label-sm text-label-sm font-semibold">MKT / Eventos</span>
+<span class="px-1.5 py-0.5 rounded bg-[#FEF3C7] text-[#92400E] border border-[#FDE68A] text-[10px] font-bold font-data-tabular">Alçada &gt; R$ 50,00</span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#FFEDD5] text-[#9A3412] font-label-sm text-label-sm font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-[#F97316]"></span>
+                      Restam 14h restantes
+                    </span>
+</div>
+<div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-on-surface">
+<span class="font-semibold text-body-md">100x Bloco de Notas Personalizado</span>
+<span class="font-data-tabular text-secondary text-body-sm font-medium">SKU: NX-INS-COM-00021</span>
+<span class="font-data-tabular text-body-md font-bold text-primary">R$ 650,00</span>
+</div>
+<p class="text-body-sm text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px] text-outline">description</span>
+<span class="font-medium text-on-surface-variant">Motivo:</span> Feira de negócios Nexus Expo 2026 e kits de recepção de patrocinadores.
+                  </p>
+</div>
+</div>
+<!-- Quick Decision Buttons -->
+<div class="flex items-center gap-2.5 self-end xl:self-center flex-shrink-0 pt-2 xl:pt-0 border-t xl:border-t-0 border-outline-variant w-full xl:w-auto justify-end">
+<button class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded border border-outline-variant text-[#991B1B] hover:bg-[#FEE2E2] font-label-md text-label-md h-[36px] transition-colors active:scale-[0.98]">
+<span class="material-symbols-outlined text-[18px]">cancel</span>
+                  Rejeitar
+                </button>
+<button class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded bg-[#006c49] hover:bg-[#00482f] text-on-tertiary font-label-md text-label-md h-[36px] shadow-sm transition-all active:scale-[0.98]">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+                  Aprovar (Assinar Hash)
+                </button>
+</div>
+</div>
+<!-- ITEM 3: REQ-20260915-000040 (26h restantes) -->
+<div class="p-space-md hover:bg-[#F8FAFC] transition-colors flex flex-col xl:flex-row xl:items-center justify-between gap-4">
+<div class="flex items-start gap-3.5 flex-1">
+<div class="w-11 h-11 rounded bg-surface-container flex-shrink-0 flex items-center justify-center border border-outline-variant text-primary">
+<span class="material-symbols-outlined text-[24px]">science</span>
+</div>
+<div class="space-y-1 flex-1">
+<div class="flex flex-wrap items-center gap-2">
+<span class="font-data-tabular font-bold text-[14px] text-on-surface">REQ-20260915-000040</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-primary font-label-sm text-label-sm font-semibold">PROD / Linha Alpha</span>
+<span class="px-1.5 py-0.5 rounded bg-[#FEF3C7] text-[#92400E] border border-[#FDE68A] text-[10px] font-bold font-data-tabular">Alçada &gt; R$ 50,00</span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#ECFDF5] text-[#065F46] font-label-sm text-label-sm font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-[#10B981]"></span>
+                      Restam 26h restantes
+                    </span>
+</div>
+<div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-on-surface">
+<span class="font-semibold text-body-md">10x Reagente Neutro 20L</span>
+<span class="font-data-tabular text-secondary text-body-sm font-medium">SKU: NX-INS-PR-00112</span>
+<span class="font-data-tabular text-body-md font-bold text-primary">R$ 1.200,00</span>
+</div>
+<p class="text-body-sm text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px] text-outline">description</span>
+<span class="font-medium text-on-surface-variant">Motivo:</span> Limpeza periódica de reatores químicos do turno noturno da planta central.
+                  </p>
+</div>
+</div>
+<!-- Quick Decision Buttons -->
+<div class="flex items-center gap-2.5 self-end xl:self-center flex-shrink-0 pt-2 xl:pt-0 border-t xl:border-t-0 border-outline-variant w-full xl:w-auto justify-end">
+<button class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded border border-outline-variant text-[#991B1B] hover:bg-[#FEE2E2] font-label-md text-label-md h-[36px] transition-colors active:scale-[0.98]">
+<span class="material-symbols-outlined text-[18px]">cancel</span>
+                  Rejeitar
+                </button>
+<button class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded bg-[#006c49] hover:bg-[#00482f] text-on-tertiary font-label-md text-label-md h-[36px] shadow-sm transition-all active:scale-[0.98]">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+                  Aprovar (Assinar Hash)
+                </button>
+</div>
+</div>
+<!-- ITEM 4: REQ-20260915-000039 (38h restantes) -->
+<div class="p-space-md hover:bg-[#F8FAFC] transition-colors flex flex-col xl:flex-row xl:items-center justify-between gap-4">
+<div class="flex items-start gap-3.5 flex-1">
+<div class="w-11 h-11 rounded bg-surface-container flex-shrink-0 flex items-center justify-center border border-outline-variant text-primary">
+<span class="material-symbols-outlined text-[24px]">description</span>
+</div>
+<div class="space-y-1 flex-1">
+<div class="flex flex-wrap items-center gap-2">
+<span class="font-data-tabular font-bold text-[14px] text-on-surface">REQ-20260915-000039</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-primary font-label-sm text-label-sm font-semibold">RH / Treinamentos</span>
+<span class="px-1.5 py-0.5 rounded bg-[#FEF3C7] text-[#92400E] border border-[#FDE68A] text-[10px] font-bold font-data-tabular">Alçada &gt; R$ 50,00</span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#ECFDF5] text-[#065F46] font-label-sm text-label-sm font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-[#10B981]"></span>
+                      Restam 38h restantes
+                    </span>
+</div>
+<div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-on-surface">
+<span class="font-semibold text-body-md">8x Resma Papel Sulfite A4</span>
+<span class="font-data-tabular text-secondary text-body-sm font-medium">SKU: NX-INS-RH-00015</span>
+<span class="font-data-tabular text-body-md font-bold text-primary">R$ 231,20</span>
+</div>
+<p class="text-body-sm text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px] text-outline">description</span>
+<span class="font-medium text-on-surface-variant">Motivo:</span> Material impresso para onboarding de novos contratados do ciclo Q4.
+                  </p>
+</div>
+</div>
+<!-- Quick Decision Buttons -->
+<div class="flex items-center gap-2.5 self-end xl:self-center flex-shrink-0 pt-2 xl:pt-0 border-t xl:border-t-0 border-outline-variant w-full xl:w-auto justify-end">
+<button class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded border border-outline-variant text-[#991B1B] hover:bg-[#FEE2E2] font-label-md text-label-md h-[36px] transition-colors active:scale-[0.98]">
+<span class="material-symbols-outlined text-[18px]">cancel</span>
+                  Rejeitar
+                </button>
+<button class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded bg-[#006c49] hover:bg-[#00482f] text-on-tertiary font-label-md text-label-md h-[36px] shadow-sm transition-all active:scale-[0.98]">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+                  Aprovar (Assinar Hash)
+                </button>
+</div>
+</div>
+</div>
+</div>
+<!-- 4. Histórico Recente de Aprovações com Hash SHA-256 Ledger -->
+<div class="bg-surface-container-lowest rounded border border-outline-variant shadow-sm overflow-hidden">
+<div class="px-space-md py-2.5 bg-surface-container-low border-b border-outline-variant flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[18px]">history_edu</span>
+<span class="font-label-lg text-label-lg font-bold text-on-surface">Auditoria de Assinaturas Criptográficas (SHA-256)</span>
+</div>
+<span class="font-data-tabular text-[11px] text-secondary">Últimos registros imutáveis gravados via trigger DB</span>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-lowest border-b border-outline-variant text-[11px] font-label-sm uppercase text-secondary font-semibold">
+<th class="py-2.5 px-4">Req. ID</th>
+<th class="py-2.5 px-4">Departamento / Insumo</th>
+<th class="py-2.5 px-4">Decisão</th>
+<th class="py-2.5 px-4">Timestamp Operacional</th>
+<th class="py-2.5 px-4">Hash Imutável SHA-256</th>
+<th class="py-2.5 px-4 text-right">Ledger Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant text-body-sm font-data-tabular">
+<!-- Log 1 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="py-2.5 px-4 font-bold text-on-surface">REQ-20260914-000038</td>
+<td class="py-2.5 px-4 text-on-surface font-body-sm">
+<span class="font-semibold text-primary">LOG</span> — 2x Bobina Termotransferência Zebra
+                  </td>
+<td class="py-2.5 px-4">
+<span class="inline-flex items-center gap-1 text-[11px] font-bold text-[#065F46] bg-[#ECFDF5] px-2 py-0.5 rounded-full border border-[#A7F3D0]">
+<span class="w-1.5 h-1.5 rounded-full bg-[#10B981]"></span> Aprovado
+                    </span>
+</td>
+<td class="py-2.5 px-4 text-secondary">15/09/2026 10:44:12</td>
+<td class="py-2.5 px-4 font-mono text-[11px] text-secondary select-all">
+                    8f4b6d91c1e55a7304f32...a19de08f21e
+                  </td>
+<td class="py-2.5 px-4 text-right">
+<span class="text-tertiary font-semibold text-[11px] inline-flex items-center gap-1 justify-end">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> Sincronizado
+                    </span>
+</td>
+</tr>
+<!-- Log 2 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="py-2.5 px-4 font-bold text-on-surface">REQ-20260914-000037</td>
+<td class="py-2.5 px-4 text-on-surface font-body-sm">
+<span class="font-semibold text-primary">TI</span> — 1x Patch Panel 24 Portas Cat6
+                  </td>
+<td class="py-2.5 px-4">
+<span class="inline-flex items-center gap-1 text-[11px] font-bold text-[#065F46] bg-[#ECFDF5] px-2 py-0.5 rounded-full border border-[#A7F3D0]">
+<span class="w-1.5 h-1.5 rounded-full bg-[#10B981]"></span> Aprovado
+                    </span>
+</td>
+<td class="py-2.5 px-4 text-secondary">15/09/2026 09:18:05</td>
+<td class="py-2.5 px-4 font-mono text-[11px] text-secondary select-all">
+                    3c98aa249f018eec3b087...7e4088a21bf
+                  </td>
+<td class="py-2.5 px-4 text-right">
+<span class="text-tertiary font-semibold text-[11px] inline-flex items-center gap-1 justify-end">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> Sincronizado
+                    </span>
+</td>
+</tr>
+<!-- Log 3 (Rejeitado) -->
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="py-2.5 px-4 font-bold text-on-surface">REQ-20260914-000036</td>
+<td class="py-2.5 px-4 text-on-surface font-body-sm">
+<span class="font-semibold text-primary">COM</span> — 50x Caneta Esferográfica Metal
+                  </td>
+<td class="py-2.5 px-4">
+<span class="inline-flex items-center gap-1 text-[11px] font-bold text-[#991B1B] bg-[#FEE2E2] px-2 py-0.5 rounded-full border border-[#FECACA]">
+<span class="w-1.5 h-1.5 rounded-full bg-[#EF4444]"></span> Rejeitado
+                    </span>
+</td>
+<td class="py-2.5 px-4 text-secondary">14/09/2026 16:32:40</td>
+<td class="py-2.5 px-4 font-mono text-[11px] text-secondary select-all">
+                    d81f26a7e02947c618388...5b2210ff4a9
+                  </td>
+<td class="py-2.5 px-4 text-right">
+<span class="text-tertiary font-semibold text-[11px] inline-flex items-center gap-1 justify-end">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> Sincronizado
+                    </span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- 5. Rodapé Discreto com Status do Ledger Supabase -->
+<footer class="pt-2 pb-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-secondary text-body-sm font-data-tabular">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+<span>Ledger de Auditoria: Conectado (Supabase Cluster Brasil - sa-east-1)</span>
+</div>
+<div class="flex items-center gap-4 text-[12px]">
+<span>Políticas RLS ativas</span>
+<span>•</span>
+<span>Garantia de Não-Repúdio (Trigger Hash SHA-256)</span>
+<span>•</span>
+<span>Nexus StorageControl v2.4</span>
+</div>
+</footer>
+</div>
+</main>
+</div>
+</body></html>

@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nexus StorageControl - Catálogo Mestre</title>
+<!-- Google Fonts: Inter & Plus Jakarta Sans -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-tertiary-fixed": "#002113",
+            "inverse-surface": "#213145",
+            "primary": "#006972",
+            "surface-variant": "#d3e4fe",
+            "on-surface": "#0b1c30",
+            "secondary-fixed": "#dae2fd",
+            "secondary": "#565e74",
+            "on-surface-variant": "#3d494a",
+            "on-tertiary": "#ffffff",
+            "on-primary-container": "#00454c",
+            "on-secondary-container": "#5c647a",
+            "tertiary-fixed": "#6ffbbe",
+            "surface-dim": "#cbdbf5",
+            "surface-container-high": "#dce9ff",
+            "outline-variant": "#bcc9ca",
+            "tertiary": "#006c49",
+            "on-primary-fixed-variant": "#004f56",
+            "on-secondary-fixed": "#131b2e",
+            "on-secondary-fixed-variant": "#3f465c",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-low": "#eff4ff",
+            "on-tertiary-container": "#00482f",
+            "error-container": "#ffdad6",
+            "on-tertiary-fixed-variant": "#005236",
+            "inverse-on-surface": "#eaf1ff",
+            "on-error-container": "#93000a",
+            "primary-container": "#48b8c5",
+            "on-secondary": "#ffffff",
+            "tertiary-container": "#22c087",
+            "primary-fixed": "#8df2ff",
+            "surface-container": "#e5eeff",
+            "on-error": "#ffffff",
+            "outline": "#6d797b",
+            "inverse-primary": "#6ad6e3",
+            "surface": "#f8f9ff",
+            "secondary-container": "#dae2fd",
+            "on-primary": "#ffffff",
+            "background": "#f8f9ff",
+            "surface-tint": "#006972",
+            "surface-bright": "#f8f9ff",
+            "secondary-fixed-dim": "#bec6e0",
+            "error": "#ba1a1a",
+            "on-background": "#0b1c30",
+            "tertiary-fixed-dim": "#4edea3",
+            "on-primary-fixed": "#001f23",
+            "surface-container-highest": "#d3e4fe",
+            "primary-fixed-dim": "#6ad6e3"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          "spacing": {
+            "space-sm": "0.5rem",
+            "space-xl": "2rem",
+            "space-md": "0.875rem",
+            "margin": "1rem",
+            "gutter": "1rem",
+            "space-xs": "0.25rem",
+            "margin-tablet": "1.5rem",
+            "gutter-desktop": "1.5rem",
+            "space-lg": "1.25rem",
+            "margin-desktop": "2rem"
+          },
+          "fontFamily": {
+            "body-lg": ["Inter"],
+            "headline-lg": ["Plus Jakarta Sans"],
+            "data-tabular": ["Inter"],
+            "headline-md": ["Plus Jakarta Sans"],
+            "body-sm": ["Inter"],
+            "headline-xl-mobile": ["Plus Jakarta Sans"],
+            "headline-sm": ["Plus Jakarta Sans"],
+            "label-lg": ["Inter"],
+            "headline-xl": ["Plus Jakarta Sans"],
+            "label-md": ["Inter"],
+            "label-sm": ["Inter"],
+            "headline-lg-mobile": ["Plus Jakarta Sans"],
+            "body-md": ["Inter"]
+          },
+          "fontSize": {
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+            "data-tabular": ["13px", { "lineHeight": "18px", "fontWeight": "500" }],
+            "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+            "headline-xl-mobile": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "headline-sm": ["16px", { "lineHeight": "24px", "fontWeight": "600" }],
+            "label-lg": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+            "headline-xl": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "label-md": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+            "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "600" }],
+            "headline-lg-mobile": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+      font-size: 18px;
+      line-height: 1;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      height: 6px;
+      width: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #F8FAFC;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #CBD5E1;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md antialiased min-h-screen flex flex-col selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar (Shared Component JSON Blueprint & Requirements) -->
+<header class="flex justify-between items-center h-14 px-gutter-desktop w-full border-b border-outline-variant bg-surface-container-lowest z-40 sticky top-0 shadow-sm">
+<div class="flex items-center gap-space-lg">
+<!-- Brand Logo -->
+<div class="flex items-center gap-space-xs">
+<span class="flex items-center justify-center w-8 h-8 rounded bg-primary text-on-primary font-headline-sm font-bold shadow-sm">SC</span>
+<div class="flex flex-col leading-none">
+<span class="text-headline-sm font-headline-sm font-bold tracking-tight text-primary">StorageControl</span>
+<span class="text-label-sm font-label-sm text-secondary tracking-wider">NEXUS ENTERPRISE</span>
+</div>
+</div>
+<!-- Quick SKU Search Bar on Left -->
+<div class="relative hidden sm:block w-72">
+<span class="material-symbols-outlined absolute left-2.5 top-2.5 text-secondary pointer-events-none" data-icon="search">search</span>
+<input class="w-full h-[34px] pl-8 pr-3 text-label-md font-label-md bg-surface-container-low border border-outline-variant rounded focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary text-on-surface placeholder:text-secondary transition-all" placeholder="Buscar por SKU global..." type="text"/>
+</div>
+<!-- Department Navigation Links from JSON: RH, TI, FIN, COM, LOG, PROD, JUR, MKT -->
+<nav class="hidden xl:flex items-center gap-space-md ml-space-sm">
+<a class="text-secondary hover:text-on-surface transition-colors text-label-md font-label-md px-1.5 py-1" href="#">RH</a>
+<a class="text-primary border-b-2 border-primary font-semibold pb-1 text-label-md font-label-md px-1.5" href="#">TI</a>
+<a class="text-secondary hover:text-on-surface transition-colors text-label-md font-label-md px-1.5 py-1" href="#">FIN</a>
+<a class="text-secondary hover:text-on-surface transition-colors text-label-md font-label-md px-1.5 py-1" href="#">COM</a>
+<a class="text-secondary hover:text-on-surface transition-colors text-label-md font-label-md px-1.5 py-1" href="#">LOG</a>
+<a class="text-secondary hover:text-on-surface transition-colors text-label-md font-label-md px-1.5 py-1" href="#">PROD</a>
+<a class="text-secondary hover:text-on-surface transition-colors text-label-md font-label-md px-1.5 py-1" href="#">JUR</a>
+<a class="text-secondary hover:text-on-surface transition-colors text-label-md font-label-md px-1.5 py-1" href="#">MKT</a>
+</nav>
+</div>
+<!-- Trailing Actions: Online Sync & System Tools (Without user profile as requested) -->
+<div class="flex items-center gap-space-md">
+<!-- Sync Status Indicator Pill -->
+<div class="flex items-center gap-1.5 px-2.5 py-1 bg-surface-container-low border border-outline-variant rounded-full text-label-sm font-label-sm text-tertiary">
+<span class="w-2 h-2 rounded-full bg-tertiary-container animate-pulse"></span>
+<span class="font-medium text-on-surface">Online (Sync)</span>
+</div>
+<!-- Icon Actions: notifications, wifi, qr_code_scanner -->
+<div class="flex items-center gap-1 text-secondary">
+<button class="p-1.5 rounded hover:bg-surface-container-low transition-colors duration-150 active:scale-[0.98]" title="QR Scanner Rápido">
+<span class="material-symbols-outlined text-primary" data-icon="qr_code_scanner">qr_code_scanner</span>
+</button>
+<button class="p-1.5 rounded hover:bg-surface-container-low transition-colors duration-150 active:scale-[0.98]" title="Status de Rede">
+<span class="material-symbols-outlined text-tertiary" data-icon="wifi">wifi</span>
+</button>
+<button class="p-1.5 rounded hover:bg-surface-container-low transition-colors duration-150 active:scale-[0.98] relative" title="Alertas de Estoque">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 rounded-full bg-error"></span>
+</button>
+</div>
+</div>
+</header>
+<div class="flex flex-1 w-full min-h-[calc(100vh-3.5rem)]">
+<!-- SideNavBar (Shared Component Blueprint & Active Lock to 'Catálogo Mestre') -->
+<aside class="w-64 border-r border-outline-variant bg-surface-container-lowest flex flex-col justify-between p-space-md shrink-0 shadow-sm hidden md:flex">
+<div class="space-y-space-md">
+<!-- Instance Identifier Badge -->
+<div class="p-space-sm bg-surface-container-low border border-outline-variant rounded flex items-center justify-between">
+<div>
+<p class="text-headline-sm font-headline-sm font-bold text-primary">Nexus Storage</p>
+<p class="text-label-sm font-label-sm text-secondary font-mono">NX-INS-2026-001</p>
+</div>
+<span class="w-2.5 h-2.5 rounded-full bg-tertiary"></span>
+</div>
+<!-- Primary CTA: Nova Movimentação -->
+<button class="w-full h-[38px] px-4 rounded bg-primary-container hover:bg-primary text-on-primary font-label-lg flex items-center justify-center gap-2 shadow-sm transition-all duration-150 active:scale-[0.98]">
+<span class="material-symbols-outlined" data-icon="swap_horiz">swap_horiz</span>
+<span>Nova Movimentação</span>
+</button>
+<!-- Navigation items (Active: Catálogo Mestre) -->
+<nav class="space-y-1">
+<!-- 1. Dashboard Operacional -->
+<a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150 active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined text-secondary" data-icon="dashboard">dashboard</span>
+<span class="text-label-md font-label-md">Dashboard Operacional</span>
+</a>
+<!-- 2. Catálogo Mestre (ACTIVE STATE) -->
+<a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg bg-surface-container text-primary font-semibold shadow-xs" href="#">
+<span class="material-symbols-outlined text-primary" data-icon="inventory_2" data-weight="fill" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+<span class="text-label-md font-label-md">Catálogo Mestre</span>
+</a>
+<!-- 3. Retirada & Scanner QR -->
+<a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150 active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined text-secondary" data-icon="qr_code_scanner">qr_code_scanner</span>
+<span class="text-label-md font-label-md">Retirada &amp; Scanner QR</span>
+</a>
+<!-- 4. Requisições & Aprovações -->
+<a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150 active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined text-secondary" data-icon="fact_check">fact_check</span>
+<span class="text-label-md font-label-md">Requisições &amp; Aprovações</span>
+</a>
+<!-- 5. Relatórios & Auditoria -->
+<a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150 active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined text-secondary" data-icon="analytics">analytics</span>
+<span class="text-label-md font-label-md">Relatórios &amp; Auditoria</span>
+</a>
+</nav>
+</div>
+<!-- SideNav Footer -->
+<div class="pt-space-md border-t border-outline-variant space-y-1">
+<a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150 text-label-md font-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span>Suporte Técnico</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150 text-label-md font-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>Configurações</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area: Catálogo Mestre Enxuto -->
+<main class="flex-1 flex flex-col p-space-md lg:p-space-lg overflow-y-auto space-y-space-md bg-background">
+<!-- 1. Header Compacto -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded p-space-md shadow-sm">
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md">
+<div class="flex items-center gap-3">
+<div class="p-2 rounded bg-surface-container text-primary">
+<span class="material-symbols-outlined text-2xl" data-icon="inventory_2">inventory_2</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h1 class="text-headline-md font-headline-md text-on-surface font-semibold">Catálogo Mestre de Insumos</h1>
+<span class="px-2 py-0.5 bg-surface-container text-primary text-label-sm font-label-sm rounded-full font-medium">142 itens cadastrados</span>
+</div>
+<p class="text-body-sm font-body-sm text-secondary mt-0.5">Gerenciamento ágil de insumos, regras de estocagem, lotes fabris e reposição autônoma</p>
+</div>
+</div>
+<div class="flex items-center gap-space-sm shrink-0">
+<button class="h-[38px] px-3.5 rounded border border-outline-variant bg-surface-container-lowest text-on-surface hover:bg-surface-container-low font-label-lg flex items-center gap-1.5 transition-colors duration-150 active:scale-[0.98]">
+<span class="material-symbols-outlined text-secondary" data-icon="file_download">file_download</span>
+<span>Exportar</span>
+</button>
+<button class="h-[38px] px-4 rounded bg-primary hover:bg-on-primary-container text-on-primary font-label-lg flex items-center gap-2 shadow-sm transition-all duration-150 active:scale-[0.98]">
+<span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+<span>+ Novo Insumo (Auto-SKU)</span>
+</button>
+</div>
+</div>
+<!-- Seletor de Filtros Rápidos por Departamento (Chips de alta densidade) -->
+<div class="mt-space-md pt-space-sm border-t border-outline-variant/60 flex items-center gap-2 overflow-x-auto custom-scrollbar pb-1">
+<span class="text-label-sm font-label-sm text-secondary font-medium uppercase tracking-wider shrink-0 mr-1">Depto:</span>
+<button class="px-3 py-1 rounded bg-primary text-on-primary text-label-sm font-label-sm font-semibold shrink-0">Todos (142)</button>
+<button class="px-3 py-1 rounded bg-surface-container-low hover:bg-surface-container border border-outline-variant text-on-surface text-label-sm font-label-sm shrink-0 transition-colors">RH (18)</button>
+<button class="px-3 py-1 rounded bg-surface-container-low hover:bg-surface-container border border-outline-variant text-on-surface text-label-sm font-label-sm shrink-0 transition-colors">TI (34)</button>
+<button class="px-3 py-1 rounded bg-surface-container-low hover:bg-surface-container border border-outline-variant text-on-surface text-label-sm font-label-sm shrink-0 transition-colors">FIN (12)</button>
+<button class="px-3 py-1 rounded bg-surface-container-low hover:bg-surface-container border border-outline-variant text-on-surface text-label-sm font-label-sm shrink-0 transition-colors">COM (19)</button>
+<button class="px-3 py-1 rounded bg-surface-container-low hover:bg-surface-container border border-outline-variant text-on-surface text-label-sm font-label-sm shrink-0 transition-colors">LOG (24)</button>
+<button class="px-3 py-1 rounded bg-surface-container-low hover:bg-surface-container border border-outline-variant text-on-surface text-label-sm font-label-sm shrink-0 transition-colors">PROD (21)</button>
+<button class="px-3 py-1 rounded bg-surface-container-low hover:bg-surface-container border border-outline-variant text-on-surface text-label-sm font-label-sm shrink-0 transition-colors">JUR (8)</button>
+<button class="px-3 py-1 rounded bg-surface-container-low hover:bg-surface-container border border-outline-variant text-on-surface text-label-sm font-label-sm shrink-0 transition-colors">MKT (6)</button>
+</div>
+</section>
+<!-- 2. Barra de Busca e Filtros Rápidos -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded p-3 flex flex-wrap lg:flex-nowrap items-center justify-between gap-3 shadow-sm">
+<div class="flex flex-1 items-center gap-2 min-w-[280px]">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-secondary pointer-events-none" data-icon="search">search</span>
+<input class="w-full h-[38px] pl-9 pr-4 text-body-md font-body-md border border-outline-variant rounded focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary text-on-surface placeholder:text-secondary" placeholder="Filtrar por SKU (ex: NX-INS-TI-00043) ou nome do insumo..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-3 shrink-0 flex-wrap">
+<!-- Filtro por Categoria -->
+<div class="flex items-center gap-1.5">
+<span class="text-label-sm font-label-sm text-secondary">Categoria:</span>
+<select class="h-[38px] px-3 py-1 border border-outline-variant rounded bg-surface-container-lowest text-on-surface text-label-md font-label-md focus:border-primary focus:ring-0">
+<option>Todas Categorias</option>
+<option>TI &amp; Periféricos</option>
+<option>Escritório &amp; Papelaria</option>
+<option>Limpeza &amp; Químicos</option>
+<option>Produção &amp; Operação</option>
+<option>Eventos &amp; Branding</option>
+</select>
+</div>
+<!-- Toggle: Apenas com Validade / Críticos -->
+<label class="flex items-center gap-2 px-3 py-2 border border-outline-variant rounded hover:bg-surface-container-low cursor-pointer transition-colors select-none">
+<input class="w-4 h-4 rounded text-primary focus:ring-primary border-outline text-primary" type="checkbox"/>
+<span class="text-label-md font-label-md text-on-surface">Apenas com Validade / Críticos</span>
+<span class="w-2 h-2 rounded-full bg-error"></span>
+</label>
+<button class="h-[38px] px-3 rounded border border-outline-variant bg-surface-container-low text-secondary hover:text-on-surface font-label-md flex items-center gap-1" title="Limpar Filtros">
+<span class="material-symbols-outlined text-sm" data-icon="refresh">refresh</span>
+<span>Reset</span>
+</button>
+</div>
+</section>
+<!-- 3. Tabela Densa e Limpa de Insumos -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded shadow-sm overflow-hidden flex flex-col flex-1">
+<div class="overflow-x-auto custom-scrollbar">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-outline-variant text-secondary text-label-sm font-label-sm uppercase tracking-wider">
+<th class="py-2.5 px-4 font-semibold">SKU Trigger</th>
+<th class="py-2.5 px-3 font-semibold">Insumo</th>
+<th class="py-2.5 px-3 font-semibold">Categoria</th>
+<th class="py-2.5 px-3 font-semibold">Depto / Local</th>
+<th class="py-2.5 px-3 font-semibold text-right">Estoque</th>
+<th class="py-2.5 px-3 font-semibold text-right">Custo Unit.</th>
+<th class="py-2.5 px-3 font-semibold text-right">Ponto Pedido</th>
+<th class="py-2.5 px-3 font-semibold">Validade Lote</th>
+<th class="py-2.5 px-3 font-semibold text-center">Status</th>
+<th class="py-2.5 px-4 font-semibold text-right">Ações</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container">
+<!-- Linha 1: NX-INS-TI-00043 -->
+<tr class="hover:bg-surface-container-low/60 transition-colors group">
+<td class="py-2.5 px-4 font-mono font-semibold text-data-tabular text-primary">
+                  NX-INS-TI-00043
+                </td>
+<td class="py-2.5 px-3">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded bg-surface-container border border-outline-variant flex items-center justify-center shrink-0 text-primary">
+<span class="material-symbols-outlined" data-icon="print">print</span>
+</div>
+<div>
+<p class="font-semibold text-body-md text-on-surface leading-snug">Toner HP Laser Color 507A</p>
+<p class="text-label-sm font-label-sm text-secondary">Preto Original (CE400A)</p>
+</div>
+</div>
+</td>
+<td class="py-2.5 px-3">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-label-sm font-label-sm bg-surface-container text-on-surface font-medium">TI &amp; Periféricos</span>
+</td>
+<td class="py-2.5 px-3 text-body-sm font-body-sm text-on-surface">
+<div class="flex items-center gap-1">
+<span class="font-semibold text-secondary">TI</span>
+<span class="text-secondary">•</span>
+<span>Almoxarifado Corredor B-04</span>
+</div>
+</td>
+<td class="py-2.5 px-3 text-right">
+<span class="font-bold text-data-tabular font-data-tabular text-on-surface">14</span>
+<span class="text-label-sm font-label-sm text-secondary ml-0.5">un</span>
+</td>
+<td class="py-2.5 px-3 text-right font-data-tabular text-data-tabular text-secondary">
+                  R$ 48,50
+                </td>
+<td class="py-2.5 px-3 text-right font-data-tabular text-data-tabular text-secondary">
+                  10 un
+                </td>
+<td class="py-2.5 px-3">
+<span class="font-data-tabular text-data-tabular text-on-surface">18/09/2026</span>
+</td>
+<td class="py-2.5 px-3 text-center">
+<!-- Normal (>30d) -->
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-label-sm font-label-sm bg-tertiary-fixed/30 text-tertiary font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+                    Normal
+                  </span>
+</td>
+<td class="py-2.5 px-4 text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1 rounded text-secondary hover:text-primary hover:bg-surface-container" title="Editar Insumo">
+<span class="material-symbols-outlined text-[17px]" data-icon="edit">edit</span>
+</button>
+<button class="p-1 rounded text-secondary hover:text-primary hover:bg-surface-container" title="Ver Lotes">
+<span class="material-symbols-outlined text-[17px]" data-icon="layers">layers</span>
+</button>
+<button class="px-2 py-1 bg-primary text-on-primary rounded text-label-sm font-label-sm hover:bg-on-primary-container transition-colors active:scale-[0.98]">
+                      Retirar
+                    </button>
+</div>
+</td>
+</tr>
+<!-- Linha 2: NX-INS-PR-00112 -->
+<tr class="hover:bg-surface-container-low/60 transition-colors group bg-amber-50/20">
+<td class="py-2.5 px-4 font-mono font-semibold text-data-tabular text-primary">
+                  NX-INS-PR-00112
+                </td>
+<td class="py-2.5 px-3">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded bg-amber-100 border border-amber-300 flex items-center justify-center shrink-0 text-amber-800">
+<span class="material-symbols-outlined" data-icon="science">science</span>
+</div>
+<div>
+<p class="font-semibold text-body-md text-on-surface leading-snug">Reagente Limpeza Neutro 20L</p>
+<p class="text-label-sm font-label-sm text-secondary">Bombona Industrial Grau Químico</p>
+</div>
+</div>
+</td>
+<td class="py-2.5 px-3">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-label-sm font-label-sm bg-surface-container text-on-surface font-medium">Limpeza &amp; Químicos</span>
+</td>
+<td class="py-2.5 px-3 text-body-sm font-body-sm text-on-surface">
+<div class="flex items-center gap-1">
+<span class="font-semibold text-secondary">Produção</span>
+<span class="text-secondary">•</span>
+<span>Galpão B</span>
+</div>
+</td>
+<td class="py-2.5 px-3 text-right">
+<span class="font-bold text-data-tabular font-data-tabular text-amber-900">14</span>
+<span class="text-label-sm font-label-sm text-secondary ml-0.5">bb</span>
+</td>
+<td class="py-2.5 px-3 text-right font-data-tabular text-data-tabular text-secondary">
+                  R$ 120,00
+                </td>
+<td class="py-2.5 px-3 text-right font-data-tabular text-data-tabular text-error font-medium">
+                  20 bb
+                </td>
+<td class="py-2.5 px-3">
+<div class="flex items-center gap-1 text-amber-800 font-data-tabular text-data-tabular font-semibold">
+<span class="material-symbols-outlined text-[15px]" data-icon="alarm">alarm</span>
+<span>27/09/2026</span>
+</div>
+</td>
+<td class="py-2.5 px-3 text-center">
+<!-- Warning (Vencendo / Abaixo do Ponto) -->
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-label-sm font-label-sm bg-amber-100 text-amber-900 font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                    Atenção (Vencendo)
+                  </span>
+</td>
+<td class="py-2.5 px-4 text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1 rounded text-secondary hover:text-primary hover:bg-surface-container" title="Editar Insumo">
+<span class="material-symbols-outlined text-[17px]" data-icon="edit">edit</span>
+</button>
+<button class="p-1 rounded text-secondary hover:text-primary hover:bg-surface-container" title="Ver Lotes">
+<span class="material-symbols-outlined text-[17px]" data-icon="layers">layers</span>
+</button>
+<button class="px-2 py-1 bg-primary text-on-primary rounded text-label-sm font-label-sm hover:bg-on-primary-container transition-colors active:scale-[0.98]">
+                      Retirar
+                    </button>
+</div>
+</td>
+</tr>
+<!-- Linha 3: NX-INS-LG-00088 -->
+<tr class="hover:bg-surface-container-low/60 transition-colors group">
+<td class="py-2.5 px-4 font-mono font-semibold text-data-tabular text-primary">
+                  NX-INS-LG-00088
+                </td>
+<td class="py-2.5 px-3">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded bg-surface-container border border-outline-variant flex items-center justify-center shrink-0 text-primary">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+</div>
+<div>
+<p class="font-semibold text-body-md text-on-surface leading-snug">Bobina Térmica 80mm</p>
+<p class="text-label-sm font-label-sm text-secondary">PDV / Etiquetadora Amarela</p>
+</div>
+</div>
+</td>
+<td class="py-2.5 px-3">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-label-sm font-label-sm bg-surface-container text-on-surface font-medium">Logística &amp; Embalagem</span>
+</td>
+<td class="py-2.5 px-3 text-body-sm font-body-sm text-on-surface">
+<div class="flex items-center gap-1">
+<span class="font-semibold text-secondary">LOG</span>
+<span class="text-secondary">•</span>
+<span>Expedição Central</span>
+</div>
+</td>
+<td class="py-2.5 px-3 text-right">
+<span class="font-bold text-data-tabular font-data-tabular text-orange-700">18</span>
+<span class="text-label-sm font-label-sm text-secondary ml-0.5">cx</span>
+</td>
+<td class="py-2.5 px-3 text-right font-data-tabular text-data-tabular text-secondary">
+                  R$ 32,00
+                </td>
+<td class="py-2.5 px-3 text-right font-data-tabular text-data-tabular text-orange-700 font-medium">
+                  25 cx
+                </td>
+<td class="py-2.5 px-3">
+<span class="text-label-sm font-label-sm text-secondary italic">Sem validade</span>
+</td>
+<td class="py-2.5 px-3 text-center">
+<!-- Baixo -->
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-label-sm font-label-sm bg-orange-100 text-orange-900 font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
+                    Baixo
+                  </span>
+</td>
+<td class="py-2.5 px-4 text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1 rounded text-secondary hover:text-primary hover:bg-surface-container" title="Editar Insumo">
+<span class="material-symbols-outlined text-[17px]" data-icon="edit">edit</span>
+</button>
+<button class="p-1 rounded text-secondary hover:text-primary hover:bg-surface-container" title="Ver Lotes">
+<span class="material-symbols-outlined text-[17px]" data-icon="layers">layers</span>
+</button>
+<button class="px-2 py-1 bg-primary text-on-primary rounded text-label-sm font-label-sm hover:bg-on-primary-container transition-colors active:scale-[0.98]">
+                      Retirar
+                    </button>
+</div>
+</td>
+</tr>
+<!-- Linha 4: NX-INS-RH-00015 -->
+<tr class="hover:bg-surface-container-low/60 transition-colors group">
+<td class="py-2.5 px-4 font-mono font-semibold text-data-tabular text-primary">
+                  NX-INS-RH-00015
+                </td>
+<td class="py-2.5 px-3">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded bg-surface-container border border-outline-variant flex items-center justify-center shrink-0 text-primary">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+</div>
+<div>
+<p class="font-semibold text-body-md text-on-surface leading-snug">Papel Alcalino A4 75g (Resma)</p>
+<p class="text-label-sm font-label-sm text-secondary">Pacote com 500 folhas</p>
+</div>
+</div>
+</td>
+<td class="py-2.5 px-3">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-label-sm font-label-sm bg-surface-container text-on-surface font-medium">Escritório &amp; Suprimentos</span>
+</td>
+<td class="py-2.5 px-3 text-body-sm font-body-sm text-on-surface">
+<div class="flex items-center gap-1">
+<span class="font-semibold text-secondary">RH</span>
+<span class="text-secondary">•</span>
+<span>Armário RH-01</span>
+</div>
+</td>
+<td class="py-2.5 px-3 text-right">
+<span class="font-bold text-data-tabular font-data-tabular text-on-surface">42</span>
+<span class="text-label-sm font-label-sm text-secondary ml-0.5">cx</span>
+</td>
+<td class="py-2.5 px-3 text-right font-data-tabular text-data-tabular text-secondary">
+                  R$ 28,90
+                </td>
+<td class="py-2.5 px-3 text-right font-data-tabular text-data-tabular text-secondary">
+                  35 cx
+                </td>
+<td class="py-2.5 px-3">
+<span class="text-label-sm font-label-sm text-secondary italic">Sem validade</span>
+</td>
+<td class="py-2.5 px-3 text-center">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-label-sm font-label-sm bg-tertiary-fixed/30 text-tertiary font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+                    Normal
+                  </span>
+</td>
+<td class="py-2.5 px-4 text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1 rounded text-secondary hover:text-primary hover:bg-surface-container" title="Editar Insumo">
+<span class="material-symbols-outlined text-[17px]" data-icon="edit">edit</span>
+</button>
+<button class="p-1 rounded text-secondary hover:text-primary hover:bg-surface-container" title="Ver Lotes">
+<span class="material-symbols-outlined text-[17px]" data-icon="layers">layers</span>
+</button>
+<button class="px-2 py-1 bg-primary text-on-primary rounded text-label-sm font-label-sm hover:bg-on-primary-container transition-colors active:scale-[0.98]">
+                      Retirar
+                    </button>
+</div>
+</td>
+</tr>
+<!-- Linha 5: NX-INS-TI-00072 -->
+<tr class="hover:bg-surface-container-low/60 transition-colors group bg-red-50/20">
+<td class="py-2.5 px-4 font-mono font-semibold text-data-tabular text-primary">
+                  NX-INS-TI-00072
+                </td>
+<td class="py-2.5 px-3">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded bg-red-100 border border-red-300 flex items-center justify-center shrink-0 text-red-700">
+<span class="material-symbols-outlined" data-icon="lan">lan</span>
+</div>
+<div>
+<p class="font-semibold text-body-md text-on-surface leading-snug">Cabo UTP Cat6 305m Azul</p>
+<p class="text-label-sm font-label-sm text-secondary">Caixa homologada Anatel</p>
+</div>
+</div>
+</td>
+<td class="py-2.5 px-3">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-label-sm font-label-sm bg-surface-container text-on-surface font-medium">TI &amp; Infraestrutura</span>
+</td>
+<td class="py-2.5 px-3 text-body-sm font-body-sm text-on-surface">
+<div class="flex items-center gap-1">
+<span class="font-semibold text-secondary">TI</span>
+<span class="text-secondary">•</span>
+<span>Infraestrutura</span>
+</div>
+</td>
+<td class="py-2.5 px-3 text-right">
+<span class="font-bold text-data-tabular font-data-tabular text-error">1</span>
+<span class="text-label-sm font-label-sm text-secondary ml-0.5">cx</span>
+</td>
+<td class="py-2.5 px-3 text-right font-data-tabular text-data-tabular text-secondary">
+                  R$ 310,00
+                </td>
+<td class="py-2.5 px-3 text-right font-data-tabular text-data-tabular text-error font-medium">
+                  3 cx
+                </td>
+<td class="py-2.5 px-3">
+<span class="text-label-sm font-label-sm text-secondary italic">Sem validade</span>
+</td>
+<td class="py-2.5 px-3 text-center">
+<!-- Crítico -->
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-label-sm font-label-sm bg-red-100 text-error font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-error animate-pulse"></span>
+                    Crítico
+                  </span>
+</td>
+<td class="py-2.5 px-4 text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1 rounded text-secondary hover:text-primary hover:bg-surface-container" title="Editar Insumo">
+<span class="material-symbols-outlined text-[17px]" data-icon="edit">edit</span>
+</button>
+<button class="p-1 rounded text-secondary hover:text-primary hover:bg-surface-container" title="Ver Lotes">
+<span class="material-symbols-outlined text-[17px]" data-icon="layers">layers</span>
+</button>
+<button class="px-2 py-1 bg-primary text-on-primary rounded text-label-sm font-label-sm hover:bg-on-primary-container transition-colors active:scale-[0.98]">
+                      Retirar
+                    </button>
+</div>
+</td>
+</tr>
+<!-- Linha 6: NX-INS-COM-00021 -->
+<tr class="hover:bg-surface-container-low/60 transition-colors group">
+<td class="py-2.5 px-4 font-mono font-semibold text-data-tabular text-primary">
+                  NX-INS-COM-00021
+                </td>
+<td class="py-2.5 px-3">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded bg-surface-container border border-outline-variant flex items-center justify-center shrink-0 text-primary">
+<span class="material-symbols-outlined" data-icon="book">book</span>
+</div>
+<div>
+<p class="font-semibold text-body-md text-on-surface leading-snug">Bloco de Notas Personalizado</p>
+<p class="text-label-sm font-label-sm text-secondary">Pautado capa dura StorageControl</p>
+</div>
+</div>
+</td>
+<td class="py-2.5 px-3">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-label-sm font-label-sm bg-surface-container text-on-surface font-medium">Eventos &amp; Branding</span>
+</td>
+<td class="py-2.5 px-3 text-body-sm font-body-sm text-on-surface">
+<div class="flex items-center gap-1">
+<span class="font-semibold text-secondary">COM</span>
+<span class="text-secondary">•</span>
+<span>Armário Comercial</span>
+</div>
+</td>
+<td class="py-2.5 px-3 text-right">
+<span class="font-bold text-data-tabular font-data-tabular text-on-surface">85</span>
+<span class="text-label-sm font-label-sm text-secondary ml-0.5">un</span>
+</td>
+<td class="py-2.5 px-3 text-right font-data-tabular text-data-tabular text-secondary">
+                  R$ 6,50
+                </td>
+<td class="py-2.5 px-3 text-right font-data-tabular text-data-tabular text-secondary">
+                  30 un
+                </td>
+<td class="py-2.5 px-3">
+<span class="text-label-sm font-label-sm text-secondary italic">Sem validade</span>
+</td>
+<td class="py-2.5 px-3 text-center">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-label-sm font-label-sm bg-tertiary-fixed/30 text-tertiary font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+                    Normal
+                  </span>
+</td>
+<td class="py-2.5 px-4 text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1 rounded text-secondary hover:text-primary hover:bg-surface-container" title="Editar Insumo">
+<span class="material-symbols-outlined text-[17px]" data-icon="edit">edit</span>
+</button>
+<button class="p-1 rounded text-secondary hover:text-primary hover:bg-surface-container" title="Ver Lotes">
+<span class="material-symbols-outlined text-[17px]" data-icon="layers">layers</span>
+</button>
+<button class="px-2 py-1 bg-primary text-on-primary rounded text-label-sm font-label-sm hover:bg-on-primary-container transition-colors active:scale-[0.98]">
+                      Retirar
+                    </button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- 4. Barra de Paginação Compacta e Resumo de Saldo em Estoque -->
+<div class="p-space-sm border-t border-outline-variant bg-surface-container-lowest flex flex-col md:flex-row items-center justify-between gap-3 text-body-sm font-body-sm">
+<!-- Resumo de Saldo Financeiro / Quantitativo -->
+<div class="flex items-center gap-space-md text-secondary">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-base text-primary" data-icon="account_balance_wallet">account_balance_wallet</span>
+<span>Valor Total em Almoxarifado: <strong class="text-on-surface font-mono font-medium">R$ 48.912,40</strong></span>
+</div>
+<span class="hidden sm:inline text-outline-variant">|</span>
+<div class="hidden sm:flex items-center gap-1.5">
+<span>Lotes Monitorados: <strong class="text-on-surface font-medium">32 ativos</strong></span>
+</div>
+<span class="hidden sm:inline text-outline-variant">|</span>
+<div class="flex items-center gap-1 text-error font-medium">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+<span>2 precisam de reposição imediata</span>
+</div>
+</div>
+<!-- Controles de Paginação -->
+<div class="flex items-center gap-3">
+<span class="text-secondary text-label-sm font-label-sm">Mostrando 1-6 de 142</span>
+<div class="flex items-center gap-1">
+<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant bg-surface-container-low text-secondary opacity-50 cursor-not-allowed" disabled="">
+<span class="material-symbols-outlined text-sm" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded bg-primary text-on-primary font-medium text-label-md">1</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant text-on-surface hover:bg-surface-container text-label-md">2</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant text-on-surface hover:bg-surface-container text-label-md">3</button>
+<span class="px-1 text-secondary text-xs">...</span>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant text-on-surface hover:bg-surface-container text-label-md">24</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant bg-surface-container-lowest text-on-surface hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Mini Painel Informativo de Atalhos Operacionais (Bento Grid Style) -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-3">
+<div class="p-3 bg-surface-container-lowest border border-outline-variant rounded flex items-center gap-3 shadow-xs">
+<div class="w-9 h-9 rounded bg-primary-container/20 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="qr_code_2">qr_code_2</span>
+</div>
+<div>
+<p class="text-label-md font-label-md font-semibold text-on-surface">Auto-Impressão de Etiquetas</p>
+<p class="text-body-sm font-body-sm text-secondary">Zebra ZT411 configurada no Almoxarifado Central</p>
+</div>
+</div>
+<div class="p-3 bg-surface-container-lowest border border-outline-variant rounded flex items-center gap-3 shadow-xs">
+<div class="w-9 h-9 rounded bg-tertiary-fixed/30 text-tertiary flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="autorenew">autorenew</span>
+</div>
+<div>
+<p class="text-label-md font-label-md font-semibold text-on-surface">Sincronização de Triggers</p>
+<p class="text-body-sm font-body-sm text-secondary">Reordenação automática quando atingido Ponto de Pedido</p>
+</div>
+</div>
+<div class="p-3 bg-surface-container-lowest border border-outline-variant rounded flex items-center gap-3 shadow-xs">
+<div class="w-9 h-9 rounded bg-surface-container text-secondary flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="verified_user">verified_user</span>
+</div>
+<div>
+<p class="text-label-md font-label-md font-semibold text-on-surface">Auditoria Contínua</p>
+<p class="text-body-sm font-body-sm text-secondary">Última checagem física realizada há 3 horas</p>
+</div>
+</div>
+</section>
+</main>
+</div>
+</body></html>

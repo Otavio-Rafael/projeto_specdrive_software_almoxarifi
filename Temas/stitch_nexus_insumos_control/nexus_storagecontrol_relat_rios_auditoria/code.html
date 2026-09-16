@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nexus StorageControl - Relatórios &amp; Auditoria</title>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts: Plus Jakarta Sans & Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS CDN with Plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Theme Configuration -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-tertiary-fixed": "#002113",
+            "inverse-surface": "#213145",
+            "primary": "#006972",
+            "surface-variant": "#d3e4fe",
+            "on-surface": "#0b1c30",
+            "secondary-fixed": "#dae2fd",
+            "secondary": "#565e74",
+            "on-surface-variant": "#3d494a",
+            "on-tertiary": "#ffffff",
+            "on-primary-container": "#00454c",
+            "on-secondary-container": "#5c647a",
+            "tertiary-fixed": "#6ffbbe",
+            "surface-dim": "#cbdbf5",
+            "surface-container-high": "#dce9ff",
+            "outline-variant": "#bcc9ca",
+            "tertiary": "#006c49",
+            "on-primary-fixed-variant": "#004f56",
+            "on-secondary-fixed": "#131b2e",
+            "on-secondary-fixed-variant": "#3f465c",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-low": "#eff4ff",
+            "on-tertiary-container": "#00482f",
+            "error-container": "#ffdad6",
+            "on-tertiary-fixed-variant": "#005236",
+            "inverse-on-surface": "#eaf1ff",
+            "on-error-container": "#93000a",
+            "primary-container": "#48b8c5",
+            "on-secondary": "#ffffff",
+            "tertiary-container": "#22c087",
+            "primary-fixed": "#8df2ff",
+            "surface-container": "#e5eeff",
+            "on-error": "#ffffff",
+            "outline": "#6d797b",
+            "inverse-primary": "#6ad6e3",
+            "surface": "#f8f9ff",
+            "secondary-container": "#dae2fd",
+            "on-primary": "#ffffff",
+            "background": "#f8f9ff",
+            "surface-tint": "#006972",
+            "surface-bright": "#f8f9ff",
+            "secondary-fixed-dim": "#bec6e0",
+            "error": "#ba1a1a",
+            "on-background": "#0b1c30",
+            "tertiary-fixed-dim": "#4edea3",
+            "on-primary-fixed": "#001f23",
+            "surface-container-highest": "#d3e4fe",
+            "primary-fixed-dim": "#6ad6e3"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          "spacing": {
+            "space-sm": "0.5rem",
+            "space-xl": "2rem",
+            "space-md": "0.875rem",
+            "margin": "1rem",
+            "gutter": "1rem",
+            "space-xs": "0.25rem",
+            "margin-tablet": "1.5rem",
+            "gutter-desktop": "1.5rem",
+            "space-lg": "1.25rem",
+            "margin-desktop": "2rem"
+          },
+          "fontFamily": {
+            "body-lg": ["Inter"],
+            "headline-lg": ["Plus Jakarta Sans"],
+            "data-tabular": ["Inter"],
+            "headline-md": ["Plus Jakarta Sans"],
+            "body-sm": ["Inter"],
+            "headline-xl-mobile": ["Plus Jakarta Sans"],
+            "headline-sm": ["Plus Jakarta Sans"],
+            "label-lg": ["Inter"],
+            "headline-xl": ["Plus Jakarta Sans"],
+            "label-md": ["Inter"],
+            "label-sm": ["Inter"],
+            "headline-lg-mobile": ["Plus Jakarta Sans"],
+            "body-md": ["Inter"]
+          },
+          "fontSize": {
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+            "data-tabular": ["13px", { "lineHeight": "18px", "fontWeight": "500" }],
+            "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+            "headline-xl-mobile": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "headline-sm": ["16px", { "lineHeight": "24px", "fontWeight": "600" }],
+            "label-lg": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+            "headline-xl": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "label-md": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+            "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "600" }],
+            "headline-lg-mobile": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+      font-size: 18px;
+      line-height: 1;
+    }
+    .font-num {
+      font-variant-numeric: tabular-nums;
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface antialiased min-h-screen flex flex-col font-body-md text-body-md selection:bg-primary-container selection:text-on-primary-container">
+<!-- ========================================================================= -->
+<!-- TOP APP BAR (Shared Component: TopNavBar with department links & online sync) -->
+<!-- ========================================================================= -->
+<header class="flex justify-between items-center h-14 px-gutter-desktop w-full border-b border-outline-variant bg-surface-container-lowest z-40 sticky top-0 shadow-sm">
+<!-- Left: Brand / Logo + Fast Search -->
+<div class="flex items-center gap-space-lg">
+<div class="flex items-center gap-space-xs">
+<div class="w-8 h-8 rounded-lg bg-primary text-on-primary flex items-center justify-center font-bold text-headline-sm">SC</div>
+<span class="text-headline-md font-headline-md font-bold tracking-tight text-primary">StorageControl</span>
+<span class="text-label-sm font-label-sm px-1.5 py-0.5 rounded bg-surface-container text-secondary font-semibold ml-1">v4.8</span>
+</div>
+<!-- Quick Search Bar -->
+<div class="hidden lg:flex items-center relative w-72">
+<span class="material-symbols-outlined absolute left-2.5 text-secondary">search</span>
+<input class="w-full h-8 pl-8 pr-3 text-body-sm font-body-sm bg-surface rounded border border-outline-variant focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container" placeholder="Filtrar por SKU, Hash ou Documento..." type="text"/>
+</div>
+</div>
+<!-- Center: Department Shortlinks -->
+<nav class="hidden md:flex items-center gap-space-md text-label-md font-label-md">
+<a class="text-secondary hover:text-on-surface transition-colors py-1" href="#">RH</a>
+<a class="text-secondary hover:text-on-surface transition-colors py-1" href="#">TI</a>
+<a class="text-secondary hover:text-on-surface transition-colors py-1" href="#">FIN</a>
+<a class="text-secondary hover:text-on-surface transition-colors py-1" href="#">COM</a>
+<a class="text-secondary hover:text-on-surface transition-colors py-1" href="#">LOG</a>
+<a class="text-secondary hover:text-on-surface transition-colors py-1" href="#">PROD</a>
+<a class="text-secondary hover:text-on-surface transition-colors py-1" href="#">JUR</a>
+<a class="text-secondary hover:text-on-surface transition-colors py-1" href="#">MKT</a>
+</nav>
+<!-- Right: Status Indicators (No user profile, operational focus) -->
+<div class="flex items-center gap-space-md">
+<!-- Sync Pill -->
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#ECFDF5] border border-[#A7F3D0] text-[#065F46] text-label-sm font-label-sm">
+<span class="w-2 h-2 rounded-full bg-[#10B981] animate-pulse"></span>
+<span class="font-semibold">Online (Sync)</span>
+</div>
+<!-- Icon Actions -->
+<div class="flex items-center gap-1 border-l border-outline-variant pl-space-sm text-secondary">
+<button class="p-1.5 rounded-lg hover:bg-surface-container-low transition-colors text-secondary hover:text-on-surface" title="Leitor QR Conectado">
+<span class="material-symbols-outlined">qr_code_scanner</span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-surface-container-low transition-colors text-secondary hover:text-on-surface" title="Rede Local de Alta Disponibilidade">
+<span class="material-symbols-outlined">wifi</span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-surface-container-low transition-colors text-secondary hover:text-on-surface relative" title="Alertas de Integridade">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-primary rounded-full"></span>
+</button>
+</div>
+</div>
+</header>
+<!-- ========================================================================= -->
+<!-- MAIN LAYOUT WITH FIXED SIDENAV -->
+<!-- ========================================================================= -->
+<div class="flex flex-1 w-full relative">
+<!-- SIDE NAV BAR (Shared Component: SideNavBar) -->
+<aside class="fixed left-0 top-14 h-[calc(100vh-3.5rem)] w-64 flex flex-col justify-between p-space-md bg-surface-container-lowest border-r border-outline-variant z-30 shadow-sm">
+<div class="space-y-space-md">
+<!-- Instance Header -->
+<div class="px-2 py-2.5 bg-surface rounded-lg border border-outline-variant flex items-center gap-3">
+<div class="w-9 h-9 rounded bg-primary text-on-primary flex items-center justify-center font-bold text-headline-sm">NX</div>
+<div class="overflow-hidden">
+<h2 class="text-label-lg font-label-lg text-on-surface font-semibold truncate leading-snug">Nexus Storage</h2>
+<p class="text-data-tabular font-data-tabular text-secondary text-body-sm font-num truncate">NX-INS-2026-001</p>
+</div>
+</div>
+<!-- Primary Operational Action -->
+<button class="w-full h-9 px-3 rounded-lg bg-primary hover:bg-[#389FA9] text-on-primary text-label-md font-label-md flex items-center justify-center gap-2 active:scale-[0.98] transition-all shadow-sm">
+<span class="material-symbols-outlined text-[16px]">add_circle</span>
+<span>Nova Movimentação</span>
+</button>
+<!-- Navigation Tabs -->
+<nav class="space-y-1">
+<!-- 1. Dashboard Operacional -->
+<a class="flex items-center gap-space-sm px-space-md py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors text-label-md font-label-md" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard Operacional</span>
+</a>
+<!-- 2. Catálogo Mestre -->
+<a class="flex items-center gap-space-sm px-space-md py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors text-label-md font-label-md" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span>Catálogo Mestre</span>
+</a>
+<!-- 3. Retirada & Scanner QR -->
+<a class="flex items-center gap-space-sm px-space-md py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors text-label-md font-label-md" href="#">
+<span class="material-symbols-outlined">qr_code_scanner</span>
+<span>Retirada &amp; Scanner QR</span>
+</a>
+<!-- 4. Requisições & Aprovações -->
+<a class="flex items-center gap-space-sm px-space-md py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors text-label-md font-label-md" href="#">
+<span class="material-symbols-outlined">fact_check</span>
+<span>Requisições &amp; Aprovações</span>
+</a>
+<!-- 5. Relatórios & Auditoria (ACTIVE) -->
+<a aria-current="page" class="flex items-center gap-space-sm px-space-md py-2 rounded-lg bg-surface-container text-primary font-semibold text-label-md font-label-md shadow-xs" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">analytics</span>
+<span>Relatórios &amp; Auditoria</span>
+</a>
+</nav>
+</div>
+<!-- Footer Tabs -->
+<div class="pt-4 border-t border-outline-variant space-y-1">
+<a class="flex items-center gap-space-sm px-space-md py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors text-label-md font-label-md" href="#">
+<span class="material-symbols-outlined">help</span>
+<span>Suporte Técnico</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-md py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors text-label-md font-label-md" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Configurações</span>
+</a>
+</div>
+</aside>
+<!-- ========================================================================= -->
+<!-- CONTENT CANVAS -->
+<!-- ========================================================================= -->
+<main class="flex-1 md:ml-64 p-space-lg lg:p-margin-desktop bg-background min-h-[calc(100vh-3.5rem)] space-y-space-lg">
+<!-- SECTION 1: HEADER & ACTIONS -->
+<section class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 pb-1 border-b border-outline-variant">
+<div class="space-y-1">
+<div class="flex items-center gap-3">
+<h1 class="text-headline-md font-headline-md text-on-surface font-bold tracking-tight">
+              Relatórios &amp; Trilha de Auditoria (Append-Only)
+            </h1>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#ECFDF5] border border-[#A7F3D0] text-[#065F46] text-label-sm font-label-sm font-semibold">
+<span class="material-symbols-outlined text-[15px] text-[#10B981]">verified_user</span>
+              Hash Chain SHA-256 Válida (100%)
+            </span>
+</div>
+<p class="text-body-sm font-body-sm text-secondary">
+            Registro criptográfico de movimentações sem possibilidade de mutação ou deleção física.
+          </p>
+</div>
+<div class="flex flex-wrap items-center gap-2">
+<!-- Button: Export CSV / Excel -->
+<button class="h-[38px] px-4 rounded-lg bg-surface-container-lowest border border-outline-variant hover:bg-surface-container-low text-on-surface text-label-lg font-label-lg flex items-center gap-2 transition-all active:scale-[0.98] shadow-xs">
+<span class="material-symbols-outlined text-[18px] text-primary">table_chart</span>
+<span>Exportar CSV / Excel</span>
+</button>
+<!-- Button: Emitir Laudo PDF -->
+<button class="h-[38px] px-4 rounded-lg bg-[#0F172A] hover:bg-[#1E293B] text-on-primary text-label-lg font-label-lg flex items-center gap-2 transition-all active:scale-[0.98] shadow-xs">
+<span class="material-symbols-outlined text-[18px]">picture_as_pdf</span>
+<span>Emitir Laudo PDF</span>
+</button>
+</div>
+</section>
+<!-- SECTION 2: COMPACT CONTROLS & FILTER BAR -->
+<section class="bg-surface-container-lowest p-3 rounded-lg border border-outline-variant shadow-sm flex flex-wrap items-center justify-between gap-3">
+<!-- Date / Period Scope Selector -->
+<div class="flex items-center gap-1 bg-surface p-1 rounded border border-outline-variant text-label-md font-label-md">
+<button class="px-3 py-1.5 rounded font-semibold text-secondary hover:text-on-surface transition-colors">Hoje</button>
+<button class="px-3 py-1.5 rounded font-semibold bg-primary text-on-primary shadow-xs">Últimos 7 dias</button>
+<button class="px-3 py-1.5 rounded font-semibold text-secondary hover:text-on-surface transition-colors">Mês Atual</button>
+<button class="px-3 py-1.5 rounded font-semibold text-secondary hover:text-on-surface transition-colors">Ano 2026</button>
+</div>
+<!-- Filter Dropdowns -->
+<div class="flex items-center gap-2 flex-wrap text-body-sm font-body-sm">
+<div class="flex items-center gap-1.5 text-secondary">
+<span class="material-symbols-outlined text-[18px]">filter_alt</span>
+<span class="text-label-md font-label-md text-on-surface">Filtros:</span>
+</div>
+<!-- Departamentos Dropdown -->
+<select class="h-8 px-2.5 py-0 bg-surface border border-outline-variant rounded text-on-surface text-label-md font-label-md focus:border-primary-container focus:ring-1 focus:ring-primary-container">
+<option selected="">Todos os Departamentos</option>
+<option>TI / Infraestrutura</option>
+<option>RH / Gente &amp; Gestão</option>
+<option>Produção / Laboratório</option>
+<option>Almoxarifado Central</option>
+<option>Financeiro &amp; Controladoria</option>
+</select>
+<!-- Tipo de Operação -->
+<select class="h-8 px-2.5 py-0 bg-surface border border-outline-variant rounded text-on-surface text-label-md font-label-md focus:border-primary-container focus:ring-1 focus:ring-primary-container">
+<option selected="">Todas as Operações</option>
+<option>SAÍDA EXPRESSA</option>
+<option>ENTRADA LOTE</option>
+<option>BAIXA VENCIDO</option>
+<option>DEVOLUÇÃO</option>
+</select>
+<!-- Quick Refresh Action -->
+<button class="h-8 w-8 rounded border border-outline-variant flex items-center justify-center text-secondary hover:bg-surface hover:text-on-surface transition-colors" title="Atualizar dados agora">
+<span class="material-symbols-outlined text-[16px]">sync</span>
+</button>
+</div>
+</section>
+<!-- SECTION 3: RESUMO DE AUDITORIA & COMPLIANCE (3 KPI CARDS) -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<!-- Card 1: Total Movimentações -->
+<div class="bg-surface-container-lowest rounded-lg border border-outline-variant p-4 shadow-sm relative overflow-hidden">
+<div class="absolute top-0 left-0 right-0 h-1 bg-primary"></div>
+<div class="flex items-start justify-between">
+<div>
+<p class="text-label-sm font-label-sm text-secondary uppercase font-semibold">Total de Movimentações</p>
+<h3 class="text-headline-lg font-headline-lg text-on-surface mt-1 font-num">1.482</h3>
+<p class="text-body-sm font-body-sm text-secondary mt-0.5">registros auditados no período</p>
+</div>
+<div class="w-9 h-9 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">receipt_long</span>
+</div>
+</div>
+<div class="mt-3 pt-3 border-t border-[#F1F5F9] flex items-center gap-1.5 text-label-sm font-label-sm text-[#065F46] font-semibold">
+<span class="w-2 h-2 rounded-full bg-[#10B981]"></span>
+<span>0 inconformidades ou desvios detectados</span>
+</div>
+</div>
+<!-- Card 2: Perdas Evitadas -->
+<div class="bg-surface-container-lowest rounded-lg border border-outline-variant p-4 shadow-sm relative overflow-hidden">
+<div class="absolute top-0 left-0 right-0 h-1 bg-tertiary-container"></div>
+<div class="flex items-start justify-between">
+<div>
+<p class="text-label-sm font-label-sm text-secondary uppercase font-semibold">Perdas Evitadas no Ano</p>
+<h3 class="text-headline-lg font-headline-lg text-on-surface mt-1 font-num">R$ 288.400,00</h3>
+<p class="text-body-sm font-body-sm text-secondary mt-0.5">por controle FIFO e alerta de vencimento</p>
+</div>
+<div class="w-9 h-9 rounded-lg bg-[#ECFDF5] flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined">savings</span>
+</div>
+</div>
+<div class="mt-3 pt-3 border-t border-[#F1F5F9] flex items-center justify-between text-label-sm font-label-sm">
+<span class="text-secondary font-semibold">Meta de Salvaguarda: R$ 320k</span>
+<span class="font-bold text-primary font-num">90.1%</span>
+</div>
+</div>
+<!-- Card 3: Tempo Médio de Baixa -->
+<div class="bg-surface-container-lowest rounded-lg border border-outline-variant p-4 shadow-sm relative overflow-hidden">
+<div class="absolute top-0 left-0 right-0 h-1 bg-primary-container"></div>
+<div class="flex items-start justify-between">
+<div>
+<p class="text-label-sm font-label-sm text-secondary uppercase font-semibold">Tempo Médio de Baixa</p>
+<h3 class="text-headline-lg font-headline-lg text-on-surface mt-1 font-num">18.4s</h3>
+<p class="text-body-sm font-body-sm text-secondary mt-0.5">da leitura do QR ao commit em blockchain/log</p>
+</div>
+<div class="w-9 h-9 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">timer</span>
+</div>
+</div>
+<div class="mt-3 pt-3 border-t border-[#F1F5F9] flex items-center gap-1.5 text-label-sm font-label-sm text-[#065F46] font-semibold">
+<span class="material-symbols-outlined text-[16px] text-[#10B981]">bolt</span>
+<span>Meta SLA &lt; 30s cumprida com folga (+38% vel.)</span>
+</div>
+</div>
+</section>
+<!-- SECTION 4: TABELA DE LOG DE AUDITORIA IMUTÁVEL (Append-Only) -->
+<section class="bg-surface-container-lowest rounded-lg border border-outline-variant shadow-sm overflow-hidden">
+<!-- Table Header Bar -->
+<div class="px-4 py-3 border-b border-outline-variant flex flex-wrap items-center justify-between gap-2 bg-surface">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">lock_clock</span>
+<h2 class="text-label-lg font-label-lg text-on-surface font-semibold">
+              public.log_auditoria (Append-Only Table)
+            </h2>
+<span class="text-label-sm font-label-sm text-secondary font-mono bg-surface-container px-2 py-0.5 rounded">BLOCK_SEQ #1482</span>
+</div>
+<div class="flex items-center gap-2 text-label-sm font-label-sm text-secondary">
+<span>Ordem: Decrescente temporal</span>
+<span class="w-1 h-1 bg-outline rounded-full"></span>
+<span class="text-primary font-medium">Auto-sync ativado (3s)</span>
+</div>
+</div>
+<!-- High-Density Responsive Table -->
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface border-b border-outline-variant text-label-sm font-label-sm text-secondary uppercase tracking-wider">
+<th class="py-2.5 px-3">ID / Documento</th>
+<th class="py-2.5 px-3">Data &amp; Hora</th>
+<th class="py-2.5 px-3">Operação</th>
+<th class="py-2.5 px-3">Insumo &amp; SKU</th>
+<th class="py-2.5 px-3 text-right">Qtd</th>
+<th class="py-2.5 px-3">Departamento</th>
+<th class="py-2.5 px-3">Motivo / Justificativa</th>
+<th class="py-2.5 px-3 font-mono">Hash SHA-256</th>
+<th class="py-2.5 px-3 text-center">Integridade</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-[#F1F5F9] text-data-tabular font-data-tabular">
+<!-- Linha 1 -->
+<tr class="hover:bg-surface transition-colors">
+<td class="py-2.5 px-3 font-mono font-semibold text-primary">MOV-20260915-000142</td>
+<td class="py-2.5 px-3 text-secondary font-num">15/09/2026 14:42:18</td>
+<td class="py-2.5 px-3">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-label-sm font-label-sm font-semibold bg-[#ECFDF5] text-[#065F46] border border-[#A7F3D0]">
+                    SAÍDA EXPRESSA
+                  </span>
+</td>
+<td class="py-2.5 px-3">
+<div class="font-medium text-on-surface">Cabo de Rede Patch Cord Cat6 2m</div>
+<div class="text-secondary text-body-sm font-mono text-[11px]">NX-INS-TI-00043</div>
+</td>
+<td class="py-2.5 px-3 text-right font-semibold font-num text-on-surface">3 un</td>
+<td class="py-2.5 px-3 text-on-surface">TI / Redes</td>
+<td class="py-2.5 px-3 text-secondary max-w-[220px] truncate" title="Manutenção preventiva rack sala 02">
+                  Manutenção preventiva rack sala 02
+                </td>
+<td class="py-2.5 px-3 font-mono text-secondary">
+<div class="flex items-center gap-1">
+<span class="text-[12px] text-on-surface-variant font-medium">e3b0c44298fc1c14...</span>
+<button class="p-1 hover:bg-surface-container rounded text-secondary hover:text-primary transition-colors" onclick="navigator.clipboard.writeText('e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855')" title="Copiar Hash SHA-256 completo">
+<span class="material-symbols-outlined text-[14px]">content_copy</span>
+</button>
+</div>
+</td>
+<td class="py-2.5 px-3 text-center">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#ECFDF5] text-[#065F46] text-label-sm font-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-[#10B981]"></span>
+                    Verificado
+                  </span>
+</td>
+</tr>
+<!-- Linha 2 -->
+<tr class="hover:bg-surface transition-colors">
+<td class="py-2.5 px-3 font-mono font-semibold text-primary">MOV-20260915-000141</td>
+<td class="py-2.5 px-3 text-secondary font-num">15/09/2026 14:15:02</td>
+<td class="py-2.5 px-3">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-label-sm font-label-sm font-semibold bg-[#ECFDF5] text-[#065F46] border border-[#A7F3D0]">
+                    SAÍDA EXPRESSA
+                  </span>
+</td>
+<td class="py-2.5 px-3">
+<div class="font-medium text-on-surface">Resma Papel Sulfite A4 75g</div>
+<div class="text-secondary text-body-sm font-mono text-[11px]">NX-INS-RH-00015</div>
+</td>
+<td class="py-2.5 px-3 text-right font-semibold font-num text-on-surface">2 un</td>
+<td class="py-2.5 px-3 text-on-surface">RH / Recrutamento</td>
+<td class="py-2.5 px-3 text-secondary max-w-[220px] truncate" title="Impressão de provas de admissão">
+                  Impressão de provas de admissão
+                </td>
+<td class="py-2.5 px-3 font-mono text-secondary">
+<div class="flex items-center gap-1">
+<span class="text-[12px] text-on-surface-variant font-medium">7f83b1657ff1fc53...</span>
+<button class="p-1 hover:bg-surface-container rounded text-secondary hover:text-primary transition-colors" onclick="navigator.clipboard.writeText('7f83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d677284addd200126d9069')" title="Copiar Hash SHA-256 completo">
+<span class="material-symbols-outlined text-[14px]">content_copy</span>
+</button>
+</div>
+</td>
+<td class="py-2.5 px-3 text-center">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#ECFDF5] text-[#065F46] text-label-sm font-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-[#10B981]"></span>
+                    Verificado
+                  </span>
+</td>
+</tr>
+<!-- Linha 3 -->
+<tr class="hover:bg-surface transition-colors">
+<td class="py-2.5 px-3 font-mono font-semibold text-primary">MOV-20260915-000140</td>
+<td class="py-2.5 px-3 text-secondary font-num">15/09/2026 12:48:40</td>
+<td class="py-2.5 px-3">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-label-sm font-label-sm font-semibold bg-surface-container text-primary border border-outline-variant">
+                    ENTRADA LOTE
+                  </span>
+</td>
+<td class="py-2.5 px-3">
+<div class="font-medium text-on-surface">Reagente Concentrado Neutro 5L</div>
+<div class="text-secondary text-body-sm font-mono text-[11px]">NX-INS-PR-00112</div>
+</td>
+<td class="py-2.5 px-3 text-right font-semibold font-num text-on-surface">15 bm</td>
+<td class="py-2.5 px-3 text-on-surface">Produção / Lab</td>
+<td class="py-2.5 px-3 text-secondary max-w-[220px] truncate" title="Nota Fiscal NF-e 88921 - Lote PR-CHE-2024-11">
+                  Nota Fiscal NF-e 88921 - Lote PR-CHE-2024-11
+                </td>
+<td class="py-2.5 px-3 font-mono text-secondary">
+<div class="flex items-center gap-1">
+<span class="text-[12px] text-on-surface-variant font-medium">9b6a56604412e8dc...</span>
+<button class="p-1 hover:bg-surface-container rounded text-secondary hover:text-primary transition-colors" onclick="navigator.clipboard.writeText('9b6a56604412e8dc836841f31f82c1d524ec37108603b8b59146020ace0613b7')" title="Copiar Hash SHA-256 completo">
+<span class="material-symbols-outlined text-[14px]">content_copy</span>
+</button>
+</div>
+</td>
+<td class="py-2.5 px-3 text-center">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#ECFDF5] text-[#065F46] text-label-sm font-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-[#10B981]"></span>
+                    Verificado
+                  </span>
+</td>
+</tr>
+<!-- Linha 4 -->
+<tr class="hover:bg-surface transition-colors">
+<td class="py-2.5 px-3 font-mono font-semibold text-primary">MOV-20260915-000139</td>
+<td class="py-2.5 px-3 text-secondary font-num">15/09/2026 10:12:15</td>
+<td class="py-2.5 px-3">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-label-sm font-label-sm font-semibold bg-[#FEE2E2] text-[#991B1B] border border-[#FECACA]">
+                    BAIXA VENCIDO
+                  </span>
+</td>
+<td class="py-2.5 px-3">
+<div class="font-medium text-on-surface">Toner HP Laser Color Cyan</div>
+<div class="text-secondary text-body-sm font-mono text-[11px]">NX-INS-TI-00043</div>
+</td>
+<td class="py-2.5 px-3 text-right font-semibold font-num text-on-surface">1 un</td>
+<td class="py-2.5 px-3 text-on-surface">Almoxarifado Central</td>
+<td class="py-2.5 px-3 text-secondary max-w-[220px] truncate" title="Descarte preventivo conforme regra OE2">
+                  Descarte preventivo conforme regra OE2
+                </td>
+<td class="py-2.5 px-3 font-mono text-secondary">
+<div class="flex items-center gap-1">
+<span class="text-[12px] text-on-surface-variant font-medium">2c26b46b68ffc68f...</span>
+<button class="p-1 hover:bg-surface-container rounded text-secondary hover:text-primary transition-colors" onclick="navigator.clipboard.writeText('2c26b46b68ffc68ff99b453c1d30413413422d706483bfa0f98a5e886266e7ae')" title="Copiar Hash SHA-256 completo">
+<span class="material-symbols-outlined text-[14px]">content_copy</span>
+</button>
+</div>
+</td>
+<td class="py-2.5 px-3 text-center">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#ECFDF5] text-[#065F46] text-label-sm font-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-[#10B981]"></span>
+                    Verificado
+                  </span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Footer / Pagination -->
+<div class="p-3 bg-surface border-t border-outline-variant flex flex-wrap items-center justify-between text-label-md font-label-md">
+<div class="text-secondary">
+            Mostrando <span class="font-semibold text-on-surface">1 a 4</span> de <span class="font-semibold text-on-surface">1.482</span> registros de auditoria
+          </div>
+<div class="flex items-center gap-1">
+<button class="px-2.5 py-1 rounded border border-outline-variant bg-surface-container-lowest text-secondary disabled:opacity-50" disabled="">Anterior</button>
+<button class="px-2.5 py-1 rounded bg-primary text-on-primary font-semibold shadow-xs">1</button>
+<button class="px-2.5 py-1 rounded border border-outline-variant bg-surface-container-lowest text-secondary hover:bg-surface">2</button>
+<button class="px-2.5 py-1 rounded border border-outline-variant bg-surface-container-lowest text-secondary hover:bg-surface">3</button>
+<span class="px-1 text-secondary">...</span>
+<button class="px-2.5 py-1 rounded border border-outline-variant bg-surface-container-lowest text-secondary hover:bg-surface">371</button>
+<button class="px-2.5 py-1 rounded border border-outline-variant bg-surface-container-lowest text-secondary hover:bg-surface">Próximo</button>
+</div>
+</div>
+</section>
+<!-- SECTION 5: VERIFICADOR DE HASH RÁPIDO -->
+<section class="bg-surface-container-lowest rounded-lg border border-outline-variant p-4 shadow-sm">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary">fingerprint</span>
+<h2 class="text-label-lg font-label-lg text-on-surface font-semibold">Verificador de Hash Rápido (Autenticidade Criptográfica)</h2>
+</div>
+<p class="text-body-sm font-body-sm text-secondary mb-3">
+          Cole qualquer identificador de hash SHA-256 extraído de recibos físicos, etiquetas térmicas QR ou laudos emitidos para validar a árvore de integridade no nó mestre do ERP.
+        </p>
+<div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+<div class="relative flex-1">
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-secondary text-[18px]">key</span>
+<input class="w-full h-[38px] pl-9 pr-4 font-mono text-[13px] bg-surface rounded-lg border border-outline-variant focus:outline-none focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 text-on-surface" id="hashInput" placeholder="Ex: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855..." type="text" value="e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"/>
+</div>
+<button class="h-[38px] px-5 rounded-lg bg-primary hover:bg-[#389FA9] text-on-primary text-label-lg font-label-lg flex items-center justify-center gap-2 transition-all active:scale-[0.98] shadow-xs shrink-0" id="btnValidar">
+<span class="material-symbols-outlined text-[18px]">gavel</span>
+<span>Validar na Árvore Merkle</span>
+</button>
+</div>
+<!-- Dynamic Validation Result Feedback -->
+<div class="mt-3 p-3 rounded-lg bg-[#ECFDF5] border border-[#A7F3D0] flex items-center justify-between" id="validationResult">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-[#10B981] text-[20px]">check_circle</span>
+<div>
+<p class="text-label-md font-label-md text-[#065F46] font-semibold">Hash Verificado &amp; Imutável</p>
+<p class="text-body-sm font-body-sm text-[#065F46]/90">
+                Vinculado ao registro <strong>MOV-20260915-000142</strong> confirmado no bloco local #1482 com 12 peers síncronos.
+              </p>
+</div>
+</div>
+<span class="text-label-sm font-label-sm font-mono text-[#065F46] bg-white/70 px-2 py-1 rounded border border-[#A7F3D0]">LATÊNCIA: 1.2ms</span>
+</div>
+</section>
+</main>
+</div>
+<!-- Inline Lightweight Micro-Interactions -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const btnValidar = document.getElementById('btnValidar');
+      const hashInput = document.getElementById('hashInput');
+      const validationResult = document.getElementById('validationResult');
+
+      if (btnValidar && hashInput && validationResult) {
+        btnValidar.addEventListener('click', () => {
+          const val = hashInput.value.trim();
+          if (!val) {
+            validationResult.className = "mt-3 p-3 rounded-lg bg-[#FEF3C7] border border-[#FDE68A] flex items-center justify-between";
+            validationResult.innerHTML = `
+              <div class="flex items-center gap-2.5">
+                <span class="material-symbols-outlined text-[#D97706] text-[20px]">warning</span>
+                <div>
+                  <p class="text-label-md font-label-md text-[#92400E] font-semibold">Insira uma Hash Válida</p>
+                  <p class="text-body-sm font-body-sm text-[#92400E]/90">O campo de validação não pode estar vazio para consulta de árvore.</p>
+                </div>
+              </div>
+            `;
+            return;
+          }
+
+          // Simulation of instant merkle verification
+          validationResult.className = "mt-3 p-3 rounded-lg bg-[#ECFDF5] border border-[#A7F3D0] flex items-center justify-between";
+          validationResult.innerHTML = `
+            <div class="flex items-center gap-2.5">
+              <span class="material-symbols-outlined text-[#10B981] text-[20px]">check_circle</span>
+              <div>
+                <p class="text-label-md font-label-md text-[#065F46] font-semibold">Hash Verificado &amp; Imutável</p>
+                <p class="text-body-sm font-body-sm text-[#065F46]/90">
+                  Assinatura criptográfica conferida com sucesso no banco de auditoria (Append-Only).
+                </p>
+              </div>
+            </div>
+            <span class="text-label-sm font-label-sm font-mono text-[#065F46] bg-white/70 px-2 py-1 rounded border border-[#A7F3D0]">CONFIRMADO (SHA-256)</span>
+          `;
+        });
+      }
+    });
+  </script>
+</body></html>

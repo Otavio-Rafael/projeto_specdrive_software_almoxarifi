@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+
+<html class="h-full bg-surface" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nexus StorageControl - Nova Movimentação</title>
+<!-- Google Fonts: Plus Jakarta Sans & Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration verbatim -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-tertiary-fixed": "#002113",
+            "inverse-surface": "#213145",
+            "primary": "#006972",
+            "surface-variant": "#d3e4fe",
+            "on-surface": "#0b1c30",
+            "secondary-fixed": "#dae2fd",
+            "secondary": "#565e74",
+            "on-surface-variant": "#3d494a",
+            "on-tertiary": "#ffffff",
+            "on-primary-container": "#00454c",
+            "on-secondary-container": "#5c647a",
+            "tertiary-fixed": "#6ffbbe",
+            "surface-dim": "#cbdbf5",
+            "surface-container-high": "#dce9ff",
+            "outline-variant": "#bcc9ca",
+            "tertiary": "#006c49",
+            "on-primary-fixed-variant": "#004f56",
+            "on-secondary-fixed": "#131b2e",
+            "on-secondary-fixed-variant": "#3f465c",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-low": "#eff4ff",
+            "on-tertiary-container": "#00482f",
+            "error-container": "#ffdad6",
+            "on-tertiary-fixed-variant": "#005236",
+            "inverse-on-surface": "#eaf1ff",
+            "on-error-container": "#93000a",
+            "primary-container": "#48b8c5",
+            "on-secondary": "#ffffff",
+            "tertiary-container": "#22c087",
+            "primary-fixed": "#8df2ff",
+            "surface-container": "#e5eeff",
+            "on-error": "#ffffff",
+            "outline": "#6d797b",
+            "inverse-primary": "#6ad6e3",
+            "surface": "#f8f9ff",
+            "secondary-container": "#dae2fd",
+            "on-primary": "#ffffff",
+            "background": "#f8f9ff",
+            "surface-tint": "#006972",
+            "surface-bright": "#f8f9ff",
+            "secondary-fixed-dim": "#bec6e0",
+            "error": "#ba1a1a",
+            "on-background": "#0b1c30",
+            "tertiary-fixed-dim": "#4edea3",
+            "on-primary-fixed": "#001f23",
+            "surface-container-highest": "#d3e4fe",
+            "primary-fixed-dim": "#6ad6e3"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          "spacing": {
+            "space-sm": "0.5rem",
+            "space-xl": "2rem",
+            "space-md": "0.875rem",
+            "margin": "1rem",
+            "gutter": "1rem",
+            "space-xs": "0.25rem",
+            "margin-tablet": "1.5rem",
+            "gutter-desktop": "1.5rem",
+            "space-lg": "1.25rem",
+            "margin-desktop": "2rem"
+          },
+          "fontFamily": {
+            "body-lg": ["Inter"],
+            "headline-lg": ["Plus Jakarta Sans"],
+            "data-tabular": ["Inter"],
+            "headline-md": ["Plus Jakarta Sans"],
+            "body-sm": ["Inter"],
+            "headline-xl-mobile": ["Plus Jakarta Sans"],
+            "headline-sm": ["Plus Jakarta Sans"],
+            "label-lg": ["Inter"],
+            "headline-xl": ["Plus Jakarta Sans"],
+            "label-md": ["Inter"],
+            "label-sm": ["Inter"],
+            "headline-lg-mobile": ["Plus Jakarta Sans"],
+            "body-md": ["Inter"]
+          },
+          "fontSize": {
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+            "data-tabular": ["13px", { "lineHeight": "18px", "fontWeight": "500" }],
+            "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+            "headline-xl-mobile": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "headline-sm": ["16px", { "lineHeight": "24px", "fontWeight": "600" }],
+            "label-lg": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+            "headline-xl": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "label-md": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+            "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "600" }],
+            "headline-lg-mobile": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }]
+          }
+        }
+      }
+    };
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-family: 'Material Symbols Outlined';
+      font-weight: normal;
+      font-style: normal;
+      font-size: 20px;
+      line-height: 1;
+      display: inline-block;
+      text-transform: none;
+      letter-spacing: normal;
+      word-wrap: normal;
+      white-space: nowrap;
+      direction: ltr;
+      -webkit-font-smoothing: antialiased;
+    }
+  </style>
+</head>
+<body class="h-full bg-background text-on-surface font-body-md text-body-md antialiased flex flex-col selection:bg-primary-container selection:text-on-primary-container">
+<!-- TOP NAVBAR -->
+<header class="flex justify-between items-center h-14 px-gutter-desktop w-full border-b border-outline-variant bg-surface-container-lowest z-40 sticky top-0 shadow-sm">
+<!-- Brand & Search Bar (Left aligned) -->
+<div class="flex items-center gap-space-lg">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-primary text-on-primary flex items-center justify-center font-headline-sm font-bold shadow-sm">
+          SC
+        </div>
+<span class="text-headline-sm font-headline-sm font-bold tracking-tight text-primary">
+          StorageControl
+        </span>
+</div>
+<!-- Global SKU Search -->
+<div class="relative w-72 hidden md:block">
+<span class="absolute inset-y-0 left-0 flex items-center pl-space-sm pointer-events-none text-secondary">
+<span class="material-symbols-outlined text-[18px]">search</span>
+</span>
+<input class="w-full h-8 pl-8 pr- space-sm bg-surface-container-low border border-outline-variant rounded-lg text-body-sm font-body-sm text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-secondary" placeholder="Buscar insumo por SKU, lote ou código..." type="text"/>
+<span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none text-[10px] font-label-sm text-secondary bg-surface-container px-1 py-0.5 my-1.5 mr-1.5 rounded">
+          ⌘K
+        </span>
+</div>
+</div>
+<!-- Department Navigation Shortcuts -->
+<nav class="hidden lg:flex items-center gap-space-md text-label-md font-label-md">
+<a class="text-secondary hover:text-on-surface transition-colors pb-1" href="#">RH</a>
+<a class="text-primary border-b-2 border-primary font-semibold pb-1" href="#">TI</a>
+<a class="text-secondary hover:text-on-surface transition-colors pb-1" href="#">FIN</a>
+<a class="text-secondary hover:text-on-surface transition-colors pb-1" href="#">COM</a>
+<a class="text-secondary hover:text-on-surface transition-colors pb-1" href="#">LOG</a>
+<a class="text-secondary hover:text-on-surface transition-colors pb-1" href="#">PROD</a>
+<a class="text-secondary hover:text-on-surface transition-colors pb-1" href="#">JUR</a>
+<a class="text-secondary hover:text-on-surface transition-colors pb-1" href="#">MKT</a>
+</nav>
+<!-- Trailing System Actions & Status (No user profile) -->
+<div class="flex items-center gap-space-md">
+<!-- Sync Status -->
+<div class="flex items-center gap-1.5 px-space-sm py-1 rounded-full bg-surface-container border border-outline-variant">
+<span class="w-2 h-2 rounded-full bg-tertiary-container animate-pulse"></span>
+<span class="text-label-sm font-label-sm text-primary font-semibold">Online (Sync)</span>
+</div>
+<div class="h-4 w-px bg-outline-variant"></div>
+<!-- Quick Action Icons -->
+<div class="flex items-center gap-1 text-secondary">
+<button class="p-1.5 hover:bg-surface-container-low hover:text-primary rounded-lg transition-colors" title="Scanner QR" type="button">
+<span class="material-symbols-outlined">qr_code_scanner</span>
+</button>
+<button class="p-1.5 hover:bg-surface-container-low hover:text-primary rounded-lg transition-colors" title="Status da Conexão" type="button">
+<span class="material-symbols-outlined">wifi</span>
+</button>
+<button class="p-1.5 hover:bg-surface-container-low hover:text-primary rounded-lg transition-colors relative" title="Notificações" type="button">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-error rounded-full"></span>
+</button>
+</div>
+</div>
+</header>
+<!-- APP SHELL CONTAINER -->
+<div class="flex flex-1 overflow-hidden">
+<!-- SIDE NAVBAR -->
+<aside class="w-64 flex-shrink-0 flex flex-col justify-between p-space-md bg-surface-container-lowest border-r border-outline-variant z-30">
+<!-- Top Group -->
+<div class="flex flex-col gap-space-lg">
+<!-- Brand/Dep Header inside Rail -->
+<div class="px-space-sm pb-space-sm border-b border-outline-variant">
+<div class="text-headline-sm font-headline-sm font-bold text-primary">Nexus Storage</div>
+<div class="text-body-sm font-body-sm text-secondary font-data-tabular">NX-INS-2026-001</div>
+</div>
+<!-- Prominent CTA: Nova Movimentação (Active Context) -->
+<button class="w-full flex items-center justify-center gap-2 py-2 px-3 bg-primary text-on-primary rounded-lg font-label-lg text-label-lg shadow-sm hover:bg-on-primary-container transition-all active:scale-[0.98]" type="button">
+<span class="material-symbols-outlined text-[18px]">add_box</span>
+<span>Nova Movimentação</span>
+</button>
+<!-- Navigation Links -->
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-label-md font-label-md">Dashboard Operacional</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="text-label-md font-label-md">Catálogo Mestre</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors" href="#">
+<span class="material-symbols-outlined">qr_code_scanner</span>
+<span class="text-label-md font-label-md">Retirada &amp; Scanner QR</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors" href="#">
+<span class="material-symbols-outlined">fact_check</span>
+<span class="text-label-md font-label-md">Requisições &amp; Aprovações</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="text-label-md font-label-md">Relatórios &amp; Auditoria</span>
+</a>
+</nav>
+</div>
+<!-- Bottom System Links -->
+<div class="flex flex-col gap-1 pt-space-sm border-t border-outline-variant">
+<a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="text-label-md font-label-md">Suporte Técnico</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-label-md font-label-md">Configurações</span>
+</a>
+</div>
+</aside>
+<!-- MAIN CONTENT CANVAS -->
+<main class="flex-1 overflow-y-auto bg-surface p-space-lg md:p-space-xl flex flex-col justify-between">
+<div class="max-w-6xl mx-auto w-full space-y-space-md">
+<!-- 1. COMPACT HEADER -->
+<div class="flex flex-wrap items-center justify-between gap-space-sm pb-space-sm border-b border-outline-variant">
+<div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">swap_horiz</span>
+<h1 class="text-headline-md font-headline-md font-bold text-on-surface">
+                Registrar Nova Movimentação de Estoque
+              </h1>
+</div>
+<p class="text-body-sm font-body-sm text-secondary mt-0.5">
+              Entrada, Saída Avulsa, Transferência Interna ou Descarte
+            </p>
+</div>
+<!-- Realtime Session Tag -->
+<div class="flex items-center gap-2 bg-surface-container-lowest px-3 py-1 rounded border border-outline-variant text-label-sm font-label-sm text-secondary">
+<span>Operador Atual:</span>
+<span class="font-data-tabular font-semibold text-on-surface">TERMINAL-TI-04</span>
+</div>
+</div>
+<!-- 2. MOVEMENT TYPE SELECTOR (Visual Segmented Buttons) -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+<!-- Option 1 (Selected by default) -->
+<button class="flex items-center gap-2.5 px-3 py-2.5 rounded-lg border-2 border-primary bg-surface-container-lowest text-primary shadow-sm font-label-md text-label-md text-left transition-all" type="button">
+<div class="w-7 h-7 rounded bg-primary-container text-on-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">arrow_outward</span>
+</div>
+<div class="leading-tight">
+<span class="font-bold block">Saída de Estoque</span>
+<span class="text-[11px] text-secondary font-normal">Baixa / Consumo</span>
+</div>
+</button>
+<!-- Option 2 -->
+<button class="flex items-center gap-2.5 px-3 py-2.5 rounded-lg border border-outline-variant bg-surface-container-lowest hover:border-outline text-secondary hover:text-on-surface shadow-sm font-label-md text-label-md text-left transition-all" type="button">
+<div class="w-7 h-7 rounded bg-surface-container text-secondary flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">arrow_downward</span>
+</div>
+<div class="leading-tight">
+<span class="font-semibold block text-on-surface">Entrada de Mercadoria</span>
+<span class="text-[11px] text-secondary font-normal">Novo Lote / Fornecedor</span>
+</div>
+</button>
+<!-- Option 3 -->
+<button class="flex items-center gap-2.5 px-3 py-2.5 rounded-lg border border-outline-variant bg-surface-container-lowest hover:border-outline text-secondary hover:text-on-surface shadow-sm font-label-md text-label-md text-left transition-all" type="button">
+<div class="w-7 h-7 rounded bg-surface-container text-secondary flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">sync_alt</span>
+</div>
+<div class="leading-tight">
+<span class="font-semibold block text-on-surface">Transferência Interna</span>
+<span class="text-[11px] text-secondary font-normal">Entre Almoxarifados</span>
+</div>
+</button>
+<!-- Option 4 -->
+<button class="flex items-center gap-2.5 px-3 py-2.5 rounded-lg border border-outline-variant bg-surface-container-lowest hover:border-outline text-secondary hover:text-on-surface shadow-sm font-label-md text-label-md text-left transition-all" type="button">
+<div class="w-7 h-7 rounded bg-surface-container text-secondary flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">delete_sweep</span>
+</div>
+<div class="leading-tight">
+<span class="font-semibold block text-on-surface">Baixa por Validade</span>
+<span class="text-[11px] text-secondary font-normal">Descarte / Avaria</span>
+</div>
+</button>
+</div>
+<!-- 3. MAIN WORKFLOW FORM (2 Columns Grid) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg">
+<!-- LEFT COLUMN (Item & Batch Selection) - 6 cols -->
+<div class="lg:col-span-6 space-y-space-md">
+<!-- Insumo Search & Auto-complete Section -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl border border-outline-variant shadow-sm space-y-3">
+<div class="flex items-center justify-between">
+<label class="text-label-md font-label-md text-on-surface font-semibold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-primary">category</span>
+                  Insumo / Artigo
+                </label>
+<span class="text-label-sm font-label-sm text-secondary">Auto-complete ativo</span>
+</div>
+<!-- Input with selected value -->
+<div class="relative">
+<input class="w-full h-10 px-3 pl-9 bg-surface border border-outline-variant rounded-lg text-body-md font-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary font-medium" type="text" value="Toner HP Laser Color 507A (NX-INS-TI-00043)"/>
+<span class="absolute inset-y-0 left-0 flex items-center pl-2.5 pointer-events-none text-primary">
+<span class="material-symbols-outlined text-[18px]">check_circle</span>
+</span>
+<button class="absolute inset-y-0 right-0 flex items-center pr-2.5 text-secondary hover:text-on-surface" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<!-- Compact Item Preview Card -->
+<div class="bg-surface-container-low border border-outline-variant rounded-lg p-3 flex gap-3 items-center">
+<!-- Thumbnail / Placeholder -->
+<div class="w-16 h-16 rounded border border-outline-variant overflow-hidden flex-shrink-0 bg-surface-container flex items-center justify-center">
+<img class="w-full h-full object-cover" data-alt="Industrial laser printer color toner cartridge in professional warehouse packaging, crisp product photography on a neutral slate studio surface with clean, directional light highlights, high contrast and modern inventory aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHWe-7UQTqa1t5dwOAFGQH-lyOlaptrzq8VIuWZhy-v0Nb577rWYkJPXllV1OPHK67NOBi2tKZ53WIO2DRmXm2DRa6SQYJD1B8gVPs1ovCM8_BJnUPVPQ4ANvp9oxHL6IU1VbkztagEnUwabNYFXxd3lItxdtTEgt7aYMRNrcBhzzpMSYfYcrNY0-V6foaApHdklBIfEkB53m5Gdhk9vSODl5HMKIEomaxqWV5UyhtHGrgicETwE6_wg"/>
+</div>
+<!-- Item Attributes -->
+<div class="flex-1 min-w-0 space-y-1">
+<div class="flex items-center justify-between">
+<span class="text-label-sm font-label-sm text-secondary">Custo Unitário:</span>
+<span class="text-body-sm font-data-tabular font-bold text-on-surface">R$ 48,50</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-label-sm font-label-sm text-secondary">Estoque Disponível:</span>
+<span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-[#ECFDF5] text-[#065F46] text-label-sm font-data-tabular font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-[#10B981]"></span>
+                      14 un
+                    </span>
+</div>
+<div class="flex items-center justify-between text-body-sm font-body-sm text-secondary">
+<span class="text-label-sm font-label-sm">Localização:</span>
+<span class="text-on-surface truncate font-data-tabular text-right">Almoxarifado TI - Corredor B-04</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Batch Selector Section -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl border border-outline-variant shadow-sm space-y-2">
+<label class="text-label-md font-label-md text-on-surface font-semibold flex items-center justify-between">
+<span class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-primary">barcode_reader</span>
+                  Lote &amp; Critério FIFO
+                </span>
+<span class="text-[11px] text-[#065F46] bg-[#ECFDF5] px-1.5 py-0.5 rounded font-medium">FIFO Automático Ativo</span>
+</label>
+<select class="w-full h-10 px-3 bg-surface border border-outline-variant rounded-lg text-body-md font-data-tabular text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary">
+<option selected="">Lote TI-2025-099B (Venc: 18/09/2026 - FIFO Automático)</option>
+<option>Lote TI-2025-104A (Venc: 12/11/2026)</option>
+<option>Lote TI-2026-003C (Venc: 04/02/2027)</option>
+</select>
+<div class="flex items-center justify-between pt-1 text-[11px] text-secondary">
+<span>Rastreabilidade vinculada à Anvisa / Fiscal</span>
+<span class="font-data-tabular">Saldo no lote: 10 un</span>
+</div>
+</div>
+</div>
+<!-- RIGHT COLUMN (Movement Parameters) - 6 cols -->
+<div class="lg:col-span-6 space-y-space-md">
+<div class="bg-surface-container-lowest p-space-md rounded-xl border border-outline-variant shadow-sm space-y-space-md">
+<!-- Department Dropdown -->
+<div>
+<label class="block text-label-md font-label-md text-on-surface font-semibold mb-1.5">
+                  Departamento Destino
+                </label>
+<div class="relative">
+<select class="w-full h-10 px-3 bg-surface border border-outline-variant rounded-lg text-body-md font-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary">
+<option value="RH">RH - Recursos Humanos</option>
+<option selected="" value="TI">TI - Tecnologia da Informação</option>
+<option value="FIN">FIN - Finanças &amp; Controladoria</option>
+<option value="COM">COM - Comercial &amp; Vendas</option>
+<option value="LOG">LOG - Logística &amp; Armazém</option>
+<option value="PROD">PROD - Produção Operacional</option>
+<option value="JUR">JUR - Departamento Jurídico</option>
+<option value="MKT">MKT - Marketing Institucional</option>
+</select>
+</div>
+</div>
+<!-- Quantity Selector with Quick Buttons -->
+<div>
+<label class="block text-label-md font-label-md text-on-surface font-semibold mb-1.5">
+                  Quantidade a Movimentar
+                </label>
+<div class="flex items-center gap-2">
+<div class="relative flex-1">
+<input class="w-full h-10 px-3 bg-surface border border-outline-variant rounded-lg text-body-md font-data-tabular font-bold text-on-surface text-center focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary" id="input-qty" max="14" min="1" type="number" value="2"/>
+<span class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-secondary text-label-sm font-label-sm">
+                      un
+                    </span>
+</div>
+<!-- Quick increment pills -->
+<div class="flex items-center gap-1">
+<button class="h-10 px-2.5 bg-surface-container hover:bg-surface-container-high rounded text-label-md font-data-tabular text-primary font-semibold transition-colors" onclick="addQty(1)" type="button">+1</button>
+<button class="h-10 px-2.5 bg-surface-container hover:bg-surface-container-high rounded text-label-md font-data-tabular text-primary font-semibold transition-colors" onclick="addQty(5)" type="button">+5</button>
+<button class="h-10 px-2.5 bg-surface-container hover:bg-surface-container-high rounded text-label-md font-data-tabular text-primary font-semibold transition-colors" onclick="addQty(10)" type="button">+10</button>
+</div>
+</div>
+</div>
+<!-- Realtime Value Calculation & Budget Warning -->
+<div class="p-3 bg-surface-container-low rounded-lg border border-outline-variant flex items-center justify-between">
+<div>
+<div class="text-label-sm font-label-sm text-secondary">Cálculo em Tempo Real:</div>
+<div class="text-headline-sm font-headline-sm font-bold text-primary font-data-tabular">
+                    Total: R$ 97,00
+                  </div>
+</div>
+<!-- Budget Check Badge -->
+<div class="text-right">
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded bg-[#FEF3C7] text-[#92400E] text-[11px] font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-[#F59E0B]"></span>
+                    Alçada: Dentro do Teto
+                  </span>
+<div class="text-[10px] text-secondary mt-0.5 font-data-tabular">Centro de Custo TI (84%)</div>
+</div>
+</div>
+<!-- Motive / Purpose -->
+<div>
+<label class="block text-label-md font-label-md text-on-surface font-semibold mb-1.5">
+                  Motivo / Finalidade
+                </label>
+<input class="w-full h-10 px-3 bg-surface border border-outline-variant rounded-lg text-body-md font-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary placeholder:text-secondary" placeholder="Informe a justificativa operacional..." type="text" value="Reposição de suprimento impressora diretoria"/>
+</div>
+<!-- Print QR Code Toggle -->
+<label class="flex items-center gap-2.5 cursor-pointer pt-1">
+<input checked="" class="w-4 h-4 text-primary bg-surface border-outline-variant rounded focus:ring-primary focus:ring-1" type="checkbox"/>
+<span class="text-body-sm font-body-sm text-on-surface select-none">
+                  Imprimir etiqueta com QR Code após confirmação
+                </span>
+</label>
+</div>
+</div>
+</div>
+<!-- 4. ACTION BAR -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl border border-outline-variant shadow-sm flex flex-col sm:flex-row items-center justify-between gap-3">
+<div class="flex items-center gap-2 text-secondary text-body-sm">
+<span class="material-symbols-outlined text-[18px]">verified_user</span>
+<span>Auditoria contínua por Ledger Criptográfico</span>
+</div>
+<div class="flex items-center gap-3 w-full sm:w-auto">
+<!-- Secondary Button -->
+<button class="flex-1 sm:flex-none h-10 px-5 border border-outline-variant rounded-lg font-label-lg text-label-lg text-on-surface hover:bg-surface-container-low transition-colors" type="button">
+              Cancelar / Limpar
+            </button>
+<!-- Primary Accent Button -->
+<button class="flex-1 sm:flex-none h-10 px-6 bg-primary-container text-on-primary-container hover:bg-[#389fa9] rounded-lg font-label-lg text-label-lg font-bold flex items-center justify-center gap-2 shadow-sm active:scale-[0.98] transition-all" type="button">
+<span class="material-symbols-outlined text-[20px]">check_circle</span>
+<span>Confirmar Movimentação (Gerar Hash SHA-256)</span>
+</button>
+</div>
+</div>
+</div>
+<!-- 5. DISCREET FOOTER (Supabase Trigger Sync Alert) -->
+<footer class="mt-space-lg text-center border-t border-outline-variant/60 pt-space-sm">
+<p class="text-body-sm font-body-sm text-secondary font-data-tabular flex items-center justify-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+          Replicação em tempo real ativa via Triggers Supabase (PostgreSQL WAL) • Latência média: 14ms
+        </p>
+</footer>
+</main>
+</div>
+<!-- Inline Script for Quantity Micro-Interactions -->
+<script>
+    function addQty(amount) {
+      const input = document.getElementById('input-qty');
+      if (input) {
+        let current = parseInt(input.value, 10) || 0;
+        let max = parseInt(input.max, 10) || 14;
+        let next = current + amount;
+        if (next > max) next = max;
+        input.value = next;
+      }
+    }
+  </script>
+</body></html>
