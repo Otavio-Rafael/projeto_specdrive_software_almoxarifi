@@ -22,6 +22,7 @@
           "surface-container-high": "#dce9ff",
           "outline-variant": "#bcc9ca",
           "tertiary": "#006c49",
+          "tertiary-container": "#22c087",
           "surface-container-lowest": "#ffffff",
           "surface-container-low": "#eff4ff",
           "error": "#ba1a1a",
@@ -33,102 +34,130 @@
   }
 </script>
 <link rel="stylesheet" href="css/styles.css">
-<!-- SheetJS CDN -->
-<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-<!-- jsPDF CDN -->
+<!-- jsPDF CDN para geração de relatórios PDF -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
 </head>
-<body class="bg-background text-on-surface antialiased min-h-screen flex flex-col">
-
-<!-- Fixed SideNavBar -->
-<aside class="fixed left-0 top-0 h-full w-64 flex flex-col justify-between p-4 bg-surface-container-lowest border-r border-outline-variant z-30 shadow-sm">
-  <div class="flex flex-col gap-4">
-    <div class="flex items-center gap-2 px-1 py-1 border-b border-outline-variant/40 pb-3">
-      <div class="h-8 w-8 rounded-lg bg-primary flex items-center justify-center text-white font-bold text-lg shadow-sm">
-        SC
-      </div>
-      <div class="flex flex-col leading-tight">
-        <span class="font-bold text-primary tracking-tight font-heading">Nexus Storage</span>
-        <span class="text-xs text-secondary font-medium">NX-INS-2026-001</span>
-      </div>
-    </div>
-    <a href="movimentacoes.html" class="w-full flex items-center justify-center gap-1 h-[38px] bg-primary hover:bg-[#00454c] text-white font-semibold text-sm rounded-lg shadow-sm transition-all">
-      <span class="material-symbols-outlined">add</span>
-      Nova Movimentação
-    </a>
-    <nav class="flex flex-col gap-1 mt-1">
-      <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors" href="dashboard.html">
-        <span class="material-symbols-outlined">dashboard</span>
-        <span class="text-sm">Dashboard Operacional</span>
-      </a>
-      <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors" href="insumos.html">
-        <span class="material-symbols-outlined">inventory_2</span>
-        <span class="text-sm">Catálogo Mestre</span>
-      </a>
-      <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors" href="movimentacoes.html">
-        <span class="material-symbols-outlined">qr_code_scanner</span>
-        <span class="text-sm">Retirada & Scanner QR</span>
-      </a>
-      <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors" href="requisicoes.html">
-        <span class="material-symbols-outlined">fact_check</span>
-        <span class="text-sm">Requisições & Aprovações</span>
-      </a>
-      <a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-surface-container-high text-primary font-semibold transition-colors" href="relatorios.html">
-        <span class="material-symbols-outlined text-primary" data-weight="fill">analytics</span>
-        <span class="text-sm">Relatórios & Auditoria</span>
-      </a>
-    </nav>
-  </div>
-</aside>
+<body class="bg-surface text-on-surface font-body-md antialiased min-h-screen flex flex-col selection:bg-primary-container selection:text-on-primary-container">
 
 <!-- TopNavBar -->
-<header class="pl-64 w-full sticky top-0 z-40 bg-surface-container-lowest border-b border-outline-variant shadow-sm">
-  <div class="flex justify-between items-center h-14 px-6 w-full">
-    <div class="flex items-center gap-4 flex-1 max-w-3xl">
-      <span class="text-xs text-secondary font-semibold uppercase">Trilha Imutável de Auditoria & Relatórios</span>
-    </div>
+<header class="flex justify-between items-center h-14 px-6 w-full border-b border-outline-variant bg-surface-container-lowest z-40 sticky top-0 shadow-sm">
+  <div class="flex items-center gap-6">
     <div class="flex items-center gap-2">
-      <button id="btn-export-excel" class="px-3 py-1.5 bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold rounded-lg shadow-sm">
-        Exportar Excel (.xlsx)
+      <span class="flex items-center justify-center w-8 h-8 rounded bg-primary text-white font-bold text-sm shadow-sm">SC</span>
+      <div class="flex flex-col leading-none">
+        <span class="text-base font-bold tracking-tight text-primary">StorageControl</span>
+        <span class="text-[10px] text-secondary tracking-wider font-semibold">NEXUS ENTERPRISE</span>
+      </div>
+    </div>
+    <div class="relative hidden sm:block w-72">
+      <span class="material-symbols-outlined absolute left-2.5 top-2 text-secondary pointer-events-none text-[18px]">search</span>
+      <input class="w-full h-[34px] pl-8 pr-3 text-xs bg-surface-container-low border border-outline-variant rounded focus:outline-none focus:border-primary text-on-surface placeholder:text-secondary transition-all" placeholder="Buscar por SKU global..." type="text"/>
+    </div>
+    <nav class="hidden xl:flex items-center gap-4 ml-2">
+      <a class="text-secondary hover:text-on-surface transition-colors text-xs px-1.5 py-1" href="#">RH</a>
+      <a class="text-primary border-b-2 border-primary font-semibold pb-1 text-xs px-1.5" href="#">TI</a>
+      <a class="text-secondary hover:text-on-surface transition-colors text-xs px-1.5 py-1" href="#">FIN</a>
+      <a class="text-secondary hover:text-on-surface transition-colors text-xs px-1.5 py-1" href="#">COM</a>
+      <a class="text-secondary hover:text-on-surface transition-colors text-xs px-1.5 py-1" href="#">LOG</a>
+      <a class="text-secondary hover:text-on-surface transition-colors text-xs px-1.5 py-1" href="#">PROD</a>
+      <a class="text-secondary hover:text-on-surface transition-colors text-xs px-1.5 py-1" href="#">JUR</a>
+      <a class="text-secondary hover:text-on-surface transition-colors text-xs px-1.5 py-1" href="#">MKT</a>
+    </nav>
+  </div>
+  <div class="flex items-center gap-4">
+    <div class="flex items-center gap-1.5 px-2.5 py-1 bg-surface-container-low border border-outline-variant rounded-full text-xs text-tertiary">
+      <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+      <span class="font-medium text-on-surface">Online (Sync)</span>
+    </div>
+    <div class="flex items-center gap-1 text-secondary">
+      <a href="movimentacoes.html" class="p-1.5 rounded hover:bg-surface-container-low transition-colors" title="QR Scanner Rápido">
+        <span class="material-symbols-outlined text-primary text-[20px]">qr_code_scanner</span>
+      </a>
+      <button class="p-1.5 rounded hover:bg-surface-container-low transition-colors" title="Status de Rede">
+        <span class="material-symbols-outlined text-tertiary text-[20px]">wifi</span>
       </button>
-      <button id="btn-export-pdf" class="px-3 py-1.5 bg-red-700 hover:bg-red-800 text-white text-xs font-bold rounded-lg shadow-sm">
-        Exportar PDF
+      <button class="p-1.5 rounded hover:bg-surface-container-low transition-colors relative" title="Alertas de Estoque">
+        <span class="material-symbols-outlined text-[20px]">notifications</span>
+        <span class="absolute top-1 right-1 w-2 h-2 rounded-full bg-error"></span>
       </button>
     </div>
   </div>
 </header>
 
-<!-- Main Content -->
-<div class="pl-64 flex-1 flex flex-col">
-  <main class="flex-1 px-6 py-6 max-w-[1600px] w-full mx-auto space-y-6">
-    <div class="border-b border-outline-variant/40 pb-3">
-      <h1 class="text-2xl font-bold text-on-surface font-heading tracking-tight">Trilha de Auditoria & Exportação de Relatórios</h1>
-      <p class="text-xs text-secondary mt-0.5">Log de auditoria imutável (append-only) com verificação de integridade via Hash SHA-256 (OE1)</p>
-    </div>
-
-    <!-- Table Container -->
-    <div class="bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm overflow-hidden">
-      <div class="p-4 border-b flex items-center justify-between">
-        <h2 class="font-bold text-base text-on-surface font-heading">Trilha Imutável (log_auditoria)</h2>
-        <span class="text-xs text-secondary font-mono">Append-only Verification</span>
+<div class="flex flex-1 w-full min-h-[calc(100vh-3.5rem)]">
+  <!-- SideNavBar -->
+  <aside class="w-64 border-r border-outline-variant bg-surface-container-lowest flex flex-col justify-between p-4 shrink-0 shadow-sm hidden md:flex">
+    <div class="space-y-4">
+      <div class="p-2.5 bg-surface-container-low border border-outline-variant rounded flex items-center justify-between">
+        <div>
+          <p class="font-bold text-primary text-sm">Nexus Storage</p>
+          <p class="text-[11px] text-secondary">NX-INS-2026-001</p>
+        </div>
+        <span class="px-1.5 py-0.5 bg-emerald-100 text-emerald-800 text-[10px] font-bold rounded">v2.4</span>
       </div>
 
-      <div class="overflow-x-auto">
-        <table class="w-full text-left border-collapse">
-          <thead>
-            <tr class="bg-surface-container-low border-b border-outline-variant text-[11px] font-semibold text-secondary uppercase tracking-wider">
-              <th class="py-2.5 px-4">Data/Hora</th>
-              <th class="py-2.5 px-4">Tabela Afetada</th>
-              <th class="py-2.5 px-4">Operação</th>
-              <th class="py-2.5 px-4">Dados (JSON)</th>
-              <th class="py-2.5 px-4">Hash do Registro</th>
-            </tr>
-          </thead>
-          <tbody id="tabela-auditoria" class="divide-y divide-outline-variant/40 text-xs font-mono">
-            <!-- Injetado por relatorios.js -->
-          </tbody>
-        </table>
+      <a href="insumos.html" class="w-full flex items-center justify-center gap-1.5 h-10 bg-primary hover:bg-[#00454c] text-white font-semibold text-xs rounded transition-all shadow-xs">
+        <span class="material-symbols-outlined text-[18px]">add</span>
+        Cadastrar Insumo
+      </a>
+
+      <nav class="space-y-1 pt-2">
+        <a class="flex items-center gap-3 px-3 py-2 rounded text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors text-xs" href="dashboard.html">
+          <span class="material-symbols-outlined text-[18px]">dashboard</span>
+          <span>Dashboard Operacional</span>
+        </a>
+        <a class="flex items-center gap-3 px-3 py-2 rounded text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors text-xs" href="insumos.html">
+          <span class="material-symbols-outlined text-[18px]">inventory_2</span>
+          <span>Catálogo Mestre</span>
+        </a>
+        <a class="flex items-center gap-3 px-3 py-2 rounded text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors text-xs" href="movimentacoes.html">
+          <span class="material-symbols-outlined text-[18px]">qr_code_scanner</span>
+          <span>Retirada & Scanner QR</span>
+        </a>
+        <a class="flex items-center gap-3 px-3 py-2 rounded text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors text-xs" href="requisicoes.html">
+          <span class="material-symbols-outlined text-[18px]">fact_check</span>
+          <span>Requisições & Aprovações</span>
+        </a>
+        <a class="flex items-center gap-3 px-3 py-2 rounded bg-surface-container text-primary font-semibold transition-colors text-xs" href="relatorios.html">
+          <span class="material-symbols-outlined text-primary text-[18px]">analytics</span>
+          <span>Relatórios & Auditoria</span>
+        </a>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="flex-1 p-6 space-y-6 overflow-x-hidden">
+    <div class="flex items-center justify-between border-b border-outline-variant pb-3">
+      <div>
+        <h1 class="text-xl font-bold text-on-surface font-heading">Relatórios Executivos & Log de Auditoria</h1>
+        <p class="text-xs text-secondary mt-0.5">Exportação de dados em PDF, Excel e consulta de hashes de auditoria imutável</p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="bg-surface-container-lowest p-5 rounded border border-outline-variant shadow-xs space-y-3">
+        <div class="flex items-center gap-2 text-primary font-bold text-sm">
+          <span class="material-symbols-outlined">description</span> Relatório de Inventário Físico
+        </div>
+        <p class="text-xs text-secondary">Exportação completa do catálogo de insumos com posição de estoque atual e curva ABC.</p>
+        <button id="btn-export-pdf" class="w-full py-2 bg-primary hover:bg-[#00454c] text-white text-xs font-bold rounded shadow-xs">Exportar em PDF</button>
+      </div>
+
+      <div class="bg-surface-container-lowest p-5 rounded border border-outline-variant shadow-xs space-y-3">
+        <div class="flex items-center gap-2 text-emerald-700 font-bold text-sm">
+          <span class="material-symbols-outlined">table_view</span> Extrato de Movimentações
+        </div>
+        <p class="text-xs text-secondary">Histórico detalhado de entradas, saídas e transferências entre departamentos.</p>
+        <button id="btn-export-excel" class="w-full py-2 bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold rounded shadow-xs">Exportar em CSV / Excel</button>
+      </div>
+
+      <div class="bg-surface-container-lowest p-5 rounded border border-outline-variant shadow-xs space-y-3">
+        <div class="flex items-center gap-2 text-amber-700 font-bold text-sm">
+          <span class="material-symbols-outlined">verified</span> Relatório de Insumos Críticos
+        </div>
+        <p class="text-xs text-secondary">Lista de itens abaixo do ponto de pedido ou vencidos nos próximos 30 dias.</p>
+        <button id="btn-export-criticos" class="w-full py-2 bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold rounded shadow-xs">Gerar Relatório de Alerta</button>
       </div>
     </div>
   </main>

@@ -4,6 +4,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Nexus StorageControl - Catálogo Mestre</title>
+<!-- Google Fonts: Inter & Plus Jakarta Sans -->
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
@@ -22,6 +23,7 @@
           "surface-container-high": "#dce9ff",
           "outline-variant": "#bcc9ca",
           "tertiary": "#006c49",
+          "tertiary-container": "#22c087",
           "surface-container-lowest": "#ffffff",
           "surface-container-low": "#eff4ff",
           "error": "#ba1a1a",
@@ -36,59 +38,111 @@
 <!-- QRCode CDN -->
 <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 </head>
-<body class="bg-background text-on-surface antialiased min-h-screen flex flex-col">
+<body class="bg-surface text-on-surface font-body-md antialiased min-h-screen flex flex-col selection:bg-primary-container selection:text-on-primary-container">
 
-<!-- Fixed SideNavBar -->
-<aside class="fixed left-0 top-0 h-full w-64 flex flex-col justify-between p-4 bg-surface-container-lowest border-r border-outline-variant z-30 shadow-sm">
-  <div class="flex flex-col gap-4">
-    <div class="flex items-center gap-2 px-1 py-1 border-b border-outline-variant/40 pb-3">
-      <div class="h-8 w-8 rounded-lg bg-primary flex items-center justify-center text-white font-bold text-lg shadow-sm">
-        SC
-      </div>
-      <div class="flex flex-col leading-tight">
-        <span class="font-bold text-primary tracking-tight font-heading">Nexus Storage</span>
-        <span class="text-xs text-secondary font-medium">NX-INS-2026-001</span>
+<!-- TopNavBar conforme Temas / Figma Design -->
+<header class="flex justify-between items-center h-14 px-6 w-full border-b border-outline-variant bg-surface-container-lowest z-40 sticky top-0 shadow-sm">
+  <div class="flex items-center gap-6">
+    <!-- Brand Logo -->
+    <div class="flex items-center gap-2">
+      <span class="flex items-center justify-center w-8 h-8 rounded bg-primary text-white font-bold text-sm shadow-sm">SC</span>
+      <div class="flex flex-col leading-none">
+        <span class="text-base font-bold tracking-tight text-primary">StorageControl</span>
+        <span class="text-[10px] text-secondary tracking-wider font-semibold">NEXUS ENTERPRISE</span>
       </div>
     </div>
-    <button onclick="document.getElementById('modal-novo-insumo').classList.remove('hidden')" class="w-full flex items-center justify-center gap-1 h-[38px] bg-primary hover:bg-[#00454c] text-white font-semibold text-sm rounded-lg shadow-sm transition-all">
-      <span class="material-symbols-outlined">add</span>
-      Cadastrar Insumo
-    </button>
-    <nav class="flex flex-col gap-1 mt-1">
-      <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors" href="dashboard.html">
-        <span class="material-symbols-outlined">dashboard</span>
-        <span class="text-sm">Dashboard Operacional</span>
-      </a>
-      <a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-surface-container-high text-primary font-semibold transition-colors" href="insumos.html">
-        <span class="material-symbols-outlined text-primary" data-weight="fill">inventory_2</span>
-        <span class="text-sm">Catálogo Mestre</span>
-      </a>
-      <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors" href="movimentacoes.html">
-        <span class="material-symbols-outlined">qr_code_scanner</span>
-        <span class="text-sm">Retirada & Scanner QR</span>
-      </a>
-      <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors" href="requisicoes.html">
-        <span class="material-symbols-outlined">fact_check</span>
-        <span class="text-sm">Requisições & Aprovações</span>
-      </a>
-      <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors" href="relatorios.html">
-        <span class="material-symbols-outlined">analytics</span>
-        <span class="text-sm">Relatórios & Auditoria</span>
-      </a>
+    <!-- Quick SKU Search Bar -->
+    <div class="relative hidden sm:block w-72">
+      <span class="material-symbols-outlined absolute left-2.5 top-2 text-secondary pointer-events-none text-[18px]">search</span>
+      <input id="search-insumos" class="w-full h-[34px] pl-8 pr-3 text-xs bg-surface-container-low border border-outline-variant rounded focus:outline-none focus:border-primary text-on-surface placeholder:text-secondary transition-all" placeholder="Buscar por SKU global..." type="text"/>
+    </div>
+    <!-- Department Navigation Links -->
+    <nav class="hidden xl:flex items-center gap-4 ml-2">
+      <a class="text-secondary hover:text-on-surface transition-colors text-xs px-1.5 py-1" href="#">RH</a>
+      <a class="text-primary border-b-2 border-primary font-semibold pb-1 text-xs px-1.5" href="#">TI</a>
+      <a class="text-secondary hover:text-on-surface transition-colors text-xs px-1.5 py-1" href="#">FIN</a>
+      <a class="text-secondary hover:text-on-surface transition-colors text-xs px-1.5 py-1" href="#">COM</a>
+      <a class="text-secondary hover:text-on-surface transition-colors text-xs px-1.5 py-1" href="#">LOG</a>
+      <a class="text-secondary hover:text-on-surface transition-colors text-xs px-1.5 py-1" href="#">PROD</a>
+      <a class="text-secondary hover:text-on-surface transition-colors text-xs px-1.5 py-1" href="#">JUR</a>
+      <a class="text-secondary hover:text-on-surface transition-colors text-xs px-1.5 py-1" href="#">MKT</a>
     </nav>
   </div>
-</aside>
+  <!-- Trailing Actions -->
+  <div class="flex items-center gap-4">
+    <!-- Sync Status Indicator Pill -->
+    <div class="flex items-center gap-1.5 px-2.5 py-1 bg-surface-container-low border border-outline-variant rounded-full text-xs text-tertiary">
+      <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+      <span id="sync-status-text" class="font-medium text-on-surface">Online (Sync)</span>
+    </div>
+    <!-- Icon Actions -->
+    <div class="flex items-center gap-1 text-secondary">
+      <a href="movimentacoes.html" class="p-1.5 rounded hover:bg-surface-container-low transition-colors" title="QR Scanner Rápido">
+        <span class="material-symbols-outlined text-primary text-[20px]">qr_code_scanner</span>
+      </a>
+      <button class="p-1.5 rounded hover:bg-surface-container-low transition-colors" title="Status de Rede">
+        <span class="material-symbols-outlined text-tertiary text-[20px]">wifi</span>
+      </button>
+      <button class="p-1.5 rounded hover:bg-surface-container-low transition-colors relative" title="Alertas de Estoque">
+        <span class="material-symbols-outlined text-[20px]">notifications</span>
+        <span class="absolute top-1 right-1 w-2 h-2 rounded-full bg-error"></span>
+      </button>
+    </div>
+  </div>
+</header>
 
-<!-- TopNavBar -->
-<header class="pl-64 w-full sticky top-0 z-40 bg-surface-container-lowest border-b border-outline-variant shadow-sm">
-  <div class="flex justify-between items-center h-14 px-6 w-full">
-    <div class="flex items-center gap-4 flex-1 max-w-3xl">
-      <div class="relative w-72">
-        <span class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-secondary text-[18px]">search</span>
-        <input id="search-insumos" class="w-full h-[36px] pl-9 pr-3 rounded-lg border border-outline-variant/80 bg-surface-container-low/40 text-on-surface text-xs placeholder:text-secondary focus:outline-none focus:border-primary transition-all" placeholder="Buscar SKU ou nome..." type="text"/>
+<div class="flex flex-1 w-full min-h-[calc(100vh-3.5rem)]">
+  <!-- SideNavBar -->
+  <aside class="w-64 border-r border-outline-variant bg-surface-container-lowest flex flex-col justify-between p-4 shrink-0 shadow-sm hidden md:flex">
+    <div class="space-y-4">
+      <!-- Instance Identifier Badge -->
+      <div class="p-2.5 bg-surface-container-low border border-outline-variant rounded flex items-center justify-between">
+        <div>
+          <p class="font-bold text-primary text-sm">Nexus Storage</p>
+          <p class="text-[11px] text-secondary">NX-INS-2026-001</p>
+        </div>
+        <span class="px-1.5 py-0.5 bg-emerald-100 text-emerald-800 text-[10px] font-bold rounded">v2.4</span>
       </div>
-      <div class="flex items-center gap-2">
-        <select id="filter-categoria" class="h-[36px] px-3 rounded-lg border border-outline-variant text-xs bg-surface-container-lowest text-on-surface outline-none">
+
+      <button onclick="document.getElementById('modal-novo-insumo').classList.remove('hidden')" class="w-full flex items-center justify-center gap-1.5 h-10 bg-primary hover:bg-[#00454c] text-white font-semibold text-xs rounded transition-all shadow-xs">
+        <span class="material-symbols-outlined text-[18px]">add</span>
+        Cadastrar Insumo
+      </button>
+
+      <nav class="space-y-1 pt-2">
+        <a class="flex items-center gap-3 px-3 py-2 rounded text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors text-xs" href="dashboard.html">
+          <span class="material-symbols-outlined text-[18px]">dashboard</span>
+          <span>Dashboard Operacional</span>
+        </a>
+        <a class="flex items-center gap-3 px-3 py-2 rounded bg-surface-container text-primary font-semibold transition-colors text-xs" href="insumos.html">
+          <span class="material-symbols-outlined text-primary text-[18px]">inventory_2</span>
+          <span>Catálogo Mestre</span>
+        </a>
+        <a class="flex items-center gap-3 px-3 py-2 rounded text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors text-xs" href="movimentacoes.html">
+          <span class="material-symbols-outlined text-[18px]">qr_code_scanner</span>
+          <span>Retirada & Scanner QR</span>
+        </a>
+        <a class="flex items-center gap-3 px-3 py-2 rounded text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors text-xs" href="requisicoes.html">
+          <span class="material-symbols-outlined text-[18px]">fact_check</span>
+          <span>Requisições & Aprovações</span>
+        </a>
+        <a class="flex items-center gap-3 px-3 py-2 rounded text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors text-xs" href="relatorios.html">
+          <span class="material-symbols-outlined text-[18px]">analytics</span>
+          <span>Relatórios & Auditoria</span>
+        </a>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="flex-1 p-6 space-y-6 overflow-x-hidden">
+    <div class="flex items-center justify-between pb-3 border-b border-outline-variant">
+      <div>
+        <h1 class="text-xl font-bold text-on-surface font-heading tracking-tight">Catálogo Mestre de Insumos</h1>
+        <p class="text-xs text-secondary mt-0.5">Gestão automatizada de SKU via Triggers no PostgreSQL e etiquetas de QR Code</p>
+      </div>
+      <div class="flex items-center gap-3">
+        <select id="filter-categoria" class="h-9 px-3 rounded border border-outline-variant text-xs bg-surface-container-lowest text-on-surface outline-none">
           <option value="">Todas as Categorias</option>
           <option value="1">Escritório</option>
           <option value="2">TI</option>
@@ -96,29 +150,14 @@
           <option value="4">Produção</option>
           <option value="5">Eventos</option>
         </select>
+        <button onclick="document.getElementById('modal-novo-insumo').classList.remove('hidden')" class="px-3.5 py-2 bg-primary hover:bg-[#00454c] text-white text-xs font-semibold rounded transition shadow-xs flex items-center gap-1">
+          <span class="material-symbols-outlined text-[16px]">add</span> Cadastrar Insumo
+        </button>
       </div>
-    </div>
-    <div class="flex items-center gap-3">
-      <span id="offline-badge" class="hidden px-2 py-1 bg-amber-500 text-slate-950 font-mono text-xs font-bold rounded">0 pendentes offline</span>
-    </div>
-  </div>
-</header>
-
-<!-- Main Content -->
-<div class="pl-64 flex-1 flex flex-col">
-  <main class="flex-1 px-6 py-6 max-w-[1600px] w-full mx-auto space-y-6">
-    <div class="flex items-center justify-between pb-3 border-b border-outline-variant/40">
-      <div>
-        <h1 class="text-2xl font-bold text-on-surface font-heading tracking-tight">Catálogo Mestre de Insumos</h1>
-        <p class="text-xs text-secondary mt-0.5">Gestão automatizada de SKU via Triggers no PostgreSQL e etiquetas de QR Code</p>
-      </div>
-      <button onclick="document.getElementById('modal-novo-insumo').classList.remove('hidden')" class="px-4 py-2 bg-primary hover:bg-[#00454c] text-white text-xs font-bold rounded-lg transition shadow-sm flex items-center gap-1">
-        <span class="material-symbols-outlined">add</span> Cadastrar Insumo
-      </button>
     </div>
 
     <!-- Table Container -->
-    <div class="bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm overflow-hidden">
+    <div class="bg-surface-container-lowest border border-outline-variant rounded shadow-xs overflow-hidden">
       <div class="overflow-x-auto">
         <table class="w-full text-left border-collapse">
           <thead>
@@ -132,7 +171,7 @@
               <th class="py-2.5 px-4 text-right">Ações</th>
             </tr>
           </thead>
-          <tbody id="tabela-insumos" class="divide-y divide-outline-variant/40 text-xs">
+          <tbody id="tabela-insumos" class="divide-y divide-outline-variant text-xs">
             <!-- Injetado por insumos.js -->
           </tbody>
         </table>
@@ -142,23 +181,23 @@
 </div>
 
 <!-- Modal Novo Insumo -->
-<div id="modal-novo-insumo" class="hidden fixed inset-0 z-50 bg-slate-900 bg-opacity-50 flex items-center justify-center p-4">
-  <div class="bg-surface-container-lowest rounded-xl shadow-xl max-w-lg w-full p-6 space-y-4 border border-outline-variant">
-    <div class="flex items-center justify-between border-b pb-3">
-      <h3 class="font-bold text-lg text-on-surface font-heading">Cadastrar Novo Insumo</h3>
+<div id="modal-novo-insumo" class="hidden fixed inset-0 z-50 bg-slate-900/50 flex items-center justify-center p-4">
+  <div class="bg-surface-container-lowest rounded shadow-xl max-w-lg w-full p-6 space-y-4 border border-outline-variant">
+    <div class="flex items-center justify-between border-b border-outline-variant pb-3">
+      <h3 class="font-bold text-base text-on-surface font-heading">Cadastrar Novo Insumo</h3>
       <button onclick="document.getElementById('modal-novo-insumo').classList.add('hidden')" class="text-secondary hover:text-on-surface font-bold text-lg">&times;</button>
     </div>
 
     <form id="form-insumo" class="space-y-4">
       <div>
         <label class="block text-xs font-semibold text-secondary uppercase">Nome do Insumo</label>
-        <input type="text" id="input-nome" required placeholder="Ex: Toner HP 507A" class="w-full border border-outline-variant rounded-lg px-3 py-2 text-xs focus:ring-2 focus:ring-primary outline-none">
+        <input type="text" id="input-nome" required placeholder="Ex: Toner HP 507A" class="w-full border border-outline-variant rounded px-3 py-2 text-xs focus:ring-1 focus:ring-primary outline-none mt-1">
       </div>
 
       <div class="grid grid-cols-2 gap-3">
         <div>
           <label class="block text-xs font-semibold text-secondary uppercase">Categoria</label>
-          <select id="input-categoria" required class="w-full border border-outline-variant rounded-lg px-3 py-2 text-xs focus:ring-2 focus:ring-primary outline-none">
+          <select id="input-categoria" required class="w-full border border-outline-variant rounded px-3 py-2 text-xs focus:ring-1 focus:ring-primary outline-none mt-1">
             <option value="1">Escritório</option>
             <option value="2">TI</option>
             <option value="3">Limpeza</option>
@@ -168,7 +207,7 @@
         </div>
         <div>
           <label class="block text-xs font-semibold text-secondary uppercase">Departamento</label>
-          <select id="input-departamento" required class="w-full border border-outline-variant rounded-lg px-3 py-2 text-xs focus:ring-2 focus:ring-primary outline-none">
+          <select id="input-departamento" required class="w-full border border-outline-variant rounded px-3 py-2 text-xs focus:ring-1 focus:ring-primary outline-none mt-1">
             <option value="1">RH</option>
             <option value="2">TI</option>
             <option value="3">Financeiro</option>
@@ -180,22 +219,22 @@
       <div class="grid grid-cols-3 gap-3">
         <div>
           <label class="block text-xs font-semibold text-secondary uppercase">Estoque Mínimo</label>
-          <input type="number" id="input-estoque-min" value="5" class="w-full border border-outline-variant rounded-lg px-3 py-2 text-xs">
+          <input type="number" id="input-estoque-min" value="5" class="w-full border border-outline-variant rounded px-3 py-2 text-xs mt-1">
         </div>
         <div>
           <label class="block text-xs font-semibold text-secondary uppercase">Estoque Máximo</label>
-          <input type="number" id="input-estoque-max" value="50" class="w-full border border-outline-variant rounded-lg px-3 py-2 text-xs">
+          <input type="number" id="input-estoque-max" value="50" class="w-full border border-outline-variant rounded px-3 py-2 text-xs mt-1">
         </div>
         <div>
           <label class="block text-xs font-semibold text-secondary uppercase">Ponto Pedido</label>
-          <input type="number" id="input-ponto-pedido" value="10" class="w-full border border-outline-variant rounded-lg px-3 py-2 text-xs">
+          <input type="number" id="input-ponto-pedido" value="10" class="w-full border border-outline-variant rounded px-3 py-2 text-xs mt-1">
         </div>
       </div>
 
       <div class="grid grid-cols-2 gap-3">
         <div>
           <label class="block text-xs font-semibold text-secondary uppercase">Limite s/ Aprovação (R$)</label>
-          <input type="number" step="0.01" id="input-limite-aprovacao" value="50.00" class="w-full border border-outline-variant rounded-lg px-3 py-2 text-xs">
+          <input type="number" step="0.01" id="input-limite-aprovacao" value="50.00" class="w-full border border-outline-variant rounded px-3 py-2 text-xs mt-1">
         </div>
         <div class="flex items-center pt-4">
           <label class="inline-flex items-center cursor-pointer">
@@ -206,23 +245,23 @@
         </div>
       </div>
 
-      <div class="flex justify-end space-x-2 border-t pt-4">
-        <button type="button" onclick="document.getElementById('modal-novo-insumo').classList.add('hidden')" class="px-4 py-2 text-xs text-secondary hover:bg-surface-container-low rounded-lg">Cancelar</button>
-        <button type="submit" class="px-4 py-2 bg-primary hover:bg-[#00454c] text-white text-xs font-bold rounded-lg transition">Salvar Insumo</button>
+      <div class="flex justify-end space-x-2 border-t border-outline-variant pt-4">
+        <button type="button" onclick="document.getElementById('modal-novo-insumo').classList.add('hidden')" class="px-4 py-2 text-xs text-secondary hover:bg-surface-container-low rounded">Cancelar</button>
+        <button type="submit" class="px-4 py-2 bg-primary hover:bg-[#00454c] text-white text-xs font-bold rounded transition">Salvar Insumo</button>
       </div>
     </form>
   </div>
 </div>
 
 <!-- Modal QR Code -->
-<div id="modal-qr-code" class="hidden fixed inset-0 z-50 bg-slate-900 bg-opacity-50 flex items-center justify-center p-4">
-  <div class="bg-surface-container-lowest rounded-xl shadow-xl max-w-sm w-full p-6 text-center space-y-4 border border-outline-variant">
-    <h3 id="modal-qr-sku-title" class="font-bold text-base font-heading text-on-surface">QR Code do Insumo</h3>
-    <div id="qr-container" class="flex justify-center p-4 bg-background border rounded-lg"></div>
+<div id="modal-qr-code" class="hidden fixed inset-0 z-50 bg-slate-900/50 flex items-center justify-center p-4">
+  <div class="bg-surface-container-lowest rounded shadow-xl max-w-sm w-full p-6 text-center space-y-4 border border-outline-variant">
+    <h3 id="modal-qr-sku-title" class="font-bold text-sm font-heading text-on-surface">QR Code do Insumo</h3>
+    <div id="qr-container" class="flex justify-center p-4 bg-background border rounded"></div>
     <p class="text-xs text-secondary">Imprima esta etiqueta para afixar no insumo.</p>
     <div class="flex justify-center space-x-2">
-      <button onclick="window.print()" class="px-4 py-1.5 text-xs font-bold bg-primary text-white rounded-lg">Imprimir</button>
-      <button onclick="window.fecharModalQR()" class="px-4 py-1.5 text-xs font-bold border border-outline-variant rounded-lg">Fechar</button>
+      <button onclick="window.print()" class="px-4 py-1.5 text-xs font-bold bg-primary text-white rounded">Imprimir</button>
+      <button onclick="window.fecharModalQR()" class="px-4 py-1.5 text-xs font-bold border border-outline-variant rounded">Fechar</button>
     </div>
   </div>
 </div>

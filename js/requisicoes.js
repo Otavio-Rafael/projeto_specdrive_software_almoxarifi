@@ -6,7 +6,7 @@ onDOMReady(() => {
 });
 
 async function carregarRequisicoes() {
-    const container = document.getElementById('lista-requisicoes-pendentes');
+    const container = document.getElementById('tabela-requisicoes') || document.getElementById('lista-requisicoes-pendentes');
     if (!container) return;
 
     try {
@@ -25,11 +25,11 @@ async function carregarRequisicoes() {
 }
 
 function renderizarRequisicoes(lista) {
-    const container = document.getElementById('lista-requisicoes-pendentes');
+    const container = document.getElementById('tabela-requisicoes') || document.getElementById('lista-requisicoes-pendentes');
     if (!container) return;
 
     if (lista.length === 0) {
-        container.innerHTML = `<div class="p-8 text-center text-secondary bg-surface-container-lowest rounded-xl border border-outline-variant">Nenhuma solicitação pendente no momento.</div>`;
+        container.innerHTML = `<tr><td colspan="7" class="text-center p-6 text-secondary">Nenhuma solicitação pendente no momento.</td></tr>`;
         return;
     }
 
@@ -40,28 +40,33 @@ function renderizarRequisicoes(lista) {
         const skuInsumo = r.insumos?.sku || r.sku_insumo_temp || 'NX-INS-GEN';
         const qtd = r.quantidade_solicitada || 1;
         const motivo = r.motivo || 'Sem motivo especificado';
+        const valorEstimado = (qtd * 65.00);
 
         return `
-            <div class="bg-surface-container-lowest p-5 rounded-xl border border-outline-variant shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div class="space-y-1">
-                    <div class="flex items-center gap-2">
-                        <span class="font-mono text-xs font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-800">${numReq}</span>
-                        <span class="text-xs text-secondary">${nomeDepto}</span>
-                    </div>
-                    <h4 class="font-bold text-base text-on-surface font-heading">${nomeInsumo} (SKU: ${skuInsumo})</h4>
-                    <p class="text-xs text-secondary">Quantidade Solicitada: <strong class="tnum text-on-surface">${qtd}</strong> | Solicitante: Usuário Operacional</p>
-                    <p class="text-xs text-secondary italic">"Motivo: ${motivo}"</p>
-                </div>
-
-                <div class="flex items-center space-x-2">
-                    <button onclick="window.aprovarRequisicao('${r.id_requisicao}')" class="px-4 py-2 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs rounded-lg transition shadow-sm">
-                        Aprovar Saída
+            <tr class="hover:bg-surface-container-low transition-colors text-xs">
+                <td class="py-2.5 px-4 font-mono font-bold text-primary">${numReq}</td>
+                <td class="py-2.5 px-4">
+                    <div class="font-semibold text-on-surface">${nomeInsumo}</div>
+                    <div class="text-[11px] text-secondary font-mono">${skuInsumo}</div>
+                </td>
+                <td class="py-2.5 px-4">
+                    <div class="font-medium text-on-surface">${nomeDepto}</div>
+                    <div class="text-[11px] text-secondary">Solicitante Operacional</div>
+                </td>
+                <td class="py-2.5 px-4 font-bold text-center tnum">${qtd}</td>
+                <td class="py-2.5 px-4 font-bold text-amber-800">R$ ${valorEstimado.toFixed(2)}</td>
+                <td class="py-2.5 px-4 text-center">
+                    <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-800">Aguardando Aprovação (RN-03)</span>
+                </td>
+                <td class="py-2.5 px-4 text-right space-x-1 whitespace-nowrap">
+                    <button onclick="window.aprovarRequisicao('${r.id_requisicao}')" class="px-2.5 py-1 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs rounded transition shadow-xs">
+                        Aprovar
                     </button>
-                    <button onclick="window.rejeitarRequisicao('${r.id_requisicao}')" class="px-4 py-2 bg-red-100 hover:bg-red-200 text-red-700 font-bold text-xs rounded-lg transition">
+                    <button onclick="window.rejeitarRequisicao('${r.id_requisicao}')" class="px-2 py-1 bg-red-100 hover:bg-red-200 text-red-700 font-bold text-xs rounded transition">
                         Rejeitar
                     </button>
-                </div>
-            </div>
+                </td>
+            </tr>
         `;
     }).join('');
 }

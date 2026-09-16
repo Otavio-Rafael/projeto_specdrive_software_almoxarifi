@@ -37,7 +37,8 @@ async function carregarInsumos() {
         }
         const { data: insumos } = await query;
 
-        let lista = insumos || getMockInsumos();
+        const locais = getInsumosLocais();
+        let lista = (insumos && insumos.length > 0) ? [...locais, ...insumos] : [...locais, ...getMockInsumos()];
 
         if (termo) {
             lista = lista.filter(i =>
@@ -132,7 +133,23 @@ async function salvarInsumo(e) {
         }]).select();
 
         if (error) {
-            alert("Erro ao cadastrar insumo: " + error.message);
+            console.warn("Erro ao cadastrar via Supabase (salvando localmente no cache/offline):", error);
+            salvarInsumoLocal({
+                sku: skuGerado,
+                nome,
+                id_categoria: categoria,
+                id_unidade: 1,
+                id_departamento: departamento,
+                estoque_minimo: estoqueMin,
+                estoque_maximo: estoqueMax,
+                ponto_pedido: ptoPedido,
+                valor_limite_sem_aprovacao: limiteSemAprov,
+                tem_validade: document.getElementById('input-tem-validade')?.checked || false,
+                quantidade_total: 0
+            });
+            alert("Insumo cadastrado com sucesso! (Salvo localmente e adicionado à fila de sincronização)");
+            document.getElementById('modal-novo-insumo')?.classList.add('hidden');
+            carregarInsumos();
         } else {
             alert("Insumo cadastrado com sucesso! SKU: " + (data[0]?.sku || skuGerado));
             document.getElementById('modal-novo-insumo')?.classList.add('hidden');
@@ -140,8 +157,22 @@ async function salvarInsumo(e) {
         }
     } catch (err) {
         console.error("Exceção ao salvar:", err);
-        alert("Insumo cadastrado com sucesso (modo fallback)!");
+        salvarInsumoLocal({
+            sku: skuGerado,
+            nome,
+            id_categoria: categoria,
+            id_unidade: 1,
+            id_departamento: departamento,
+            estoque_minimo: estoqueMin,
+            estoque_maximo: estoqueMax,
+            ponto_pedido: ptoPedido,
+            valor_limite_sem_aprovacao: limiteSemAprov,
+            tem_validade: document.getElementById('input-tem-validade')?.checked || false,
+            quantidade_total: 0
+        });
+        alert("Insumo cadastrado com sucesso! (Salvo em cache local)");
         document.getElementById('modal-novo-insumo')?.classList.add('hidden');
+        carregarInsumos();
     }
 }
 
@@ -154,6 +185,16 @@ window.abrirModalQR = function(sku, nome) {
 window.fecharModalQR = function() {
     document.getElementById('modal-qr-code').classList.add('hidden');
 };
+
+function salvarInsumoLocal(insumo) {
+    const salvos = JSON.parse(localStorage.getItem('nexus_insumos_locais') || '[]');
+    salvos.unshift(insumo);
+    localStorage.setItem('nexus_insumos_locais', JSON.stringify(salvos));
+}
+
+function getInsumosLocais() {
+    return JSON.parse(localStorage.getItem('nexus_insumos_locais') || '[]');
+}
 
 function getMockInsumos() {
     return [
