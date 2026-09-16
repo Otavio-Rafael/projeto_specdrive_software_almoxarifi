@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movimentação & Baixa QR - Nexus StorageControl</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Camera QR Code Scanner library -->
+    <script src="https://cdn.jsdelivr.net/npm/html5-qrcode/html5-qrcode.min.js"></script>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col">
+
+    <!-- Header Navigation -->
+    <header class="bg-slate-900 text-white border-b border-slate-800 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
+            <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 rounded-lg bg-teal-500 flex items-center justify-center font-bold text-white text-lg">N</div>
+                <span class="font-bold text-lg tracking-tight font-heading">Nexus <span class="text-teal-400 font-normal">StorageControl</span></span>
+            </div>
+
+            <nav class="hidden md:flex space-x-1">
+                <a href="dashboard.html" class="px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:bg-slate-800 hover:text-white">Dashboard</a>
+                <a href="insumos.html" class="px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:bg-slate-800 hover:text-white">Catálogo & Insumos</a>
+                <a href="movimentacoes.html" class="px-3 py-2 rounded-md text-sm font-medium bg-teal-700 text-white">Movimentações & QR</a>
+                <a href="requisicoes.html" class="px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:bg-slate-800 hover:text-white">Aprovações</a>
+                <a href="relatorios.html" class="px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:bg-slate-800 hover:text-white">Relatórios & Auditoria</a>
+            </nav>
+
+            <div class="flex items-center space-x-3">
+                <span id="offline-badge" class="hidden px-2 py-1 bg-amber-500 text-slate-950 font-mono text-xs font-bold rounded">0 pendentes offline</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Mobile-First -->
+    <main class="flex-grow max-w-2xl w-full mx-auto px-4 py-8 space-y-6">
+
+        <!-- Header Title -->
+        <div class="border-b pb-4 text-center sm:text-left">
+            <h1 class="text-2xl font-bold text-slate-900 font-heading">Retirada Expressa Mobile (&lt; 30s)</h1>
+            <p class="text-sm text-slate-500">Escaneie a câmera do celular ou digite o SKU para realizar a baixa de estoque.</p>
+        </div>
+
+        <!-- Scanner Card Button -->
+        <div class="bg-gradient-to-r from-teal-700 to-slate-900 rounded-xl p-6 text-white text-center shadow-lg flex flex-col items-center justify-center space-y-3">
+            <div class="w-16 h-16 rounded-full bg-teal-500 bg-opacity-20 flex items-center justify-center">
+                <svg class="w-8 h-8 text-teal-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m0 14v1m8-8h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+            </div>
+            <h2 class="text-lg font-bold font-heading">Câmera Web QR Code (OE3)</h2>
+            <p class="text-xs text-slate-300 max-w-xs">Clique no botão abaixo para ativar a câmera do dispositivo e fazer a leitura do SKU instantaneamente.</p>
+            <button id="btn-iniciar-scanner" class="px-6 py-2.5 bg-teal-400 hover:bg-teal-300 text-slate-950 font-bold rounded-lg text-sm transition shadow">
+                Escanear QR Code com Câmera
+            </button>
+        </div>
+
+        <!-- Manual Form Card -->
+        <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
+            <h3 class="font-bold text-base text-slate-900 border-b pb-2 font-heading">Dados da Retirada</h3>
+
+            <form id="form-movimentacao" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 uppercase">SKU do Insumo</label>
+                    <input type="text" id="input-sku-movimentacao" required placeholder="Ex: NX-INS-TI-00001" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm font-mono focus:ring-2 focus:ring-teal-500 outline-none">
+                </div>
+
+                <div id="insumo-detalhe-badge">
+                    <!-- Dinamicamente carregado ao digitar SKU -->
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 uppercase">Quantidade</label>
+                        <input type="number" id="input-quantidade" required min="1" value="1" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 uppercase">Valor Estimado (R$)</label>
+                        <input type="number" step="0.01" id="input-valor-estimado" value="25.00" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 outline-none">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 uppercase">Motivo / Finalidade</label>
+                    <input type="text" id="input-motivo" required placeholder="Ex: Manutenção Servidor RH" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 outline-none">
+                </div>
+
+                <button type="submit" class="w-full btn-primary py-3 text-base shadow flex items-center justify-center gap-2">
+                    Confirmar Retirada Expressa
+                </button>
+            </form>
+        </div>
+
+    </main>
+
+    <!-- Modal Scanner Câmera -->
+    <div id="scanner-modal" class="hidden fixed inset-0 z-50 bg-slate-900 bg-opacity-80 flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl shadow-2xl max-w-md w-full p-4 space-y-4 text-center">
+            <div class="flex items-center justify-between border-b pb-2">
+                <h3 class="font-bold text-slate-900">Leitor QR Code Ativo</h3>
+                <button onclick="document.getElementById('scanner-modal').classList.add('hidden')" class="text-slate-400 font-bold">&times;</button>
+            </div>
+            <div id="qr-reader-container" class="w-full min-h-[250px] bg-slate-100 rounded"></div>
+            <p class="text-xs text-slate-500">Aponte a câmera para o QR Code impresso no insumo.</p>
+        </div>
+    </div>
+
+    <!-- Modal Comprovante SHA-256 (OE1) -->
+    <div id="modal-comprovante" class="hidden fixed inset-0 z-50 bg-slate-900 bg-opacity-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl shadow-xl max-w-md w-full p-6 text-center space-y-4">
+            <div class="w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto text-xl font-bold">✓</div>
+            <h3 class="font-bold text-lg text-slate-900 font-heading">Retirada Concluída com Sucesso!</h3>
+
+            <div class="p-4 bg-slate-50 border border-slate-200 rounded-lg space-y-2 text-left">
+                <p id="comprovante-status-tag" class="text-[10px] font-bold uppercase text-teal-800 tracking-wider">AUDITADO & COMPROVADO (SHA-256)</p>
+                <p class="text-xs text-slate-500">Hash SHA-256 do Comprovante (OE1):</p>
+                <div id="comprovante-hash-display" class="font-mono text-xs bg-white p-2 border rounded break-all select-all font-bold text-slate-800"></div>
+            </div>
+
+            <button onclick="document.getElementById('modal-comprovante').classList.add('hidden'); window.location.href='dashboard.html';" class="w-full btn-primary py-2 text-sm">
+                Voltar ao Dashboard
+            </button>
+        </div>
+    </div>
+
+    <script type="module" src="js/movimentacoes.js"></script>
+    <script type="module" src="js/offline-sync.js"></script>
+</body>
+</html>
