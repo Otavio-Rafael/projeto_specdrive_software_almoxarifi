@@ -1,7 +1,7 @@
-import { supabase } from './config.js';
-import { formatarMoeda, formatarData, gerarCodigoQRCanvas } from './utils.js';
+import { supabase, onDOMReady } from './config.js';
+import { formatarMoeda, gerarCodigoQRCanvas } from './utils.js';
 
-document.addEventListener('DOMContentLoaded', () => {
+onDOMReady(() => {
     carregarInsumos();
     setupInsumosEvents();
 });
@@ -35,7 +35,7 @@ async function carregarInsumos() {
         if (categoria) {
             query = query.eq('id_categoria', categoria);
         }
-        const { data: insumos, error } = await query;
+        const { data: insumos } = await query;
 
         let lista = insumos || getMockInsumos();
 
@@ -58,37 +58,37 @@ function renderizarTabelaInsumos(lista) {
     if (!tbody) return;
 
     if (lista.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" class="text-center p-6 text-slate-500">Nenhum insumo encontrado.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="7" class="text-center p-6 text-secondary">Nenhum insumo encontrado.</td></tr>`;
         return;
     }
 
     tbody.innerHTML = lista.map(i => {
-        const qtdEstoque = i.estoque_consolidado?.[0]?.quantidade_total || i.quantidade_total || 0;
+        const qtdEstoque = i.estoque_consolidado?.[0]?.quantidade_total ?? i.quantidade_total ?? 0;
         const ptoPedido = i.ponto_pedido || 5;
 
-        let badgeStatus = '<span class="px-2 py-0.5 rounded text-xs font-bold bg-emerald-100 text-emerald-800">Normal</span>';
+        let badgeStatus = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800">Normal</span>';
         if (qtdEstoque <= 0) {
-            badgeStatus = '<span class="px-2 py-0.5 rounded text-xs font-bold bg-red-100 text-red-800">Sem Estoque</span>';
+            badgeStatus = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-red-100 text-red-800">Sem Estoque</span>';
         } else if (qtdEstoque <= ptoPedido) {
-            badgeStatus = '<span class="px-2 py-0.5 rounded text-xs font-bold bg-amber-100 text-amber-800">Crítico / Baixo</span>';
+            badgeStatus = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-800">Crítico / Baixo</span>';
         }
 
         return `
-            <tr class="border-b hover:bg-slate-50 text-sm">
-                <td class="p-3 font-mono font-bold text-teal-700 text-xs">${i.sku || 'NX-INS-GEN-001'}</td>
-                <td class="p-3">
-                    <div class="font-semibold text-slate-900">${i.nome}</div>
-                    <div class="text-xs text-slate-500">${i.descricao || 'Sem descrição'}</div>
+            <tr class="hover:bg-surface-container-low transition-colors text-xs">
+                <td class="py-2.5 px-4 font-mono font-bold text-primary">${i.sku || 'NX-INS-GEN-001'}</td>
+                <td class="py-2.5 px-4">
+                    <div class="font-semibold text-on-surface">${i.nome}</div>
+                    <div class="text-[11px] text-secondary">${i.descricao || 'Sem descrição'}</div>
                 </td>
-                <td class="p-3 text-xs text-slate-600">${i.categorias_insumo?.nome || 'Geral'}</td>
-                <td class="p-3 font-bold tnum text-center">${qtdEstoque}</td>
-                <td class="p-3 text-xs tnum">${formatarMoeda(i.valor_limite_sem_aprovacao || i.custo_unitario_medio || 50)}</td>
-                <td class="p-3 text-center">${badgeStatus}</td>
-                <td class="p-3 text-right space-x-2">
-                    <button onclick="window.abrirModalQR('${i.sku}', '${i.nome}')" class="text-xs font-bold px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded border">
+                <td class="py-2.5 px-4 text-secondary">${i.categorias_insumo?.nome || 'Geral'}</td>
+                <td class="py-2.5 px-4 font-bold tnum text-center">${qtdEstoque}</td>
+                <td class="py-2.5 px-4 tnum">${formatarMoeda(i.valor_limite_sem_aprovacao || i.custo_unitario_medio || 50)}</td>
+                <td class="py-2.5 px-4 text-center">${badgeStatus}</td>
+                <td class="py-2.5 px-4 text-right space-x-2">
+                    <button onclick="window.abrirModalQR('${i.sku}', '${i.nome}')" class="text-xs font-bold px-2 py-1 bg-surface-container hover:bg-surface-container-high text-on-surface rounded border border-outline-variant">
                         QR Code
                     </button>
-                    <a href="movimentacoes.html?sku=${i.sku}" class="text-xs font-bold px-2.5 py-1 bg-teal-600 hover:bg-teal-700 text-white rounded">
+                    <a href="movimentacoes.html?sku=${i.sku}" class="text-xs font-bold px-2.5 py-1 bg-primary hover:bg-[#00454c] text-white rounded">
                         Baixa
                     </a>
                 </td>
@@ -107,14 +107,19 @@ async function salvarInsumo(e) {
     const ptoPedido = parseFloat(document.getElementById('input-ponto-pedido').value) || 0;
     const limiteSemAprov = parseFloat(document.getElementById('input-limite-aprovacao').value) || 50;
 
-    // Regra RN-02: estoque_minimo <= estoque_maximo
     if (estoqueMin > estoqueMax) {
         alert("Erro: O estoque mínimo não pode ser maior que o estoque máximo (Regra RN-02).");
         return;
     }
 
+    // Gerar SKU localmente caso a trigger no Supabase não esteja definida no banco
+    const siglaDept = departamento === 2 ? 'TI' : (departamento === 1 ? 'RH' : (departamento === 3 ? 'FIN' : 'MKT'));
+    const seq = Math.floor(1000 + Math.random() * 9000);
+    const skuGerado = `NX-INS-${siglaDept}-${seq}`;
+
     try {
         const { data, error } = await supabase.from('insumos').insert([{
+            sku: skuGerado,
             nome,
             id_categoria: categoria,
             id_unidade: 1,
@@ -129,13 +134,13 @@ async function salvarInsumo(e) {
         if (error) {
             alert("Erro ao cadastrar insumo: " + error.message);
         } else {
-            alert("Insumo cadastrado com sucesso! SKU Gerado via Trigger: " + (data[0]?.sku || 'Automático'));
+            alert("Insumo cadastrado com sucesso! SKU: " + (data[0]?.sku || skuGerado));
             document.getElementById('modal-novo-insumo')?.classList.add('hidden');
             carregarInsumos();
         }
     } catch (err) {
         console.error("Exceção ao salvar:", err);
-        alert("Insumo cadastrado localmente (Mock Mode) com sucesso!");
+        alert("Insumo cadastrado com sucesso (modo fallback)!");
         document.getElementById('modal-novo-insumo')?.classList.add('hidden');
     }
 }

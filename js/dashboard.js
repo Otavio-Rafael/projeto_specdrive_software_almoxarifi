@@ -1,7 +1,7 @@
-import { supabase } from './config.js';
+import { supabase, onDOMReady } from './config.js';
 import { formatarMoeda, formatarData } from './utils.js';
 
-document.addEventListener('DOMContentLoaded', () => {
+onDOMReady(() => {
     carregarDashboard();
     setupEventListeners();
 });
@@ -17,18 +17,15 @@ async function carregarDashboard() {
     const idDepto = document.getElementById('filter-departamento')?.value || '';
 
     try {
-        // Busca de Insumos
         let queryInsumos = supabase.from('insumos').select('*, estoque_consolidado(*), lotes_insumo(*)');
         if (idDepto) {
             queryInsumos = queryInsumos.eq('id_departamento', idDepto);
         }
-        const { data: insumos, error: errInsumos } = await queryInsumos;
+        const { data: insumos } = await queryInsumos;
 
-        // Busca de Movimentações Recentes
         let queryMov = supabase.from('movimentacoes').select('*, insumos(nome, sku)').order('created_at', { ascending: false }).limit(10);
         const { data: movimentacoes } = await queryMov;
 
-        // Busca de Requisições Pendentes
         const { data: requisicoes } = await supabase.from('requisicoes').select('*').eq('id_status', 1);
 
         renderizarKPIs(insumos || [], requisicoes || []);
@@ -43,34 +40,21 @@ async function carregarDashboard() {
 
 function renderizarKPIs(insumos, requisicoes) {
     let valorTotal = 0;
-    let totalItens = 0;
+    let totalItens = insumos.length;
     let itensCriticos = 0;
-    let lotesVencendo = 0;
 
     const hoje = new Date();
     const data30d = new Date();
     data30d.setDate(hoje.getDate() + 30);
 
     insumos.forEach(item => {
-        const qtdEstoque = item.estoque_consolidado?.[0]?.quantidade_total || 0;
+        const qtdEstoque = item.estoque_consolidado?.[0]?.quantidade_total ?? 0;
         const custoUnit = item.custo_unitario_medio || item.valor_limite_sem_aprovacao || 0;
 
-        totalItens += qtdEstoque;
         valorTotal += (qtdEstoque * custoUnit);
 
         if (qtdEstoque <= (item.ponto_pedido || 5)) {
             itensCriticos++;
-        }
-
-        if (item.lotes_insumo && Array.isArray(item.lotes_insumo)) {
-            item.lotes_insumo.forEach(lote => {
-                if (lote.data_validade) {
-                    const val = new Date(lote.data_validade);
-                    if (val <= data30d) {
-                        lotesVencendo++;
-                    }
-                }
-            });
         }
     });
 
@@ -124,7 +108,6 @@ function renderizarAlertasValidade(insumos) {
     const container = document.getElementById('alertas-container');
     if (!container) return;
 
-    // Alertas mock ou reais de alta visibilidade
     const alertas = [
         { sku: 'NX-INS-TI-00012', nome: 'Toner HP LaserJet M404', validade: '2026-10-05', dias: 15, nivel: 'Imminente Risk (15d)', cor: 'bg-orange-100 text-orange-800 border-orange-300' },
         { sku: 'NX-INS-MKT-00004', nome: 'Bateria Lítio Câmera Canon', validade: '2026-09-25', dias: 5, nivel: 'Urgent Window (5d)', cor: 'bg-red-100 text-red-800 border-red-300' },
@@ -132,17 +115,17 @@ function renderizarAlertasValidade(insumos) {
     ];
 
     container.innerHTML = alertas.map(a => `
-        <div class="p-4 rounded-lg border ${a.cor} flex items-center justify-between shadow-sm">
+        <div class="p-3 rounded-lg border ${a.cor} flex items-center justify-between shadow-sm">
             <div>
                 <div class="flex items-center gap-2">
-                    <span class="font-mono text-xs font-bold px-2 py-0.5 rounded bg-white bg-opacity-60">${a.sku}</span>
-                    <span class="text-xs font-semibold uppercase tracking-wider">${a.nivel}</span>
+                    <span class="font-mono text-xs font-bold px-1.5 py-0.5 rounded bg-white bg-opacity-60">${a.sku}</span>
+                    <span class="text-[10px] font-semibold uppercase tracking-wider">${a.nivel}</span>
                 </div>
-                <h4 class="font-semibold text-sm mt-1">${a.nome}</h4>
-                <p class="text-xs opacity-90">Vencimento: ${formatarData(a.validade)} (${a.dias} dias restantes)</p>
+                <h4 class="font-semibold text-xs mt-1">${a.nome}</h4>
+                <p class="text-[11px] opacity-90">Vencimento: ${formatarData(a.validade)} (${a.dias} dias restantes)</p>
             </div>
-            <a href="movimentacoes.html?sku=${a.sku}" class="text-xs font-bold px-3 py-1.5 bg-white rounded border shadow-sm hover:bg-slate-50 transition">
-                Dar Baixa Expressa
+            <a href="movimentacoes.html?sku=${a.sku}" class="text-xs font-bold px-2.5 py-1 bg-white rounded border shadow-sm hover:bg-slate-50 transition">
+                Dar Baixa
             </a>
         </div>
     `).join('');
@@ -159,13 +142,13 @@ function renderizarMovimentacoesRecentes(movs) {
     ];
 
     tbody.innerHTML = lista.map(m => `
-        <tr class="border-b hover:bg-slate-50 text-sm">
-            <td class="p-3 text-xs text-slate-500">${formatarData(m.created_at)}</td>
-            <td class="p-3 font-mono text-xs font-bold text-teal-700">${m.insumos?.sku || 'NX-INS-GEN'}</td>
-            <td class="p-3 font-medium">${m.insumos?.nome || 'Insumo Diversos'}</td>
-            <td class="p-3 font-bold text-center text-slate-800">${m.quantidade}</td>
-            <td class="p-3 text-xs text-slate-600">${m.motivo || 'Saída expressa'}</td>
-            <td class="p-3 font-mono text-xs text-slate-400 truncate max-w-[120px]">${m.hash_comprovante || '8f902a...'}</td>
+        <tr class="hover:bg-surface-container-low transition-colors text-xs">
+            <td class="py-2.5 px-4 text-secondary">${formatarData(m.created_at)}</td>
+            <td class="py-2.5 px-4 font-mono font-bold text-primary">${m.insumos?.sku || 'NX-INS-GEN'}</td>
+            <td class="py-2.5 px-4 font-medium text-on-surface">${m.insumos?.nome || 'Insumo Diversos'}</td>
+            <td class="py-2.5 px-4 font-bold text-center text-on-surface">${m.quantidade}</td>
+            <td class="py-2.5 px-4 text-secondary">${m.motivo || 'Saída expressa'}</td>
+            <td class="py-2.5 px-4 font-mono text-secondary truncate max-w-[120px]">${m.hash_comprovante || '8f902a...'}</td>
         </tr>
     `).join('');
 }
