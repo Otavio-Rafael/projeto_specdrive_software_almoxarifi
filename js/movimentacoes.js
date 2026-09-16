@@ -60,12 +60,19 @@ async function buscarDetalhesSKU(sku) {
                 </div>
             `;
             badge.dataset.insumoId = data.id_insumo;
+            badge.dataset.insumoNome = data.nome;
+            badge.dataset.insumoSku = data.sku;
+            badge.dataset.insumoDepto = data.id_departamento || 1;
             badge.dataset.limiteAprovacao = data.valor_limite_sem_aprovacao || 50;
         } else {
             badge.innerHTML = `<span class="text-xs text-error">SKU não encontrado no Supabase. Modos MOCK/Simulação ativo.</span>`;
+            badge.dataset.insumoNome = `Insumo (${sku})`;
+            badge.dataset.insumoSku = sku;
         }
     } catch (err) {
         badge.innerHTML = `<div class="p-3 bg-surface-container-low rounded text-xs">SKU Simulado: Toner / Ins. Diversos (Saldo Mock: 15 un)</div>`;
+        badge.dataset.insumoNome = `Insumo (${sku})`;
+        badge.dataset.insumoSku = sku;
     }
 }
 
@@ -83,9 +90,11 @@ async function processarMovimentacao(e) {
     if (valorEstimado > limiteAprovacao) {
         alert(`Atenção (Regra RN-03): O valor da retirada (R$ ${valorEstimado}) excede o limite sem aprovação de R$ ${limiteAprovacao}. Uma solicitação foi enviada para o painel de aprovações.`);
 
+        const numReq = `REQ-2026-${Math.floor(100000 + Math.random() * 900000)}`;
         try {
             await supabase.from('requisicoes').insert([{
-                id_departamento: 1,
+                numero_requisicao: numReq,
+                id_departamento: parseInt(badge?.dataset?.insumoDepto) || 1,
                 id_insumo: badge?.dataset?.insumoId || null,
                 quantidade_solicitada: qtd,
                 motivo: motivo,
@@ -93,7 +102,7 @@ async function processarMovimentacao(e) {
             }]);
         } catch (err) {}
 
-        window.location.href = "requisicoes.html";
+        window.location.href = `requisicoes.html?new_req=${numReq}`;
         return;
     }
 

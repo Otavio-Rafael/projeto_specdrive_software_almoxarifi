@@ -13,7 +13,8 @@ async function carregarRequisicoes() {
         const { data: reqs } = await supabase
             .from('requisicoes')
             .select('*, insumos(nome, sku), departamentos(nome)')
-            .eq('id_status', 1);
+            .eq('id_status', 1)
+            .order('created_at', { ascending: false });
 
         const lista = (reqs && reqs.length > 0) ? reqs : getMockRequisicoes();
         renderizarRequisicoes(lista);
@@ -32,28 +33,37 @@ function renderizarRequisicoes(lista) {
         return;
     }
 
-    container.innerHTML = lista.map(r => `
-        <div class="bg-surface-container-lowest p-5 rounded-xl border border-outline-variant shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div class="space-y-1">
-                <div class="flex items-center gap-2">
-                    <span class="font-mono text-xs font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-800">${r.numero_requisicao || 'REQ-2026-001'}</span>
-                    <span class="text-xs text-secondary">${r.departamentos?.nome || 'Tecnologia da Informação'}</span>
-                </div>
-                <h4 class="font-bold text-base text-on-surface font-heading">${r.insumos?.nome || 'Toner HP LaserJet M404'} (SKU: ${r.insumos?.sku || 'NX-INS-TI-00012'})</h4>
-                <p class="text-xs text-secondary">Quantidade Solicitada: <strong class="tnum text-on-surface">${r.quantidade_solicitada || 2}</strong> | Solicitante: Carlos Mendonça</p>
-                <p class="text-xs text-secondary italic">"Motivo: ${r.motivo || 'Impressão de relatórios gerenciais da diretoria'}"</p>
-            </div>
+    container.innerHTML = lista.map((r, index) => {
+        const numReq = r.numero_requisicao || `REQ-2026-${(index + 1).toString().padStart(6, '0')}`;
+        const nomeDepto = r.departamentos?.nome || 'Departamento Operacional';
+        const nomeInsumo = r.insumos?.nome || r.nome_insumo_temp || 'Insumo Solicitado';
+        const skuInsumo = r.insumos?.sku || r.sku_insumo_temp || 'NX-INS-GEN';
+        const qtd = r.quantidade_solicitada || 1;
+        const motivo = r.motivo || 'Sem motivo especificado';
 
-            <div class="flex items-center space-x-2">
-                <button onclick="window.aprovarRequisicao('${r.id_requisicao}')" class="px-4 py-2 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs rounded-lg transition shadow-sm">
-                    Aprovar Saída
-                </button>
-                <button onclick="window.rejeitarRequisicao('${r.id_requisicao}')" class="px-4 py-2 bg-red-100 hover:bg-red-200 text-red-700 font-bold text-xs rounded-lg transition">
-                    Rejeitar
-                </button>
+        return `
+            <div class="bg-surface-container-lowest p-5 rounded-xl border border-outline-variant shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div class="space-y-1">
+                    <div class="flex items-center gap-2">
+                        <span class="font-mono text-xs font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-800">${numReq}</span>
+                        <span class="text-xs text-secondary">${nomeDepto}</span>
+                    </div>
+                    <h4 class="font-bold text-base text-on-surface font-heading">${nomeInsumo} (SKU: ${skuInsumo})</h4>
+                    <p class="text-xs text-secondary">Quantidade Solicitada: <strong class="tnum text-on-surface">${qtd}</strong> | Solicitante: Usuário Operacional</p>
+                    <p class="text-xs text-secondary italic">"Motivo: ${motivo}"</p>
+                </div>
+
+                <div class="flex items-center space-x-2">
+                    <button onclick="window.aprovarRequisicao('${r.id_requisicao}')" class="px-4 py-2 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs rounded-lg transition shadow-sm">
+                        Aprovar Saída
+                    </button>
+                    <button onclick="window.rejeitarRequisicao('${r.id_requisicao}')" class="px-4 py-2 bg-red-100 hover:bg-red-200 text-red-700 font-bold text-xs rounded-lg transition">
+                        Rejeitar
+                    </button>
+                </div>
             </div>
-        </div>
-    `).join('');
+        `;
+    }).join('');
 }
 
 window.aprovarRequisicao = async function(id) {
