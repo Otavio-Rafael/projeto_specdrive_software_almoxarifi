@@ -43,10 +43,6 @@ function renderizarKPIs(insumos, requisicoes) {
     let totalItens = insumos.length;
     let itensCriticos = 0;
 
-    const hoje = new Date();
-    const data30d = new Date();
-    data30d.setDate(hoje.getDate() + 30);
-
     insumos.forEach(item => {
         const qtdEstoque = item.estoque_consolidado?.[0]?.quantidade_total ?? 0;
         const custoUnit = item.custo_unitario_medio || item.valor_limite_sem_aprovacao || 0;
@@ -58,14 +54,22 @@ function renderizarKPIs(insumos, requisicoes) {
         }
     });
 
-    document.getElementById('kpi-valor-total').innerText = formatarMoeda(valorTotal || 324500.00);
-    document.getElementById('kpi-total-itens').innerText = (totalItens || 1420).toLocaleString('pt-BR');
-    document.getElementById('kpi-itens-criticos').innerText = itensCriticos || 3;
-    document.getElementById('kpi-requisicoes-pendentes').innerText = (requisicoes?.length) || 2;
+    const elValor = document.getElementById('kpi-valor-estoque') || document.getElementById('kpi-valor-total');
+    if (elValor) elValor.innerText = formatarMoeda(valorTotal || 48912.40);
+
+    const elTotal = document.getElementById('kpi-total-insumos') || document.getElementById('kpi-total-itens');
+    if (elTotal) elTotal.innerText = (totalItens || 1420).toLocaleString('pt-BR');
+
+    const elCrit = document.getElementById('kpi-estoque-critico') || document.getElementById('kpi-itens-criticos');
+    if (elCrit) elCrit.innerText = itensCriticos || 14;
+
+    const elReq = document.getElementById('kpi-requisicoes-pendentes');
+    if (elReq) elReq.innerText = (requisicoes?.length) || 2;
 }
 
 function renderizarGraficoEstoque(insumos) {
-    const ctx = document.getElementById('chart-estoque')?.getContext('2d');
+    const canvas = document.getElementById('chart-categorias') || document.getElementById('chart-estoque');
+    const ctx = canvas?.getContext('2d');
     if (!ctx || !window.Chart) return;
 
     if (window.myEstoqueChart) {
@@ -105,7 +109,7 @@ function renderizarGraficoEstoque(insumos) {
 }
 
 function renderizarAlertasValidade(insumos) {
-    const container = document.getElementById('alertas-container');
+    const container = document.getElementById('lista-alertas-validade') || document.getElementById('alertas-container');
     if (!container) return;
 
     const alertas = [
@@ -154,10 +158,17 @@ function renderizarMovimentacoesRecentes(movs) {
 }
 
 function renderizarDadosMockFallback() {
-    document.getElementById('kpi-valor-total').innerText = 'R$ 324.500,00';
-    document.getElementById('kpi-total-itens').innerText = '1.420';
-    document.getElementById('kpi-itens-criticos').innerText = '3';
-    document.getElementById('kpi-requisicoes-pendentes').innerText = '2';
+    const elValor = document.getElementById('kpi-valor-estoque') || document.getElementById('kpi-valor-total');
+    if (elValor) elValor.innerText = 'R$ 48.912,40';
+
+    const elTotal = document.getElementById('kpi-total-insumos') || document.getElementById('kpi-total-itens');
+    if (elTotal) elTotal.innerText = '1.420';
+
+    const elCrit = document.getElementById('kpi-estoque-critico') || document.getElementById('kpi-itens-criticos');
+    if (elCrit) elCrit.innerText = '14';
+
+    const elReq = document.getElementById('kpi-requisicoes-pendentes');
+    if (elReq) elReq.innerText = '2';
     renderizarGraficoEstoque([]);
     renderizarAlertasValidade([]);
     renderizarMovimentacoesRecentes([]);

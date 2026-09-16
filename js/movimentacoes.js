@@ -11,16 +11,27 @@ function setupMovimentacoesEvents() {
     const btnScan = document.getElementById('btn-iniciar-scanner');
     if (btnScan) {
         btnScan.addEventListener('click', () => {
-            document.getElementById('scanner-modal').classList.remove('hidden');
-            iniciarLeitorQRCode('qr-reader-container', (skuLido) => {
-                document.getElementById('scanner-modal').classList.add('hidden');
-                document.getElementById('input-sku-movimentacao').value = skuLido;
+            const wrapper = document.getElementById('scanner-wrapper') || document.getElementById('scanner-modal');
+            if (wrapper) wrapper.classList.remove('hidden');
+
+            iniciarLeitorQRCode('reader', (skuLido) => {
+                if (wrapper) wrapper.classList.add('hidden');
+                const inputSku = document.getElementById('input-mov-sku') || document.getElementById('input-sku-movimentacao');
+                if (inputSku) inputSku.value = skuLido;
                 buscarDetalhesSKU(skuLido);
             });
         });
     }
 
-    const inputSku = document.getElementById('input-sku-movimentacao');
+    const btnParar = document.getElementById('btn-parar-scanner');
+    if (btnParar) {
+        btnParar.addEventListener('click', () => {
+            const wrapper = document.getElementById('scanner-wrapper') || document.getElementById('scanner-modal');
+            if (wrapper) wrapper.classList.add('hidden');
+        });
+    }
+
+    const inputSku = document.getElementById('input-mov-sku') || document.getElementById('input-sku-movimentacao');
     if (inputSku) {
         inputSku.addEventListener('change', () => buscarDetalhesSKU(inputSku.value));
     }
@@ -35,7 +46,7 @@ function verificarParametrosURL() {
     const urlParams = new URLSearchParams(window.location.search);
     const skuParam = urlParams.get('sku');
     if (skuParam) {
-        const input = document.getElementById('input-sku-movimentacao');
+        const input = document.getElementById('input-mov-sku') || document.getElementById('input-sku-movimentacao');
         if (input) {
             input.value = skuParam;
             buscarDetalhesSKU(skuParam);
@@ -79,10 +90,10 @@ async function buscarDetalhesSKU(sku) {
 async function processarMovimentacao(e) {
     e.preventDefault();
 
-    const sku = document.getElementById('input-sku-movimentacao').value;
-    const qtd = parseFloat(document.getElementById('input-quantidade').value);
-    const motivo = document.getElementById('input-motivo').value;
-    const valorEstimado = parseFloat(document.getElementById('input-valor-estimado').value || 30);
+    const sku = (document.getElementById('input-mov-sku') || document.getElementById('input-sku-movimentacao'))?.value || 'NX-INS-TI-00001';
+    const qtd = parseFloat((document.getElementById('input-mov-qtd') || document.getElementById('input-quantidade'))?.value || 1);
+    const motivo = (document.getElementById('input-mov-motivo') || document.getElementById('input-motivo'))?.value || 'Retirada padrão';
+    const valorEstimado = parseFloat(document.getElementById('input-valor-estimado')?.value || (qtd * 35));
 
     const badge = document.getElementById('insumo-detalhe-badge');
     const limiteAprovacao = parseFloat(badge?.dataset?.limiteAprovacao || 50);
@@ -140,7 +151,24 @@ async function processarMovimentacao(e) {
 }
 
 function exibirComprovanteHash(hash, isOffline) {
-    document.getElementById('comprovante-hash-display').innerText = hash;
-    document.getElementById('comprovante-status-tag').innerText = isOffline ? 'MODO OFFLINE (FILA LOCAL)' : 'AUDITADO & COMPROVADO (SHA-256)';
-    document.getElementById('modal-comprovante').classList.remove('hidden');
+    const container = document.getElementById('card-comprovante');
+    if (container) {
+        container.innerHTML = `
+            <div class="p-3 bg-emerald-50 border border-emerald-200 text-emerald-900 rounded space-y-2">
+                <div class="flex items-center justify-between">
+                    <span class="font-bold text-xs">Comprovante Gerado</span>
+                    <span class="text-[10px] uppercase font-bold px-1.5 py-0.5 rounded bg-emerald-200 text-emerald-800">${isOffline ? 'OFFLINE' : 'ONLINE'}</span>
+                </div>
+                <p class="font-mono text-[11px] break-all bg-white p-2 rounded border border-emerald-300 font-bold">${hash}</p>
+                <p class="text-[10px] text-emerald-700">Hash SHA-256 registrado no Log de Auditoria Imutável do Almoxarifado.</p>
+            </div>
+        `;
+    }
+
+    const hashDisplay = document.getElementById('comprovante-hash-display');
+    if (hashDisplay) hashDisplay.innerText = hash;
+    const statusTag = document.getElementById('comprovante-status-tag');
+    if (statusTag) statusTag.innerText = isOffline ? 'MODO OFFLINE (FILA LOCAL)' : 'AUDITADO & COMPROVADO (SHA-256)';
+    const modalComp = document.getElementById('modal-comprovante');
+    if (modalComp) modalComp.classList.remove('hidden');
 }

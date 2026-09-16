@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Nexus StorageControl - Retirada Expressa & QR Code</title>
+<title>Nexus StorageControl - Movimentações & Scanner QR</title>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
@@ -22,6 +22,7 @@
           "surface-container-high": "#dce9ff",
           "outline-variant": "#bcc9ca",
           "tertiary": "#006c49",
+          "tertiary-container": "#22c087",
           "surface-container-lowest": "#ffffff",
           "surface-container-low": "#eff4ff",
           "error": "#ba1a1a",
@@ -33,151 +34,183 @@
   }
 </script>
 <link rel="stylesheet" href="css/styles.css">
-<!-- Camera QR Code Scanner library -->
-<script src="https://cdn.jsdelivr.net/npm/html5-qrcode/html5-qrcode.min.js"></script>
+<!-- HTML5 QR Code Scanner CDN -->
+<script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
 </head>
-<body class="bg-background text-on-surface antialiased min-h-screen flex flex-col">
-
-<!-- Fixed SideNavBar -->
-<aside class="fixed left-0 top-0 h-full w-64 flex flex-col justify-between p-4 bg-surface-container-lowest border-r border-outline-variant z-30 shadow-sm">
-  <div class="flex flex-col gap-4">
-    <div class="flex items-center gap-2 px-1 py-1 border-b border-outline-variant/40 pb-3">
-      <div class="h-8 w-8 rounded-lg bg-primary flex items-center justify-center text-white font-bold text-lg shadow-sm">
-        SC
-      </div>
-      <div class="flex flex-col leading-tight">
-        <span class="font-bold text-primary tracking-tight font-heading">Nexus Storage</span>
-        <span class="text-xs text-secondary font-medium">NX-INS-2026-001</span>
-      </div>
-    </div>
-    <a href="movimentacoes.html" class="w-full flex items-center justify-center gap-1 h-[38px] bg-primary hover:bg-[#00454c] text-white font-semibold text-sm rounded-lg shadow-sm transition-all">
-      <span class="material-symbols-outlined">add</span>
-      Nova Movimentação
-    </a>
-    <nav class="flex flex-col gap-1 mt-1">
-      <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors" href="dashboard.html">
-        <span class="material-symbols-outlined">dashboard</span>
-        <span class="text-sm">Dashboard Operacional</span>
-      </a>
-      <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors" href="insumos.html">
-        <span class="material-symbols-outlined">inventory_2</span>
-        <span class="text-sm">Catálogo Mestre</span>
-      </a>
-      <a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-surface-container-high text-primary font-semibold transition-colors" href="movimentacoes.html">
-        <span class="material-symbols-outlined text-primary" data-weight="fill">qr_code_scanner</span>
-        <span class="text-sm">Retirada & Scanner QR</span>
-      </a>
-      <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors" href="requisicoes.html">
-        <span class="material-symbols-outlined">fact_check</span>
-        <span class="text-sm">Requisições & Aprovações</span>
-      </a>
-      <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors" href="relatorios.html">
-        <span class="material-symbols-outlined">analytics</span>
-        <span class="text-sm">Relatórios & Auditoria</span>
-      </a>
-    </nav>
-  </div>
-</aside>
+<body class="bg-surface text-on-surface font-body-md antialiased min-h-screen flex flex-col selection:bg-primary-container selection:text-on-primary-container">
 
 <!-- TopNavBar -->
-<header class="pl-64 w-full sticky top-0 z-40 bg-surface-container-lowest border-b border-outline-variant shadow-sm">
-  <div class="flex justify-between items-center h-14 px-6 w-full">
-    <div class="flex items-center gap-4 flex-1 max-w-3xl">
-      <span class="text-xs text-secondary font-semibold uppercase">Retirada Expressa Mobile (&lt; 30s)</span>
+<header class="flex justify-between items-center h-14 px-6 w-full border-b border-outline-variant bg-surface-container-lowest z-40 sticky top-0 shadow-sm">
+  <div class="flex items-center gap-6">
+    <div class="flex items-center gap-2">
+      <span class="flex items-center justify-center w-8 h-8 rounded bg-primary text-white font-bold text-sm shadow-sm">SC</span>
+      <div class="flex flex-col leading-none">
+        <span class="text-base font-bold tracking-tight text-primary">StorageControl</span>
+        <span class="text-[10px] text-secondary tracking-wider font-semibold">NEXUS ENTERPRISE</span>
+      </div>
     </div>
-    <div class="flex items-center gap-3">
-      <span id="offline-badge" class="hidden px-2 py-1 bg-amber-500 text-slate-950 font-mono text-xs font-bold rounded">0 pendentes offline</span>
+    <div class="relative hidden sm:block w-72">
+      <span class="material-symbols-outlined absolute left-2.5 top-2 text-secondary pointer-events-none text-[18px]">search</span>
+      <input class="w-full h-[34px] pl-8 pr-3 text-xs bg-surface-container-low border border-outline-variant rounded focus:outline-none focus:border-primary text-on-surface placeholder:text-secondary transition-all" placeholder="Buscar por SKU global..." type="text"/>
+    </div>
+    <nav class="hidden xl:flex items-center gap-4 ml-2">
+      <a class="text-secondary hover:text-on-surface transition-colors text-xs px-1.5 py-1" href="#">RH</a>
+      <a class="text-primary border-b-2 border-primary font-semibold pb-1 text-xs px-1.5" href="#">TI</a>
+      <a class="text-secondary hover:text-on-surface transition-colors text-xs px-1.5 py-1" href="#">FIN</a>
+      <a class="text-secondary hover:text-on-surface transition-colors text-xs px-1.5 py-1" href="#">COM</a>
+      <a class="text-secondary hover:text-on-surface transition-colors text-xs px-1.5 py-1" href="#">LOG</a>
+      <a class="text-secondary hover:text-on-surface transition-colors text-xs px-1.5 py-1" href="#">PROD</a>
+      <a class="text-secondary hover:text-on-surface transition-colors text-xs px-1.5 py-1" href="#">JUR</a>
+      <a class="text-secondary hover:text-on-surface transition-colors text-xs px-1.5 py-1" href="#">MKT</a>
+    </nav>
+  </div>
+  <div class="flex items-center gap-4">
+    <div class="flex items-center gap-1.5 px-2.5 py-1 bg-surface-container-low border border-outline-variant rounded-full text-xs text-tertiary">
+      <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+      <span class="font-medium text-on-surface">Online (Sync)</span>
+    </div>
+    <div class="flex items-center gap-1 text-secondary">
+      <a href="movimentacoes.html" class="p-1.5 rounded hover:bg-surface-container-low transition-colors" title="QR Scanner Rápido">
+        <span class="material-symbols-outlined text-primary text-[20px]">qr_code_scanner</span>
+      </a>
+      <button class="p-1.5 rounded hover:bg-surface-container-low transition-colors" title="Status de Rede">
+        <span class="material-symbols-outlined text-tertiary text-[20px]">wifi</span>
+      </button>
+      <button class="p-1.5 rounded hover:bg-surface-container-low transition-colors relative" title="Alertas de Estoque">
+        <span class="material-symbols-outlined text-[20px]">notifications</span>
+        <span class="absolute top-1 right-1 w-2 h-2 rounded-full bg-error"></span>
+      </button>
     </div>
   </div>
 </header>
 
-<!-- Main Content -->
-<div class="pl-64 flex-1 flex flex-col">
-  <main class="flex-1 px-6 py-6 max-w-2xl w-full mx-auto space-y-6">
-    <div class="border-b border-outline-variant/40 pb-3">
-      <h1 class="text-2xl font-bold text-on-surface font-heading tracking-tight">Retirada Expressa Mobile (OE3)</h1>
-      <p class="text-xs text-secondary mt-0.5">Escaneie o QR Code com a câmera do celular ou digite o SKU manualmente.</p>
-    </div>
-
-    <!-- Scanner Banner -->
-    <div class="bg-gradient-to-r from-primary to-inverse-surface rounded-xl p-6 text-white text-center shadow-md flex flex-col items-center justify-center space-y-3">
-      <div class="w-14 h-14 rounded-full bg-white/10 flex items-center justify-center">
-        <span class="material-symbols-outlined text-3xl">qr_code_scanner</span>
+<div class="flex flex-1 w-full min-h-[calc(100vh-3.5rem)]">
+  <!-- SideNavBar -->
+  <aside class="w-64 border-r border-outline-variant bg-surface-container-lowest flex flex-col justify-between p-4 shrink-0 shadow-sm hidden md:flex">
+    <div class="space-y-4">
+      <div class="p-2.5 bg-surface-container-low border border-outline-variant rounded flex items-center justify-between">
+        <div>
+          <p class="font-bold text-primary text-sm">Nexus Storage</p>
+          <p class="text-[11px] text-secondary">NX-INS-2026-001</p>
+        </div>
+        <span class="px-1.5 py-0.5 bg-emerald-100 text-emerald-800 text-[10px] font-bold rounded">v2.4</span>
       </div>
-      <h2 class="text-lg font-bold font-heading">Leitor Web QR Code</h2>
-      <p class="text-xs text-slate-200 max-w-xs">Clique abaixo para ativar a câmera do dispositivo e efetuar a baixa em segundos.</p>
-      <button id="btn-iniciar-scanner" class="px-5 py-2.5 bg-primary-container hover:bg-[#389fa9] text-on-primary font-bold rounded-lg text-xs transition shadow-sm">
-        Escanear QR Code com Câmera
-      </button>
+
+      <a href="insumos.html" class="w-full flex items-center justify-center gap-1.5 h-10 bg-primary hover:bg-[#00454c] text-white font-semibold text-xs rounded transition-all shadow-xs">
+        <span class="material-symbols-outlined text-[18px]">add</span>
+        Cadastrar Insumo
+      </a>
+
+      <nav class="space-y-1 pt-2">
+        <a class="flex items-center gap-3 px-3 py-2 rounded text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors text-xs" href="dashboard.html">
+          <span class="material-symbols-outlined text-[18px]">dashboard</span>
+          <span>Dashboard Operacional</span>
+        </a>
+        <a class="flex items-center gap-3 px-3 py-2 rounded text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors text-xs" href="insumos.html">
+          <span class="material-symbols-outlined text-[18px]">inventory_2</span>
+          <span>Catálogo Mestre</span>
+        </a>
+        <a class="flex items-center gap-3 px-3 py-2 rounded bg-surface-container text-primary font-semibold transition-colors text-xs" href="movimentacoes.html">
+          <span class="material-symbols-outlined text-primary text-[18px]">qr_code_scanner</span>
+          <span>Retirada & Scanner QR</span>
+        </a>
+        <a class="flex items-center gap-3 px-3 py-2 rounded text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors text-xs" href="requisicoes.html">
+          <span class="material-symbols-outlined text-[18px]">fact_check</span>
+          <span>Requisições & Aprovações</span>
+        </a>
+        <a class="flex items-center gap-3 px-3 py-2 rounded text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors text-xs" href="relatorios.html">
+          <span class="material-symbols-outlined text-[18px]">analytics</span>
+          <span>Relatórios & Auditoria</span>
+        </a>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="flex-1 p-6 space-y-6 overflow-x-hidden">
+    <div class="flex items-center justify-between border-b border-outline-variant pb-3">
+      <div>
+        <h1 class="text-xl font-bold text-on-surface font-heading">Nova Movimentação de Estoque</h1>
+        <p class="text-xs text-secondary mt-0.5">Leitura de QR Code, retiradas e geração de comprovante SHA-256</p>
+      </div>
     </div>
 
-    <!-- Form Card -->
-    <div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant shadow-sm space-y-4">
-      <h2 class="font-bold text-base text-on-surface border-b pb-2 font-heading">Dados da Retirada</h2>
-
-      <form id="form-movimentacao" class="space-y-4">
-        <div>
-          <label class="block text-xs font-semibold text-secondary uppercase">SKU do Insumo</label>
-          <input type="text" id="input-sku-movimentacao" required placeholder="Ex: NX-INS-TI-00001" class="w-full border border-outline-variant rounded-lg px-3 py-2 text-xs font-mono focus:ring-2 focus:ring-primary outline-none">
-        </div>
-
-        <div id="insumo-detalhe-badge">
-          <!-- Carregado ao preencher SKU -->
-        </div>
-
-        <div class="grid grid-cols-2 gap-3">
-          <div>
-            <label class="block text-xs font-semibold text-secondary uppercase">Quantidade</label>
-            <input type="number" id="input-quantidade" required min="1" value="1" class="w-full border border-outline-variant rounded-lg px-3 py-2 text-xs focus:ring-2 focus:ring-primary outline-none">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <!-- Formulário de Movimentação -->
+      <div class="lg:col-span-2 bg-surface-container-lowest p-6 rounded border border-outline-variant shadow-xs space-y-4">
+        <form id="form-movimentacao" class="space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-secondary uppercase">SKU ou Código do Insumo</label>
+              <div class="flex gap-2 mt-1">
+                <input type="text" id="input-mov-sku" required placeholder="NX-INS-TI-00001" class="flex-1 border border-outline-variant rounded px-3 py-2 text-xs focus:ring-1 focus:ring-primary outline-none">
+                <button type="button" id="btn-iniciar-scanner" class="px-3 py-2 bg-primary hover:bg-[#00454c] text-white text-xs font-bold rounded flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[16px]">qr_code_scanner</span>
+                </button>
+              </div>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-secondary uppercase">Tipo de Movimentação</label>
+              <select id="select-mov-tipo" required class="w-full border border-outline-variant rounded px-3 py-2 text-xs focus:ring-1 focus:ring-primary outline-none mt-1">
+                <option value="2">Saída / Retirada</option>
+                <option value="1">Entrada / Reposição</option>
+                <option value="3">Ajuste de Inventário</option>
+              </select>
+            </div>
           </div>
-          <div>
-            <label class="block text-xs font-semibold text-secondary uppercase">Valor Estimado (R$)</label>
-            <input type="number" step="0.01" id="input-valor-estimado" value="25.00" class="w-full border border-outline-variant rounded-lg px-3 py-2 text-xs focus:ring-2 focus:ring-primary outline-none">
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-secondary uppercase">Quantidade</label>
+              <input type="number" step="0.01" id="input-mov-qtd" required min="0.01" value="1" class="w-full border border-outline-variant rounded px-3 py-2 text-xs focus:ring-1 focus:ring-primary outline-none mt-1">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-secondary uppercase">Departamento Destino</label>
+              <select id="select-mov-dept" class="w-full border border-outline-variant rounded px-3 py-2 text-xs focus:ring-1 focus:ring-primary outline-none mt-1">
+                <option value="2">TI</option>
+                <option value="1">RH</option>
+                <option value="3">Financeiro</option>
+                <option value="8">Marketing</option>
+              </select>
+            </div>
           </div>
-        </div>
 
-        <div>
-          <label class="block text-xs font-semibold text-secondary uppercase">Motivo / Finalidade</label>
-          <input type="text" id="input-motivo" required placeholder="Ex: Manutenção Servidor RH" class="w-full border border-outline-variant rounded-lg px-3 py-2 text-xs focus:ring-2 focus:ring-primary outline-none">
-        </div>
+          <div>
+            <label class="block text-xs font-semibold text-secondary uppercase">Motivo / Observação</label>
+            <input type="text" id="input-mov-motivo" placeholder="Ex: Manutenção na sala de servidores" class="w-full border border-outline-variant rounded px-3 py-2 text-xs focus:ring-1 focus:ring-primary outline-none mt-1">
+          </div>
 
-        <button type="submit" class="w-full py-3 bg-primary hover:bg-[#00454c] text-white font-bold text-sm rounded-lg shadow-sm transition">
-          Confirmar Retirada Expressa
-        </button>
-      </form>
+          <div class="flex justify-end pt-2">
+            <button type="submit" class="px-6 py-2.5 bg-primary hover:bg-[#00454c] text-white font-bold text-xs rounded transition shadow-xs flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-[18px]">check_circle</span>
+              Registrar Movimentação
+            </button>
+          </div>
+        </form>
+
+        <!-- Scanner Container -->
+        <div id="scanner-wrapper" class="hidden border-t border-outline-variant pt-4 space-y-3">
+          <div class="flex items-center justify-between">
+            <h4 class="font-bold text-xs text-on-surface">Câmera ativa para leitura de QR Code</h4>
+            <button id="btn-parar-scanner" class="text-xs text-red-600 font-bold hover:underline">Fechar Câmera</button>
+          </div>
+          <div id="reader" class="w-full rounded overflow-hidden bg-black max-w-md mx-auto"></div>
+        </div>
+      </div>
+
+      <!-- Card de Comprovante SHA-256 -->
+      <div class="bg-surface-container-lowest p-6 rounded border border-outline-variant shadow-xs space-y-4">
+        <h3 class="text-sm font-bold text-on-surface border-b border-outline-variant pb-2">Comprovante de Retirada (OE1)</h3>
+        <div id="card-comprovante" class="text-xs space-y-3 text-secondary">
+          <p class="italic">Nenhuma movimentação registrada nesta sessão.</p>
+        </div>
+      </div>
     </div>
   </main>
 </div>
 
-<!-- Modal Scanner Camera -->
-<div id="scanner-modal" class="hidden fixed inset-0 z-50 bg-slate-900 bg-opacity-80 flex items-center justify-center p-4">
-  <div class="bg-surface-container-lowest rounded-xl shadow-2xl max-w-md w-full p-4 space-y-4 text-center border border-outline-variant">
-    <div class="flex items-center justify-between border-b pb-2">
-      <h3 class="font-bold text-on-surface">Leitor QR Code Ativo</h3>
-      <button onclick="document.getElementById('scanner-modal').classList.add('hidden')" class="text-secondary font-bold text-lg">&times;</button>
-    </div>
-    <div id="qr-reader-container" class="w-full min-h-[250px] bg-background rounded"></div>
-    <p class="text-xs text-secondary">Aponte a câmera para o código QR da etiqueta.</p>
-  </div>
-</div>
-
-<!-- Modal Comprovante SHA-256 (OE1) -->
-<div id="modal-comprovante" class="hidden fixed inset-0 z-50 bg-slate-900 bg-opacity-50 flex items-center justify-center p-4">
-  <div class="bg-surface-container-lowest rounded-xl shadow-xl max-w-md w-full p-6 text-center space-y-4 border border-outline-variant">
-    <div class="w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto text-xl font-bold">✓</div>
-    <h3 class="font-bold text-lg text-on-surface font-heading">Retirada Concluída com Sucesso!</h3>
-    <div class="p-4 bg-background border border-outline-variant rounded-lg space-y-2 text-left">
-      <p id="comprovante-status-tag" class="text-[10px] font-bold uppercase text-primary tracking-wider">AUDITADO & COMPROVADO (SHA-256)</p>
-      <p class="text-xs text-secondary">Hash SHA-256 do Comprovante (OE1):</p>
-      <div id="comprovante-hash-display" class="font-mono text-xs bg-surface-container-lowest p-2 border rounded break-all select-all font-bold text-on-surface"></div>
-    </div>
-    <button onclick="document.getElementById('modal-comprovante').classList.add('hidden'); window.location.href='dashboard.html';" class="w-full py-2 bg-primary hover:bg-[#00454c] text-white text-xs font-bold rounded-lg shadow-sm">
-      Voltar ao Dashboard
-    </button>
-  </div>
-</div>
-
 <script type="module" src="js/movimentacoes.js"></script>
+<script type="module" src="js/qr-scanner.js"></script>
 <script type="module" src="js/offline-sync.js"></script>
 </body>
 </html>
