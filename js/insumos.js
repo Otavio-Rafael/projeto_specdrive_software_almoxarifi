@@ -1,12 +1,40 @@
 import { supabase, onDOMReady } from './config.js';
-import { formatarMoeda, gerarCodigoQRCanvas } from './utils.js';
+import { formatarMoeda, gerarCodigoQRCanvas, getDepartamentoAtivo } from './utils.js';
+
+let paginaAtual = 1;
+const ITENS_POR_PAGINA = 10;
+let listaInsumosFiltrada = [];
 
 onDOMReady(() => {
     carregarInsumos();
     setupInsumosEvents();
+    document.addEventListener('deptoChanged', () => {
+        paginaAtual = 1;
+        carregarInsumos();
+    });
 });
 
 function setupInsumosEvents() {
+    const btnPrev = document.getElementById('btn-page-prev');
+    if (btnPrev) {
+        btnPrev.addEventListener('click', () => {
+            if (paginaAtual > 1) {
+                paginaAtual--;
+                renderizarTabelaInsumos(listaInsumosFiltrada);
+            }
+        });
+    }
+
+    const btnNext = document.getElementById('btn-page-next');
+    if (btnNext) {
+        btnNext.addEventListener('click', () => {
+            const totalPaginas = Math.ceil(listaInsumosFiltrada.length / ITENS_POR_PAGINA) || 1;
+            if (paginaAtual < totalPaginas) {
+                paginaAtual++;
+                renderizarTabelaInsumos(listaInsumosFiltrada);
+            }
+        });
+    }
     const formInsumo = document.getElementById('form-insumo');
     if (formInsumo) {
         formInsumo.addEventListener('submit', salvarInsumo);
@@ -29,9 +57,13 @@ async function carregarInsumos() {
 
     const termo = document.getElementById('search-insumos')?.value.toLowerCase() || '';
     const categoria = document.getElementById('filter-categoria')?.value || '';
+    const deptoHeader = getDepartamentoAtivo();
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const skuUrl = urlParams.get('sku')?.toLowerCase() || '';
 
     try {
-        let query = supabase.from('insumos').select('*, estoque_consolidado(*), categorias_insumo(nome), departamentos(sigla)');
+        let query = supabase.from('insumos').select('*, estoque_consolidado(*), categorias_insumo(nome), departamentos(sigla, nome)');
         if (categoria) {
             query = query.eq('id_categoria', categoria);
         }
@@ -40,17 +72,28 @@ async function carregarInsumos() {
         const locais = getInsumosLocais();
         let lista = (insumos && insumos.length > 0) ? [...locais, ...insumos] : [...locais, ...getMockInsumos()];
 
-        if (termo) {
+        // Filtro por departamento do Header
+        if (deptoHeader && deptoHeader !== 'todos') {
+            lista = lista.filter(i => {
+                const siglaItem = i.departamentos?.sigla || (i.sku ? i.sku.split('-')[2] : '');
+                return siglaItem.toUpperCase() === deptoHeader.toUpperCase();
+            });
+        }
+
+        const buscaTermo = skuUrl || termo;
+        if (buscaTermo) {
             lista = lista.filter(i =>
-                i.nome.toLowerCase().includes(termo) ||
-                (i.sku && i.sku.toLowerCase().includes(termo))
+                i.nome.toLowerCase().includes(buscaTermo) ||
+                (i.sku && i.sku.toLowerCase().includes(buscaTermo))
             );
         }
 
-        renderizarTabelaInsumos(lista);
+        listaInsumosFiltrada = lista;
+        renderizarTabelaInsumos(listaInsumosFiltrada);
     } catch (err) {
         console.error("Erro ao buscar insumos:", err);
-        renderizarTabelaInsumos(getMockInsumos());
+        listaInsumosFiltrada = getMockInsumos();
+        renderizarTabelaInsumos(listaInsumosFiltrada);
     }
 }
 
@@ -58,12 +101,34 @@ function renderizarTabelaInsumos(lista) {
     const tbody = document.getElementById('tabela-insumos');
     if (!tbody) return;
 
-    if (lista.length === 0) {
+    const total = lista.length;
+    const totalPaginas = Math.ceil(total / ITENS_POR_PAGINA) || 1;
+    if (paginaAtual > totalPaginas) paginaAtual = totalPaginas;
+
+    const inicio = (paginaAtual - 1) * ITENS_POR_PAGINA;
+    const fim = inicio + ITENS_POR_PAGINA;
+    const itensPagina = lista.slice(inicio, fim);
+
+    const infoPaginacao = document.getElementById('paginacao-info');
+    if (infoPaginacao) {
+        infoPaginacao.innerText = total === 0 ? 'Nenhum insumo encontrado' : `Mostrando ${inicio + 1}-${Math.min(fim, total)} de ${total}`;
+    }
+
+    const numDisplay = document.getElementById('page-num-display');
+    if (numDisplay) numDisplay.innerText = `${paginaAtual} / ${totalPaginas}`;
+
+    const btnPrev = document.getElementById('btn-page-prev');
+    if (btnPrev) btnPrev.disabled = paginaAtual <= 1;
+
+    const btnNext = document.getElementById('btn-page-next');
+    if (btnNext) btnNext.disabled = paginaAtual >= totalPaginas;
+
+    if (total === 0) {
         tbody.innerHTML = `<tr><td colspan="7" class="text-center p-6 text-secondary">Nenhum insumo encontrado.</td></tr>`;
         return;
     }
 
-    tbody.innerHTML = lista.map(i => {
+    tbody.innerHTML = itensPagina.map(i => {
         const qtdEstoque = i.estoque_consolidado?.[0]?.quantidade_total ?? i.quantidade_total ?? 0;
         const ptoPedido = i.ponto_pedido || 5;
 

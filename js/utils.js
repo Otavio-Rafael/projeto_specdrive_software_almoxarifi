@@ -51,6 +51,61 @@ export function exportarParaExcel(dados, nomeArquivo = 'relatorio.xlsx') {
     window.XLSX.writeFile(wb, nomeArquivo);
 }
 
+export function setupGlobalSearch() {
+    const inputs = document.querySelectorAll('input[placeholder*="Buscar por SKU"]');
+    inputs.forEach(input => {
+        input.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                const sku = e.target.value.trim();
+                if (sku) {
+                    window.location.href = `insumos.html?sku=${encodeURIComponent(sku)}`;
+                }
+            }
+        });
+    });
+}
+
+export function getDepartamentoAtivo() {
+    return localStorage.getItem('nexus_depto_ativo') || 'todos';
+}
+
+export function setDepartamentoAtivo(depto) {
+    localStorage.setItem('nexus_depto_ativo', depto);
+    document.dispatchEvent(new CustomEvent('deptoChanged', { detail: { depto } }));
+}
+
+export function setupHeaderDeptNav() {
+    const nav = document.getElementById('header-dept-nav');
+    if (!nav) return;
+
+    const deptoAtual = getDepartamentoAtivo();
+    const btns = nav.querySelectorAll('.header-depto-btn');
+
+    btns.forEach(btn => {
+        const val = btn.dataset.depto;
+        if (val === deptoAtual) {
+            btn.className = "header-depto-btn text-xs px-2 py-1 rounded transition-colors text-primary font-bold border-b-2 border-primary";
+        } else {
+            btn.className = "header-depto-btn text-xs px-2 py-1 rounded transition-colors text-secondary hover:text-on-surface";
+        }
+
+        btn.addEventListener('click', () => {
+            setDepartamentoAtivo(val);
+            btns.forEach(b => {
+                b.className = "header-depto-btn text-xs px-2 py-1 rounded transition-colors text-secondary hover:text-on-surface";
+            });
+            btn.className = "header-depto-btn text-xs px-2 py-1 rounded transition-colors text-primary font-bold border-b-2 border-primary";
+        });
+    });
+}
+
+if (typeof window !== 'undefined') {
+    document.addEventListener('DOMContentLoaded', () => {
+        setupGlobalSearch();
+        setupHeaderDeptNav();
+    });
+}
+
 export function exportarParaPDF(titulo, dadosColunas, dadosLinhas, nomeArquivo = 'relatorio.pdf') {
     if (!window.jspdf || !window.jspdf.jsPDF) {
         alert('Biblioteca jsPDF não foi carregada.');

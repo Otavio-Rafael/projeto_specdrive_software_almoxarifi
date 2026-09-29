@@ -52,15 +52,16 @@
       <span class="material-symbols-outlined absolute left-2.5 top-2 text-secondary pointer-events-none text-[18px]">search</span>
       <input class="w-full h-[34px] pl-8 pr-3 text-xs bg-surface-container-low border border-outline-variant rounded focus:outline-none focus:border-primary text-on-surface placeholder:text-secondary transition-all" placeholder="Buscar por SKU global..." type="text"/>
     </div>
-    <nav class="hidden xl:flex items-center gap-4 ml-2">
-      <a class="text-secondary hover:text-on-surface transition-colors text-xs px-1.5 py-1" href="#">RH</a>
-      <a class="text-primary border-b-2 border-primary font-semibold pb-1 text-xs px-1.5" href="#">TI</a>
-      <a class="text-secondary hover:text-on-surface transition-colors text-xs px-1.5 py-1" href="#">FIN</a>
-      <a class="text-secondary hover:text-on-surface transition-colors text-xs px-1.5 py-1" href="#">COM</a>
-      <a class="text-secondary hover:text-on-surface transition-colors text-xs px-1.5 py-1" href="#">LOG</a>
-      <a class="text-secondary hover:text-on-surface transition-colors text-xs px-1.5 py-1" href="#">PROD</a>
-      <a class="text-secondary hover:text-on-surface transition-colors text-xs px-1.5 py-1" href="#">JUR</a>
-      <a class="text-secondary hover:text-on-surface transition-colors text-xs px-1.5 py-1" href="#">MKT</a>
+    <nav id="header-dept-nav" class="hidden xl:flex items-center gap-3 ml-2">
+      <button data-depto="todos" class="header-depto-btn text-xs px-2 py-1 rounded transition-colors text-primary font-bold border-b-2 border-primary">TODOS</button>
+      <button data-depto="RH" class="header-depto-btn text-xs px-2 py-1 rounded transition-colors text-secondary hover:text-on-surface">RH</button>
+      <button data-depto="TI" class="header-depto-btn text-xs px-2 py-1 rounded transition-colors text-secondary hover:text-on-surface">TI</button>
+      <button data-depto="FIN" class="header-depto-btn text-xs px-2 py-1 rounded transition-colors text-secondary hover:text-on-surface">FIN</button>
+      <button data-depto="COM" class="header-depto-btn text-xs px-2 py-1 rounded transition-colors text-secondary hover:text-on-surface">COM</button>
+      <button data-depto="LOG" class="header-depto-btn text-xs px-2 py-1 rounded transition-colors text-secondary hover:text-on-surface">LOG</button>
+      <button data-depto="PROD" class="header-depto-btn text-xs px-2 py-1 rounded transition-colors text-secondary hover:text-on-surface">PROD</button>
+      <button data-depto="JUR" class="header-depto-btn text-xs px-2 py-1 rounded transition-colors text-secondary hover:text-on-surface">JUR</button>
+      <button data-depto="MKT" class="header-depto-btn text-xs px-2 py-1 rounded transition-colors text-secondary hover:text-on-surface">MKT</button>
     </nav>
   </div>
   <div class="flex items-center gap-4">
@@ -111,7 +112,7 @@
         </a>
         <a class="flex items-center gap-3 px-3 py-2 rounded text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors text-xs" href="movimentacoes.html">
           <span class="material-symbols-outlined text-[18px]">qr_code_scanner</span>
-          <span>Retirada & Scanner QR</span>
+          <span>Movimentações</span>
         </a>
         <a class="flex items-center gap-3 px-3 py-2 rounded text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors text-xs" href="requisicoes.html">
           <span class="material-symbols-outlined text-[18px]">fact_check</span>
