@@ -138,12 +138,12 @@ Este documento contém a relação hierárquica e ordenada de tarefas atômicas 
 
 ### [ ] TASK-402: Módulo de Lógica para Retirada e Entrada de Estoque
 - **Arquivo-Alvo:** `js/movimentacoes.js`
-- **Objetivo:** Implementar as funções de lançamento de movimentação. Aplicar a Regra de Negócio `RN-03`: retiradas com valor total <= R$ 50,00 realizam baixa direta; retiradas com valor > R$ 50,00 ou categorias com flag `requer_aprovacao = true` criam uma solicitação na tabela `requisicoes`.
+- **Objetivo:** Implementar as funções de lançamento de movimentação. Aplicar a Regra de Negócio `RN-03`: retiradas com valor total dentro do limite individual do insumo (`valor_limite_sem_aprovacao`) realizam baixa direta; retiradas com valor excedendo o limite individual do insumo criam uma solicitação na tabela `requisicoes`.
 - **Dependências:** TASK-201, TASK-401, TASK-301
 - **Critério de Aceite:**
   - Baixa expressa concluída em < 30 segundos (`OE3`).
   - Acionamento automático da Trigger `trg_estoque` e geração do Hash SHA-256 (`trg_hash`).
-  - Redirecionamento automático para requisição em caso de exceder R$ 50,00.
+  - Redirecionamento automático para requisição em caso de exceder o limite individual do insumo.
 
 ---
 

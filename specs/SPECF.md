@@ -506,7 +506,7 @@ jobs:
 |----|------------------|-----------------|--------------------------|
 | **RN-01** | Gerar SKU automático `NX-INS-[SIGLA]-[SEQ]` | Trigger PL/pgSQL no PostgreSQL | Erro de inserção bloqueado |
 | **RN-02** | `estoque_minimo <= estoque_maximo` | Validação JS no Frontend + Constraint SQL | Alerta HTTP 400 Bad Request |
-| **RN-03** | Saída com valor > R$ 50 exige aprovação | Função/Logic JS em `movimentacoes.js` | Redireciona para tabela `requisicoes` |
+| **RN-03** | Saída com valor > limite individual do insumo exige aprovação | Função/Logic JS em `movimentacoes.js` | Redireciona para tabela `requisicoes` |
 | **RN-04** | Bloqueio de baixa para estoque insuficiente | Constraint `CHECK (quantidade > 0)` + RLS | Retorna erro Supabase RLS |
 | **RN-05** | Hash SHA-256 obrigatório no comprovante | Trigger `trg_hash` no Supabase | Impede registro sem hash auditável |
 | **RN-06** | Deploy contínuo sem servidor físico | GitHub Actions + GitHub Pages | Sincronização automática na branch `main` |
