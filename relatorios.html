@@ -162,6 +162,33 @@
         <button id="btn-export-criticos" class="w-full py-2 bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold rounded shadow-xs">Gerar Relatório de Alerta</button>
       </div>
     </div>
+
+    <!-- Tabela de Log de Auditoria Imutável (SHA-256) -->
+    <div class="bg-surface-container-lowest p-5 rounded border border-outline-variant shadow-xs space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="text-sm font-bold text-on-surface flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary">security</span> Log de Auditoria Imutável (SHA-256)
+        </h3>
+        <span class="text-xs text-secondary">Trilha de Auditoria Auditada</span>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse text-xs">
+          <thead>
+            <tr class="bg-surface-container-low border-b border-outline-variant text-[11px] font-semibold text-secondary uppercase">
+              <th class="py-2.5 px-4">Data / Hora</th>
+              <th class="py-2.5 px-4">Tabela Afetada</th>
+              <th class="py-2.5 px-4">Operação</th>
+              <th class="py-2.5 px-4">Dados Alterados</th>
+              <th class="py-2.5 px-4">Hash Registro (SHA-256)</th>
+            </tr>
+          </thead>
+          <tbody id="tabela-auditoria" class="divide-y divide-outline-variant">
+            <!-- Injetado por relatorios.js -->
+          </tbody>
+        </table>
+      </div>
+    </div>
   </main>
 </div>
 

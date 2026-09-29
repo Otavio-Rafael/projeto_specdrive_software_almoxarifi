@@ -27,13 +27,13 @@ O **Nexus StorageControl** é um sistema web/mobile serverless desenvolvido para
 │   ├── qr-scanner.js            # Leitura de QR Code via Web Camera API
 │   ├── dashboard.js             # Módulo de KPIs e gráficos Chart.js
 │   ├── insumos.js               # CRUD de Insumos, regras de estoque min/máx e Auto-SKU
-│   ├── movimentacoes.js         # Retirada expressa mobile, validação RN-03 (> R$ 50) e comprovante SHA-256
+│   ├── movimentacoes.js         # Retirada expressa mobile, validação RN-03 (limite individual do insumo) e comprovante SHA-256
 │   ├── requisicoes.js           # Painel de aprovações de gestor (SLA 48h)
 │   └── relatorios.js            # Trilha de auditoria imutável e exportações
 ├── index.html                   # Redirecionamento de entrada
 ├── dashboard.html               # Painel Executivo / KPIs / Alertas de Validade
 ├── insumos.html                 # Catálogo Mestre de Insumos & Impressão QR Code
-├── movimentacoes.html           # Tela Mobile-First de Baixa e Leitor QR Code
+├── movimentacoes.html           # Tela Mobile-First de Movimentações & Leitor QR Code
 ├── requisicoes.html             # Painel de Aprovações do Gestor
 ├── relatorios.html              # Trilha de Auditoria e Exportação PDF/Excel
 └── supabase/
@@ -87,4 +87,7 @@ Para criar a estrutura em um novo projeto Supabase:
 - **OE2 (Zero Descarte por Validade):** Alertas destacados no Dashboard para vencimentos em 30, 15 e 5 dias.
 - **OE3 (Agilidade Mobile < 30s):** Leitura instantânea de QR Code via câmera web em smartphones.
 - **RN-02 (Estoque Mínimo / Máximo):** Validação impede cadastro com `estoque_minimo > estoque_maximo`.
-- **RN-03 (Alçada de Aprovação R$ 50):** Retiradas com valor > R$ 50,00 geram solicitações pendentes no painel de aprovações.
+- **RN-03 (Alçada de Aprovação Individual):** Retiradas com valor total superior ao limite individual configurado no cadastro de cada insumo (`valor_limite_sem_aprovacao`) geram solicitações pendentes no painel de aprovações.
+- **Busca Global por SKU:** O campo de busca por SKU presente no header de todas as telas redireciona dinamicamente para o Catálogo Mestre com o insumo destacado.
+- **Navegação por Departamentos:** O Header permite alternar entre os departamentos (RH, TI, FIN, COM, LOG, PROD, JUR, MKT ou a opção "TODOS os departamentos"), atualizando em tempo real a listagem e os indicadores das páginas.
+- **Paginação e Exportações:** O Catálogo Mestre conta com paginação de 10 itens por página, e a tela de Relatórios oferece exportação em Excel/CSV (SheetJS) e relatórios executivos em PDF (jsPDF).

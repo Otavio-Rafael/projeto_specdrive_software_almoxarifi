@@ -135,7 +135,7 @@
       </div>
       <div class="flex items-center gap-2">
         <span class="text-xs text-secondary font-medium">Departamento:</span>
-        <select id="select-dept" class="px-3 py-1.5 text-xs bg-surface-container-lowest border border-outline-variant rounded outline-none font-semibold">
+        <select id="filter-departamento" class="px-3 py-1.5 text-xs bg-surface-container-lowest border border-outline-variant rounded outline-none font-semibold">
           <option value="todos">Todos os Departamentos</option>
           <option value="RH">RH</option>
           <option value="TI">TI</option>
@@ -193,6 +193,28 @@
             <div class="text-amber-600">Vence em 18 dias • Lote #L2026-42</div>
           </div>
         </div>
+      </div>
+    </div>
+
+    <!-- Tabela de Movimentações Recentes -->
+    <div class="bg-surface-container-lowest p-5 rounded border border-outline-variant shadow-xs space-y-4">
+      <h3 class="text-sm font-bold text-on-surface">Movimentações Recentes</h3>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse text-xs">
+          <thead>
+            <tr class="bg-surface-container-low border-b border-outline-variant text-[11px] font-semibold text-secondary uppercase">
+              <th class="py-2 px-3">Data</th>
+              <th class="py-2 px-3">SKU</th>
+              <th class="py-2 px-3">Insumo</th>
+              <th class="py-2 px-3 text-center">Qtd</th>
+              <th class="py-2 px-3">Motivo</th>
+              <th class="py-2 px-3">Hash Comprovante</th>
+            </tr>
+          </thead>
+          <tbody id="tabela-movimentacoes-recentes" class="divide-y divide-outline-variant">
+            <!-- Injetado por dashboard.js -->
+          </tbody>
+        </table>
       </div>
     </div>
   </main>
