@@ -9,6 +9,16 @@ onDOMReady(() => {
 function setupRelatorioEvents() {
     document.getElementById('btn-export-excel')?.addEventListener('click', exportarExcel);
     document.getElementById('btn-export-pdf')?.addEventListener('click', exportarPDF);
+    document.getElementById('btn-export-criticos')?.addEventListener('click', exportarCriticos);
+}
+
+function exportarCriticos() {
+    const colunas = ["SKU", "Insumo / Descrição", "Estoque Atual", "Ponto Pedido"];
+    const linhas = [
+        ["NX-INS-TI-00012", "Toner HP LaserJet M404", "3 un", "5 un"],
+        ["NX-INS-MKT-00004", "Bateria Lítio Câmera Canon", "1 un", "2 un"]
+    ];
+    exportarParaPDF("Relatório de Insumos Críticos / Reposição de Estoque", colunas, linhas, "Insumos_Criticos_Nexus.pdf");
 }
 
 async function carregarRelatorios() {

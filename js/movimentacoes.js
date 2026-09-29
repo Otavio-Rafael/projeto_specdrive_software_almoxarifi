@@ -93,13 +93,14 @@ async function processarMovimentacao(e) {
     const sku = (document.getElementById('input-mov-sku') || document.getElementById('input-sku-movimentacao'))?.value || 'NX-INS-TI-00001';
     const qtd = parseFloat((document.getElementById('input-mov-qtd') || document.getElementById('input-quantidade'))?.value || 1);
     const motivo = (document.getElementById('input-mov-motivo') || document.getElementById('input-motivo'))?.value || 'Retirada padrão';
-    const valorEstimado = parseFloat(document.getElementById('input-valor-estimado')?.value || (qtd * 35));
 
     const badge = document.getElementById('insumo-detalhe-badge');
-    const limiteAprovacao = parseFloat(badge?.dataset?.limiteAprovacao || 50);
+    const custoUnitario = parseFloat(badge?.dataset?.custoUnitario || 35);
+    const valorTotalEstimado = qtd * custoUnitario;
+    const limiteAprovacaoItem = parseFloat(badge?.dataset?.limiteAprovacao ?? 50);
 
-    if (valorEstimado > limiteAprovacao) {
-        alert(`Atenção (Regra RN-03): O valor da retirada (R$ ${valorEstimado}) excede o limite sem aprovação de R$ ${limiteAprovacao}. Uma solicitação foi enviada para o painel de aprovações.`);
+    if (valorTotalEstimado > limiteAprovacaoItem) {
+        alert(`Atenção (Regra RN-03): O valor total da solicitação (R$ ${valorTotalEstimado.toFixed(2)}) excede o limite individual deste insumo (R$ ${limiteAprovacaoItem.toFixed(2)}). Uma solicitação foi enviada para aprovação.`);
 
         const numReq = `REQ-2026-${Math.floor(100000 + Math.random() * 900000)}`;
         try {
@@ -132,6 +133,7 @@ async function processarMovimentacao(e) {
     try {
         const { data, error } = await supabase.from('movimentacoes').insert([{
             id_tipo: 2,
+            id_status: 1,
             id_insumo: badge?.dataset?.insumoId || '00000000-0000-0000-0000-000000000000',
             quantidade: qtd,
             motivo: motivo,
